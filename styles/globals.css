@@ -27,6 +27,11 @@ a {
   box-sizing: border-box;
 }
 
+/* wallet button */
+.wallet-adapter-button{
+  background-color: #512da8;
+}
+
 @layer components {
   .features-inactive{
     @apply text-slate-400 hover:text-slate-900 text-left text-3xl cursor-pointer leading-normal font-medium;

@@ -16,7 +16,7 @@ const AirDropCard = () => {
                 </Card.Body>
             </Card>
             <Text className="my-5">
-                From tokens to airdrops, being a holder
+                From tokens to airdrops, blah blah blah blah blah blah blah.
             </Text>
         </Grid>
     )
@@ -24,7 +24,7 @@ const AirDropCard = () => {
 
 const WhiteListCard = () => {
     return(
-        <>
+        <Grid justify="center" direction='column'>
             <Card css={{ height: 400, border: 0 }} bordered={false}>
                 <Card.Body css={{ p: 0 }}>
                     <Card.Image
@@ -36,23 +36,31 @@ const WhiteListCard = () => {
                     />
                 </Card.Body>
             </Card>
-        </>
+            <Text className="my-5">
+                The current Whitelist meta sucks, blah blah blah blah blah blah blah.
+            </Text>
+        </Grid>
     )
 }
 
 const AlphaCard = () => {
     return(
-        <Card css={{ height: 400, border: 0 }} bordered={false}>
-            <Card.Body css={{ p: 0 }}>
-                <Card.Image
-                    autoResize={true}
-                    objectFit="cover"
-                    src="/feature3.jpg"
-                    width='100%'
-                    height='100%'
-                />
-            </Card.Body>
-        </Card>
+        <Grid justify="center" direction='column'> 
+            <Card css={{ height: 400, border: 0 }} bordered={false}>
+                <Card.Body css={{ p: 0 }}>
+                    <Card.Image
+                        autoResize={true}
+                        objectFit="cover"
+                        src="/feature3.jpg"
+                        width='100%'
+                        height='100%'
+                    />
+                </Card.Body>
+            </Card>
+            <Text className="my-5">
+                Closed alpha is lame, blah blah blah blah blah.
+            </Text>
+        </Grid>
     )
 }
 
