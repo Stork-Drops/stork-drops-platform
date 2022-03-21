@@ -18,7 +18,7 @@ import { FC, useMemo } from 'react';
 
 // Use require instead of import since order matters
 require('../styles/globals.css');
-require('@solana/wallet-adapter-react-ui/styles.css');
+require('../styles/wallet-adapter.css');
 
 const App: FC<AppProps> = ({ Component, pageProps }) => {
     // Can be set to 'devnet', 'testnet', or 'mainnet-beta'

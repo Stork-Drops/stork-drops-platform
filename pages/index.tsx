@@ -5,7 +5,7 @@ import Features from '../components/Features'
 import Footer from '../components/Footer'
 import Image from 'next/image';
 import { Container } from '@nextui-org/react';
-import { Grid, Card, Link } from '@nextui-org/react';
+import { Grid, Card, Link, Text } from '@nextui-org/react';
 
 
 
@@ -52,7 +52,7 @@ const Home: NextPage = () => {
                                 md={6} 
                                 lg={6}
                             >
-                                <h1 className="my-5 font-bold leading-snug text-5xl">Welcome to Stork Drops VIP</h1>
+                                <h1 className="my-5 font-bold leading-snug text-5xl">What is Stork Drops?</h1>
                                 <p className="mb-5 text-xl leading-relaxed">Stork Drops is a collection of 10,000 membership cards that live on the Solana blockchain. 
                                 Your membership card grants you exclusive access to....Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
                                 molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
@@ -66,35 +66,24 @@ const Home: NextPage = () => {
                     </section>
 
                     <section id="features" className="my-32">
+                        <h2 className="my-10 text-5xl font-extrabold text-center leading-normal">What does Stork Drops <br/>membership get you?</h2>
                         <Features/>
                     </section>
-                </main>
 
-
-                <section className="my-20">
-                <Grid.Container gap={2}>
-                    <Grid sm={12} md={5}>
-                    <Card css={{ mw: "330px" }}>
-                        <p className="text-2xl">Get to know our community on Discord.</p>
-                        <Card.Footer>
-                            <Link icon color="primary" target="_blank" href="https://github.com/nextui-org/nextui">
-                                Join our Discord
+                    <section id="call-to-action" className="my-32 flex justify-center">
+                        <div className="text-center flex flex-col justify-center items-center w-4/5">
+                            <h1 className="my-5 font-extrabold leading-snug text-7xl">Some call-to-action!</h1>
+                            <Link 
+                                icon 
+                                className="w-max border bg-indigo-700 text-white p-4 rounded-full text-normal"
+                                href="#">
+                                <span className="mx-2 text-bold">Mint a Stork Drops Pass</span>
                             </Link>
-                        </Card.Footer>
-                    </Card>
-                    </Grid>
-                    <Grid sm={12} md={5}>
-                        <Card css={{ mw: "330px" }}>
-                            <p className="text-2xl">Watch us shitpost and meme on Twitter.</p>
-                            <Card.Footer>
-                                <Link icon color="primary" target="_blank" href="https://github.com/nextui-org/nextui">
-                                    Follow us on Twitter
-                                </Link>
-                            </Card.Footer>
-                        </Card>
-                    </Grid>
-                </Grid.Container>
-                </section>
+                        </div>
+                    </section>
+
+
+                </main>
 
                 <Footer/>
             </Container>

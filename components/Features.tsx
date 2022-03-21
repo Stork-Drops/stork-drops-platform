@@ -37,7 +37,7 @@ const WhiteListCard = () => {
                 </Card.Body>
             </Card>
             <Text className="my-5">
-                The current Whitelist meta sucks, blah blah blah blah blah blah blah.
+                The current whitelist meta sucks, blah blah blah blah blah blah blah.
             </Text>
         </Grid>
     )
