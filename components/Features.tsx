@@ -16,7 +16,10 @@ const AirDropCard = () => {
                 </Card.Body>
             </Card>
             <Text className="my-5">
-                From tokens to airdrops, blah blah blah blah blah blah blah.
+                <h2 className="mb-2 text-2xl font-extrabold">Airdrops, baby!</h2>
+                If you've been in the Solana ecosystem for awhile you should remember the early airdrop days. $COPE?
+                Yup, we want to bring that back in a fun way. Membership holders will receive <span className="underline">guaranteed </span>
+                stork drops. Only the best for the loyal.
             </Text>
         </Grid>
     )
@@ -37,7 +40,10 @@ const WhiteListCard = () => {
                 </Card.Body>
             </Card>
             <Text className="my-5">
-                The current whitelist meta sucks, blah blah blah blah blah blah blah.
+                <h2 className="mb-2 text-2xl font-extrabold">The Dropzone</h2>
+                Stay up-to-date on all the drops from airdrops, NFTs, and protocols.
+                We don't like fugazy projects and we don't want to waste your time.
+                Only the very best of projects will be featured.
             </Text>
         </Grid>
     )
@@ -58,52 +64,30 @@ const AlphaCard = () => {
                 </Card.Body>
             </Card>
             <Text className="my-5">
-                Closed alpha is lame, blah blah blah blah blah.
+                <h2 className="mb-2 text-2xl font-extrabold">Chat Hub</h2>
+                Earn more with the best alpha, by the community for the community. 
+                We're bringing chatrooms back, AOL-style. <br/>All types of chatrooms including
+                ones for holders-only.
             </Text>
         </Grid>
     )
 }
 
 const Features = () =>{
-    const [selectedFeature, setSelectedFeature] = useState('airdrop')
-
     return(
-        <Grid.Container className="items-center" gap={2}>
-            <Grid
-                justify='center'
-                xs={12} 
-                sm={12} 
-                md={6} 
-                lg={6}>
-                {selectedFeature === 'airdrop' && <AirDropCard/>}
-                {selectedFeature === 'whitelist' && <WhiteListCard/>}
-                {selectedFeature === 'alpha' && <AlphaCard/>}
+        <>
+        <Grid.Container className="flex items-top" gap={2}>
+            <Grid justify='center' xs={12} sm={12} md={4} lg={4}>
+                <AirDropCard/>
             </Grid>
-            <Grid xs={12} sm={12} md={6} lg={6} justify="center">
-                <div>
-                    <div
-                        id="airdropButton"
-                        className={selectedFeature === 'airdrop' ? 'features-active' : 'features-inactive'}
-                        onClick={()=> setSelectedFeature("airdrop")}>
-                        Gain access to exclusive <br/>ecosystem airdrops
-                    </div>
-                    <Spacer y={2}/>
-                    <div
-                        id="whitelistButton"
-                        className={selectedFeature === 'whitelist' ? 'features-active' : 'features-inactive'}
-                        onClick={()=> setSelectedFeature("whitelist")}>
-                        Get in the most coveted <br/>whitelists
-                    </div>
-                    <Spacer y={2}/>
-                    <div
-                        id="alphaButton"
-                        className={selectedFeature === 'alpha' ? 'features-active' : 'features-inactive'}
-                        onClick={()=> setSelectedFeature("alpha")}>
-                        Earn more with the best alpha <br/>by the community, for the community
-                    </div>
-                </div>
+            <Grid xs={12} sm={12} md={4} lg={4} justify="center">
+                <WhiteListCard/>
+            </Grid>
+            <Grid xs={12} sm={12} md={4} lg={4}>
+                <AlphaCard/>
             </Grid>
         </Grid.Container>
+        </>
     )
 }
 

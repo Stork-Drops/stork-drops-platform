@@ -1,5 +1,5 @@
-// Import `NextUIProvider` component
-import { NextUIProvider } from '@nextui-org/react';
+import { createTheme, NextUIProvider } from "@nextui-org/react"
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
@@ -19,6 +19,29 @@ import { FC, useMemo } from 'react';
 // Use require instead of import since order matters
 require('../styles/globals.css');
 require('../styles/wallet-adapter.css');
+
+// Call `createTheme` and pass your custom values
+const lightTheme = createTheme({
+    type: 'light',
+    theme: {
+      colors: {
+          white: '#fff',
+          black: '#000'
+      }, // optional
+    }
+  })
+  
+const darkTheme = createTheme({
+    type: 'dark',
+    theme: {
+        colors: {
+            white: '#fff',
+            black: '#000'
+        }, 
+    }
+})
+
+
 
 const App: FC<AppProps> = ({ Component, pageProps }) => {
     // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
@@ -44,15 +67,24 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
     );
 
     return (
-        <NextUIProvider>
-            <ConnectionProvider endpoint={endpoint}>
-                <WalletProvider wallets={wallets} autoConnect>
-                    <WalletModalProvider>
-                        <Component {...pageProps} />
-                    </WalletModalProvider>
-                </WalletProvider>
-            </ConnectionProvider>
-        </NextUIProvider>
+        <NextThemesProvider
+                defaultTheme="dark"
+                attribute="class"
+                value={{
+                light: lightTheme.className,
+                dark: darkTheme.className
+            }}
+        >
+            <NextUIProvider>
+                <ConnectionProvider endpoint={endpoint}>
+                    <WalletProvider wallets={wallets} autoConnect>
+                        <WalletModalProvider>
+                            <Component {...pageProps} />
+                        </WalletModalProvider>
+                    </WalletProvider>
+                </ConnectionProvider>
+            </NextUIProvider>
+        </NextThemesProvider>
     );
 };
 
