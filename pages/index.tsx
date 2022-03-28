@@ -6,8 +6,9 @@ import Roadmap from '../components/Roadmap'
 import Footer from '../components/Footer'
 import Image from 'next/image';
 import { Container } from '@nextui-org/react';
-import { Grid, Card, Link, Text, Tooltip } from '@nextui-org/react';
-import { FiArrowRight } from "react-icons/fi";
+import { Grid, Link, Spacer } from '@nextui-org/react';
+import JoinDiscord from '../components/JoinDiscord';
+import JoinTwitter from '../components/JoinTwitter';
 
 
 
@@ -29,7 +30,7 @@ const Home: NextPage = () => {
                     <section id="welcome" className="my-24 flex justify-center">
                         <div className="text-center flex flex-col justify-center items-center w-4/5">
                             <h1 className="my-5 font-extrabold leading-snug text-7xl">Airdrops. Whitelists. Alpha. <br/> One Social Platform.</h1>
-                            <p className="mb-5 text-2xl w-2/4">A social experiment that brings Solana back to its early days; with unique airdrops, proper whitelists, and open alpha.</p>
+                            <p className="mb-5 text-xl w-2/4">A social experiment that brings Solana back to its early days; with unique airdrops, proper whitelists, and open alpha.</p>
                         </div>
                     </section>
 
@@ -50,7 +51,7 @@ const Home: NextPage = () => {
                             >
                                 <span className="uppercase font-bold text-slate-400">WTF is Stork Drops?</span>
                                 <h1 className="my-5 font-extrabold leading-snug text-6xl">Introductions</h1>
-                                <p className="mb-5 text-2xl leading-relaxed">
+                                <p className="mb-5 text-xl leading-relaxed">
                                     Stork Drops is a collection of [number] membership cards 
                                     that give you the <span className="underline">highest</span> access within our Stork Drops platform. 
                                     A place where you can collect various token drops, 
@@ -75,11 +76,11 @@ const Home: NextPage = () => {
                     <section id="call-to-action" className="my-24 flex justify-center">
                         <div className="text-center flex flex-col justify-center items-center w-4/5">
                             <h1 className="my-5 font-extrabold leading-snug text-6xl">Stay up to date, anon.</h1>
-                            <Link  
-                                className="w-max border bg-indigo-700 text-white p-2 rounded-full text-extrabold"
-                                href="#">
-                                <span className="mx-2 text-sm flex items-center">Join Discord <FiArrowRight className="ml-2"/></span>
-                            </Link>
+                            <div className="flex items-center">
+                                <JoinDiscord/>
+                                <Spacer/>
+                                <JoinTwitter/>
+                            </div>
                         </div>
                     </section>
                 </main>
