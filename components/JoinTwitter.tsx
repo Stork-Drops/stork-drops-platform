@@ -5,7 +5,7 @@ import { FaTwitter } from "react-icons/fa";
 const JoinTwitter = () => {
     return(
         <Link  
-            className="w-max border bg-indigo-700 text-white p-2 rounded-full text-extrabold"
+            className="w-max bg-indigo-700 text-white p-2 rounded-full text-extrabold"
             href="#">
             <span className="mx-1 text-sm flex items-center"><FaTwitter className="mx-2"/> Join Twitter <FiArrowRight className="ml-2"/></span>
         </Link>

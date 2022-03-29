@@ -75,7 +75,7 @@ const Home: NextPage = () => {
 
                     <section id="call-to-action" className="my-24 flex justify-center">
                         <div className="text-center flex flex-col justify-center items-center w-4/5">
-                            <h1 className="my-5 font-extrabold leading-snug text-6xl">Stay up to date, anon.</h1>
+                            <h1 className="my-5 font-extrabold leading-snug text-6xl">Ready to have some fun, anon?</h1>
                             <div className="flex items-center">
                                 <JoinDiscord/>
                                 <Spacer/>

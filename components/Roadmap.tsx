@@ -17,7 +17,7 @@ const Roadmap = () =>{
                         <div>
                             <h2 className="text-3xl font-extrabold">// 001 Initialization</h2>
                             <ul className="list-disc p-2 mt-2.5">
-                                <li>Get the gang together</li>
+                                <li>Assemble the gang</li>
                                 <li>Launch our NFT</li>
                                 <li>Launch V2 Website</li>
                                 <li>Develop partnerships</li>
@@ -44,7 +44,8 @@ const Roadmap = () =>{
                                 <div>
                                     <h2 className="text-3xl font-extrabold">// 003 Communal</h2>
                                     <ul className="list-disc p-2 mt-2.5">
-                                        <li>Launch chatrooms</li>
+                                        <li>Launch <b><i>The Dropzone</i></b></li>
+                                        <li>Introduce chatrooms</li>
                                         <li>Update V2 of <b><i>The Dropzone</i></b></li>
                                     </ul>
                                 </div>

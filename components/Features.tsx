@@ -16,10 +16,10 @@ const AirDropCard = () => {
                 </Card.Body>
             </Card>
             <Text className="my-5">
-                <h2 className="mb-2 text-2xl font-extrabold">Airdrops, baby!</h2>
+                <h2 className="mb-2 text-2xl font-extrabold">Airdrops, baby! (Stork Ascii w/ wallet address scripts)</h2>
                 If you've been in the Solana ecosystem for awhile you should remember the early airdrop days. $COPE?
                 Yup, we want to bring that back in a fun way. Membership holders will receive <span className="underline">guaranteed </span>
-                stork drops. Only the best for the loyal.
+                stork drops - the very best for the loyal.
             </Text>
         </Grid>
     )
@@ -41,9 +41,10 @@ const WhiteListCard = () => {
             </Card>
             <Text className="my-5">
                 <h2 className="mb-2 text-2xl font-extrabold">The Dropzone</h2>
-                Stay up-to-date on all the drops from airdrops, NFTs, and protocols.
+                Stay up-to-date on all the drops from airdrops, NFTs, and new protocols.
+                Connect with others via social graph for Web3.0.
                 We don't like fugazy projects and we don't want to waste your time.
-                Only the very best of projects will be featured.
+                Only the very best projects will be featured.
             </Text>
         </Grid>
     )
