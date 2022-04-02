@@ -13,8 +13,8 @@ const Roadmap = () =>{
                     sm={12} 
                     md={4} 
                     lg={4}>
-                    <Card css={{ padding: 10, border: 0, height: 400, width: 350 }} bordered={false}>
-                        <div>
+                    <Card css={{ padding: 10, border: 0, height: 400 }} bordered={false}>
+                        <div className="">
                             <h2 className="text-3xl font-extrabold">// 001 Initialization</h2>
                             <ul className="list-disc p-2 mt-2.5">
                                 <li>Assemble the gang</li>
@@ -27,7 +27,7 @@ const Roadmap = () =>{
                     </Card>
                 </Grid>
                 <Grid xs={12} sm={12} md={4} lg={4}>
-                        <Card css={{ padding: 10, border: 0, height: 400, width: 350 }} bordered={false}>
+                        <Card css={{ padding: 10, border: 0, height: 400 }} bordered={false}>
                             <div>
                                 <h2 className="text-3xl font-extrabold">// 002 Expansion</h2>
                                 <ul className="list-disc p-2 mt-2.5">
@@ -40,7 +40,7 @@ const Roadmap = () =>{
                         </Card>
                     </Grid>
                     <Grid xs={12} sm={12} md={4} lg={4}>
-                            <Card css={{ padding: 10, border: 0, height: 400, width: 350 }} bordered={false}>
+                            <Card css={{ padding: 10, border: 0, height: 400 }} bordered={false}>
                                 <div>
                                     <h2 className="text-3xl font-extrabold">// 003 Communal</h2>
                                     <ul className="list-disc p-2 mt-2.5">

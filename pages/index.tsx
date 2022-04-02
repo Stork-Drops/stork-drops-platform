@@ -4,6 +4,7 @@ import Navigation from '../components/Navigation'
 import Features from '../components/Features'
 import Roadmap from '../components/Roadmap'
 import Footer from '../components/Footer'
+import FAQ from '../components/FAQ'
 import Image from 'next/image';
 import { Container } from '@nextui-org/react';
 import { Grid, Link, Spacer } from '@nextui-org/react';
@@ -69,11 +70,15 @@ const Home: NextPage = () => {
                         <Features/>
                     </section>
 
-                    <section id="roadmap" className="my-12">
+                    <section id="roadmap" className="my-48">
                         <Roadmap/>
                     </section>
 
-                    <section id="call-to-action" className="my-24 flex justify-center">
+                    <section id="faq" className="my-48">
+                        <FAQ/>
+                    </section>
+
+                    <section id="call-to-action" className="my-48 flex justify-center">
                         <div className="text-center flex flex-col justify-center items-center w-4/5">
                             <h1 className="my-5 font-extrabold leading-snug text-6xl">Ready to have some fun, anon?</h1>
                             <div className="flex items-center">

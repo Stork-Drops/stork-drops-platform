@@ -16,10 +16,10 @@ const AirDropCard = () => {
                 </Card.Body>
             </Card>
             <Text className="my-5">
-                <h2 className="mb-2 text-2xl font-extrabold">Airdrops, baby! (Stork Ascii w/ wallet address scripts)</h2>
+                <h2 className="mb-2 text-2xl font-extrabold">Airdrops, whitelists, and more</h2>
                 If you've been in the Solana ecosystem for awhile you should remember the early airdrop days. $COPE?
-                Yup, we want to bring that back in a fun way. Membership holders will receive <span className="underline">guaranteed </span>
-                stork drops - the very best for the loyal.
+                Yup, we want to bring that back in a fun way. Membership holders will be <span className="underline mr-1">automatically</span> 
+                eligible to receive drops - the very best for the loyal.
             </Text>
         </Grid>
     )
@@ -42,9 +42,8 @@ const WhiteListCard = () => {
             <Text className="my-5">
                 <h2 className="mb-2 text-2xl font-extrabold">The Dropzone</h2>
                 Stay up-to-date on all the drops from airdrops, NFTs, and new protocols.
-                Connect with others via social graph for Web3.0.
-                We don't like fugazy projects and we don't want to waste your time.
-                Only the very best projects will be featured.
+                Each project recommendation will go through <span className="underline mr-1">strict</span>quality control. 
+                No fugazy, no shite. Period.
             </Text>
         </Grid>
     )
@@ -66,9 +65,9 @@ const AlphaCard = () => {
             </Card>
             <Text className="my-5">
                 <h2 className="mb-2 text-2xl font-extrabold">Chat Hub</h2>
-                Earn more with the best alpha, by the community for the community. 
-                We're bringing chatrooms back, AOL-style. <br/>All types of chatrooms including
-                ones for holders-only.
+                We're bringing chatrooms back, AOL-style. <br/>
+                Earn more with the best alpha, by the community for the community.
+                Connect with others via social graph for Web3.0. 
             </Text>
         </Grid>
     )
