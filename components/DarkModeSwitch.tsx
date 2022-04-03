@@ -10,7 +10,7 @@ const DarkModeSwitch = () =>{
         <Switch
             className="mx-5"
             shadow
-            size="md"
+            size="sm"
             checked={isDark}
             onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
             iconOn={<BiMoon/>}

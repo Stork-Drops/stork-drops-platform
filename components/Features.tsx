@@ -19,7 +19,7 @@ const AirDropCard = () => {
                 <h2 className="mb-2 text-2xl font-extrabold">Airdrops, whitelists, and more</h2>
                 If you've been in the Solana ecosystem for awhile you should remember the early airdrop days. $COPE?
                 Yup, we want to bring that back in a fun way. Membership holders will be <span className="underline mr-1">automatically</span> 
-                eligible to receive drops - the very best for the loyal.
+                eligible to receive drops - the very best for the most loyal.
             </Text>
         </Grid>
     )
