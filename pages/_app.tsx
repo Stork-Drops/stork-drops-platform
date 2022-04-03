@@ -68,7 +68,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
 
     return (
         <NextThemesProvider
-                defaultTheme="dark"
+                defaultTheme="system"
                 attribute="class"
                 value={{
                 light: lightTheme.className,

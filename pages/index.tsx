@@ -1,13 +1,12 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Navigation from '../components/Navigation'
+import Platform from '../components/Platform'
 import Features from '../components/Features'
 import Roadmap from '../components/Roadmap'
-import Footer from '../components/Footer'
 import FAQ from '../components/FAQ'
-import Image from 'next/image';
 import { Container } from '@nextui-org/react';
-import { Grid, Link, Spacer } from '@nextui-org/react';
+import { Grid, Spacer } from '@nextui-org/react';
 import JoinDiscord from '../components/JoinDiscord';
 import JoinTwitter from '../components/JoinTwitter';
 
@@ -28,20 +27,18 @@ const Home: NextPage = () => {
                 </div>
 
                 <main>
-                    <section id="welcome" className="my-24 flex justify-center">
+                    <section id="welcome" className="my-36 flex justify-center">
                         <div className="text-center flex flex-col justify-center items-center w-4/5">
                             <h1 className="my-5 font-extrabold leading-snug text-7xl">Airdrops. Whitelists. Alpha. <br/> One Social Platform.</h1>
                             <p className="mb-5 text-xl w-2/4">A social experiment that brings Solana back to its early days; with unique airdrops, proper whitelists, and open alpha.</p>
                         </div>
                     </section>
 
-                    <section id="membership-card" className="my-18">
-                        <div className="flex justify-center">
-                            <p className="mb-5 text-xl">[3D Rotating Version of Membership Card using ThreeJS w/ parallax maybe..]</p>
-                        </div>
+                    <section id="membership-card my-24">
+                        <Platform/>
                     </section>
 
-                    <section id="about">
+                    <section id="about" className="my-24">
                         <Grid.Container className="items-center" gap={4} justify="center">
                             <Grid 
                                 className="flex flex-col"
@@ -89,8 +86,6 @@ const Home: NextPage = () => {
                         </div>
                     </section>
                 </main>
-
-                <Footer/>
             </Container>
         </div>
     );

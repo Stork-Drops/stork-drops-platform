@@ -15,7 +15,7 @@ const FAQ = () => {
                         You got <i>questions</i>, we've got <i>answers</i>.
                     </h1>
                 </Grid>
-                <Grid block xs={12} sm={12} md={6} lg={6}>
+                <Grid xs={12} sm={12} md={6} lg={6}>
                     <div className="w-full">
                         <Divider/>
                         <Spacer/>
