@@ -75,7 +75,7 @@ const Home: NextPage = () => {
                         <FAQ/>
                     </section>
 
-                    <section id="call-to-action" className="my-48 flex justify-center">
+                    <section id="call-to-action" className="my-32 flex justify-center">
                         <div className="text-center flex flex-col justify-center items-center w-4/5">
                             <h1 className="my-5 font-extrabold leading-snug text-6xl">Ready to have some fun, anon?</h1>
                             <div className="flex items-center">
