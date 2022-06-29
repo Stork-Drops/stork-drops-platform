@@ -1,20 +1,35 @@
 {
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-    "exclude": ["node_modules"],
-    "compilerOptions": {
-        "target": "es6",
-        "lib": ["dom", "dom.iterable", "esnext"],
-        "allowJs": true,
-        "skipLibCheck": true,
-        "strict": true,
-        "forceConsistentCasingInFileNames": true,
-        "noEmit": true,
-        "esModuleInterop": true,
-        "module": "esnext",
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "jsx": "preserve",
-        "incremental": true
-    }
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+, "lib/posts.js", "lib/defaults.js", "pages/index.js", "components/Footer/Footer.js", "components/AppBar.js", "pages/_app.js", "pages/settings.js", "components/NewsFeed/index.js", "components/BonfidaSNS/index.tsx"  ],
+"exclude": ["node_modules", "packages/*/*/node_modules"],
+  "compilerOptions": {
+    "target": "es6",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "noImplicitAny": false, //get rid of parameter 'xxx' implicitly has an 'any' type (bad)
+    "isolatedModules": true,
+    "declaration": true,
+    "sourceMap": true,
+    "noEmitOnError": true,
+    "stripInternal": true,
+    "typeRoots": ["node_modules/@types"]
+  }
 }
