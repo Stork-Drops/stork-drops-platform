@@ -3,7 +3,7 @@ import { Text } from '@nextui-org/react';
 import Link from 'next/link';
 import { Grid } from '@nextui-org/react';
 import { useRouter } from 'next/router';
-import { FiHome, FiCompass, FiCodesandbox, FiMessageSquare, FiUser } from "react-icons/fi";
+import { FiHome, FiCompass, FiCodesandbox, FiMessageSquare, FiUser, FiCalendar } from "react-icons/fi";
 
 const AppBar = () => {
     const router = useRouter();
@@ -11,37 +11,37 @@ const AppBar = () => {
     return(
         <>
             <div>
-            <Grid.Container direction="row" gap={2}>
+            <Grid.Container justify="center" alignItems="center" direction="column" gap={2}>
                     <Grid>
                         <Link href="/">
-                            <a className={router.pathname == "/" ? "flex items-center space-between font-normal text-clean-blue text-sm" : "flex items-center space-between text-dracula font-normal text-sm"}>
+                            <a className={router.pathname == "/" ? "flex items-center space-between text-clean-blue text-2xl" : "flex items-center space-between text-dracula text-2xl"}>
                                 <React.Fragment>
-                                    Discover
+                                    <FiHome/>
+                                </React.Fragment>
+                            </a>
+                        </Link>
+                    </Grid>
+                    <Grid>
+                        <Link className="flex items-center space-between text-dracula text-lg font-semibold" href="/profile">
+                            <a className={router.pathname == "/profile" ? "flex items-center space-between text-clean-blue text-2xl" : "flex items-center space-between text-2xl text-dracula"}>
+                                <React.Fragment>
+                                    <FiUser/>
                                 </React.Fragment>
                             </a>
                         </Link>
                     </Grid>
                     <Grid>
                         <Link className="flex items-center space-between text-dracula text-lg font-semibold" href="/calendar">
-                            <a className={router.pathname == "/calendar" ? "flex items-center space-between font-normal text-clean-blue text-sm" : "flex items-center space-between text-sm text-dracula font-normal"}>
+                            <a className={router.pathname == "/calendar" ? "flex items-center space-between text-clean-blue text-2xl" : "flex items-center space-between text-2xl text-dracula"}>
                                 <React.Fragment>
-                                    Profile
-                                </React.Fragment>
-                            </a>
-                        </Link>
-                    </Grid>
-                    <Grid>
-                        <Link className="flex items-center space-between text-dracula text-lg font-semibold" href="/calendar">
-                            <a className={router.pathname == "/calendar" ? "flex items-center space-between font-normal text-clean-blue text-sm" : "flex items-center space-between text-sm text-dracula font-normal"}>
-                                <React.Fragment>
-                                    Calendar
+                                    <FiCalendar/>
                                 </React.Fragment>
                             </a>
                         </Link>
                     </Grid>
                     <Grid className="hidden">
                         <Link className="flex items-center space-between text-dracula text-lg font-semibold" href="/">
-                            <a className={router.pathname == "/dropzone" ? "flex items-center space-between font-normal text-clean-blue text-normal" : "flex items-center space-between text-dracula text-normal font-normal"}>
+                            <a className={router.pathname == "/dropzone" ? "flex items-center space-between font-normal text-clean-blue text-2xl" : "flex items-center space-between text-dracula text-2xl font-normal"}>
                                 <React.Fragment>
                                     Dropzone
                                 </React.Fragment>

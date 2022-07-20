@@ -1,57 +1,74 @@
-import { useWallet } from '@solana/wallet-adapter-react';
-import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useWallet, useConnection } from '@solana/wallet-adapter-react';
+import React, { FC, useCallback, useEffect, useMemo, useRef, useState, useContext } from 'react';
 import { Button, ButtonProps } from './Button';
 import { useWalletModal } from './useWalletModal';
 import { WalletConnectButton } from './WalletConnectButton';
-import { WalletIcon } from './WalletIcon';
 import { WalletModalButton } from './WalletModalButton';
 import { Dropdown, Grid, Text, User } from "@nextui-org/react";
 import { FiCopy, FiLayers, FiPower, FiHelpCircle } from "react-icons/fi";
-import { PublicKey, clusterApiUrl, Connection } from '@solana/web3.js';
-import findFavoriteDomainName from "../../components/BonfidaSNS";
-import CyberConnect, { Env, Blockchain } from "@cyberlab/cyberconnect";
-import Solana from "@cyberlab/cyberconnect"
-import { performReverseLookup } from "@bonfida/spl-name-service";
 import MusicPlayer from "../../components/MusicPlayer";
+import { fetchSolanaNameServiceName, findOwnedNameAccountsForUser } from "../../utils/name-service"
+import { ProfileContext } from "../../context/ProfileContext"
+import { getHandleAndRegistryKey } from "@bonfida/spl-name-service";
 
 export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
+    const { bonfidaUsername, setBonfidaUsername, setWalletAddress, setCompactWalletAddress, twitterUsername, setTwitterUsername, setDomainCollection } = useContext(ProfileContext);
+    const { connection } = useConnection();
     const { publicKey, wallet, disconnect, connected } = useWallet();
-    const solanaProvider = useWallet();
-    const [bonfidaName, setBonfidaName] = useState('');
     const { setVisible } = useWalletModal();
     const [copied, setCopied] = useState(false);
     const [active, setActive] = useState(false);
     const ref = useRef<HTMLUListElement>(null);
 
-    // const cyberConnect = new CyberConnect({
-    //     namespace: 'CyberConnect',
-    //     env: Env.PRODUCTION,
-    //     chain: Blockchain.SOLANA,
-    //     provider: solanaProvider,
-    //     chainRef: Solana.SOLANA_MAINNET_CHAIN_REF,
-    //   });
-
-    const exampleAddress = useMemo(() => publicKey, [publicKey]);
     const base58 = useMemo(() => publicKey?.toBase58(), [publicKey]);
-    const content = useMemo(() => {
+
+    // Set Wallet Address
+    const loadWalletAddress = () => {
+        setWalletAddress(base58);
+    };
+
+    // Set Compact Address
+    const loadCompactAddress = () => {
+        setCompactWalletAddress(shortenedWalletAddress)
+    };
+
+    // Bonfida SNS Username
+    const loadSNSUsername = async () => {
+        try {
+            const username = await fetchSolanaNameServiceName(connection, base58);
+            setBonfidaUsername(username.solanaDomain);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const getTwitterName = async () => {
+    try{
+        const registry = await getHandleAndRegistryKey(connection, publicKey);
+        setTwitterUsername(registry[0]);
+    } catch (error){
+        console.log(error)
+    }
+    }
+
+    // Find Owned SNS Accounts
+    // const loadSNSAccounts = async () => {
+    //     try {
+    //         //const ownedAccounts = await useDomainsForUser(publicKey);
+    //         const ownedAccounts = await getAllDomains(connection, publicKey);
+    //         console.log(`Your owned accounts: ` + ownedAccounts);
+    //         setDomainCollection(ownedAccounts)
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
+    
+
+    const shortenedWalletAddress = useMemo(() => {
         if (children) return children;
         if (!wallet || !base58) return null;
         return base58.slice(0, 4) + '..' + base58.slice(-4);
     }, [children, wallet, base58]);
-
-    const connection = new Connection(clusterApiUrl("mainnet-beta"));
-    //const domainKey = new PublicKey("7bkN3vTa6zZn4tAmBGgeEN5L9SFhoqV96Zm5aQA5ZvG1");
-
-    // const findDomainName = async () => {
-    //     try{
-    //         const bonfidaName = await performReverseLookup(connection, domainKey);
-    //         setBonfidaName(bonfidaName)
-    //         console.log(bonfidaName)
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-
-    // }
 
     const copyAddress = useCallback(async () => {
         if (base58) {
@@ -73,6 +90,13 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
         setVisible(true);
         closeDropdown();
     }, [closeDropdown]);
+
+    useEffect(() => {
+        loadSNSUsername();
+        loadWalletAddress();
+        loadCompactAddress();
+        getTwitterName();
+    }, [base58])
 
     useEffect(() => {
         const listener = (event: MouseEvent | TouchEvent) => {
@@ -112,17 +136,17 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
                 squared
                 bordered
                 as="button"
-                size="md"
+                size="lg"
                 color="primary"
-                name="apevesting.sol"
-                description="@apevesting"
+                name={bonfidaUsername ? bonfidaUsername  : shortenedWalletAddress}
+                description={twitterUsername ? "@" + twitterUsername : ''}
                 src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
             />
           </Dropdown.Trigger>
           <Dropdown.Menu color="primary" aria-label="User Actions">
             <Dropdown.Item key="profile" css={{ height: "$18" }}>
               <Text b color="inherit" css={{ d: "flex" }}>
-                Signed in as {content}
+                Signed in as {bonfidaUsername ? bonfidaUsername + ".sol" : shortenedWalletAddress}
               </Text>
             </Dropdown.Item>
             <Dropdown.Item key="copyAddress" withDivider>

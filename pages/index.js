@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useContext } from "react"
 import Head from 'next/head';
 import Link from 'next/link'
 import Navigation from "../components/Navigation"
@@ -7,7 +7,7 @@ import NewsFeed from "../components/NewsFeed";
 import { Container, Grid, Spacer } from '@nextui-org/react';
 import { fetchContent } from '../utils/fetchContentfulContent'
 import RecentDropsCard from '../components/RecentDropsCard'
-import findFavoriteDomainName from "../components/BonfidaSNS";
+import { ProfileContext } from "../context/ProfileContext"
 
 export async function getStaticProps() {
     const res = await fetchContent(`
@@ -36,8 +36,7 @@ export async function getStaticProps() {
 } 
 
 const Home = ({ cryptoProjects }) => {
-
-    const [realms, setRealms] = useState([])
+    const { bonfidaUsername } = useContext(ProfileContext);
     // Filter NFT Categories
     const filterNFTProjects = cryptoProjects.filter((category) => {
         return category.projectCategory.toString().toLowerCase().includes('nft');
@@ -53,10 +52,6 @@ const Home = ({ cryptoProjects }) => {
         return category.projectCategory.toString().toLowerCase().includes('airdrop');
     })
 
-    // useEffect(() => {
-    //     cyberConnect();
-    // }, [])
-
     return (
         <div>
             <Head>
@@ -65,15 +60,19 @@ const Home = ({ cryptoProjects }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Container fluid>
+            <Container xl>
                 <Navigation/>
-                <Grid.Container gap={2} justify="center"> 
-                    <Grid xs={12} sm={12} md={10} lg={10} direction="column" className="min-h-screen">
+                <Grid.Container gap={2} justify="center">
+                    <Grid xs={12} sm={12} md={1} lg={1} direction="column">
+                        <AppBar/>
+                    </Grid> 
+                    <Grid xs={12} sm={12} md={9} lg={9} direction="column">
                             <div>
                                 <Grid.Container direction="row" justify="space-between" gap={2}>
                                     <Grid className="w-full">
-                                        <span className="text-2xl italic font-semibold text-dracula">gm, degenmaster69.sol️</span>
-                                        <p className="text-lg italic font-semibold text-gray-400">Here's your overview for the week.</p>
+                                        <span className="text-2xl italic font-semibold text-dracula">gm, {bonfidaUsername ? bonfidaUsername + ".sol" : "anon"}.</span>
+                                        <p>Today's date is: + ".sol"[insert date and maybe localize]</p>
+                                        <p className="text-lg italic font-semibold text-gray-400">Here's what's new in the ecosystem.</p>
                                     </Grid>
                                 </Grid.Container>
                             </div>

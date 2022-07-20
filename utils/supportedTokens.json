@@ -1,0 +1,15 @@
+{
+    "supportedTokens": 
+    [{
+        "name": "DUST Protocol",
+        "address": "DUSTawucrTsGU8hcqRdHDCbuYhCPADMLM2VcCb8VnFnQ"
+    },
+    { 
+        "name": "WAGMI",
+        "address": "3m7A2A8HHdqmiDrjAfaddj7Hxd88FrBHA1KSoqjoELtu" 
+    },
+    { 
+        "name": "BOP Protocol",
+        "address": "BLwTnYKqf7u4qjgZrrsKeNs2EzWkMLqVCu6j8iHyrNA3" 
+    }]
+}

@@ -11,7 +11,8 @@ module.exports = {
         'marble-white': '#EFF1F7',
         'dracula': '#444444',
         'dull-gray': '#C4C4C4',
-        'city-lights': '#f1f2f6'
+        'city-lights': '#f1f2f6',
+        'twitter-blue': '#1DA1F2',
       },
     }
   },

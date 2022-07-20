@@ -1,9 +1,11 @@
-import React, { useState } from "react"
+import React, { useContext } from "react"
 import { useAudioPlayer } from "react-use-audio-player"
-import { Popover, Grid } from '@nextui-org/react';
+import { Popover, Grid, Avatar } from '@nextui-org/react';
 import { FiMusic, FiPlay, FiPause, FiSkipForward, FiSkipBack } from "react-icons/fi";
+import { MusicContext } from "../../context/MusicContext"
 
 const MusicPlayerControls = () => {
+    const { songIndex, setSongIndex } = useContext(MusicContext);
     const songs = [
         {
             title: "Reality Surf (sober mix)",
@@ -24,7 +26,6 @@ const MusicPlayerControls = () => {
             src: 'https://creatornode2.audius.co/tracks/stream/YmoZm'
         },
     ]
-    const [songIndex, setSongIndex] = useState(0)
     console.log(`song index is: ` + songs[songIndex].src);
 
     const { togglePlayPause, ready, loading, playing, load } = useAudioPlayer({
@@ -66,14 +67,16 @@ const MusicPlayerControls = () => {
             <Grid>
                 <p className="text-dracula text-xs font-semibold">{songs[songIndex].title}</p>
                 <p className="text-gray-400 text-xs">{songs[songIndex].artist}</p>
-                <Grid.Container gap={1} direction="row" justify="center">
-                    <Grid>
-                        <button onClick={()=> prevTrack()}><FiSkipBack className="w-5 h-5"/></button>
+                <Grid.Container gap={2} direction="row" justify="center">
+                    <Grid xs={4}>
+                        <button onClick={()=> prevTrack()}>
+                            {songIndex === 0 ?  "" : <FiSkipBack className="w-5 h-5"/>}
+                        </button>
                     </Grid>
-                    <Grid>
-                        <button className="mx-5" onClick={togglePlayPause}>{playing ? <FiPause className="w-5 h-5"/> : <FiPlay className="w-5 h-5"/>}</button>
+                    <Grid xs={4}>
+                        <button onClick={togglePlayPause}>{playing ? <FiPause className="w-5 h-5"/> : <FiPlay className="w-5 h-5"/>}</button>
                     </Grid>
-                    <Grid>
+                    <Grid xs={4}>
                         <button onClick={()=> nextTrack()}><FiSkipForward className="w-5 h-5"/></button>
                     </Grid>
                 </Grid.Container>
@@ -92,9 +95,7 @@ const MusicPlayer = () => {
     return(
         <Popover placement="bottom-right" isOpen={isOpen} onOpenChange={setIsOpen}>
             <Popover.Trigger>
-                <button className="text-white bg-clean-blue p-2 rounded-lg shadow-lg">
-                    <FiMusic className="w-4 h-4"/>
-                </button>
+                <Avatar squared size="md" icon={<FiMusic className="bg-celan-blue" size={16} />} />
             </Popover.Trigger>
             <Popover.Content className="rounded-xl shadow-lg">
                 <MusicPlayerControls/>

@@ -12,21 +12,15 @@ import {
     SolletWalletAdapter,
     TorusWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
-import { clusterApiUrl } from '@solana/web3.js';
 import { AppProps } from 'next/app';
 import React, { FC, useMemo } from 'react';
 import { AudioPlayerProvider } from "react-use-audio-player"
-import CyberConnect, {
-    Env,
-    Blockchain
-  } from '@cyberlab/cyberconnect';
-  import Solana from "@cyberlab/cyberconnect"
-  import { useWallet } from '@solana/wallet-adapter-react';
+import { ProfileContext, ProfileProvider } from "../context/ProfileContext"
+import { MusicProvider } from "../context/MusicContext"
 
 // Use require instead of import since order matters
 require('../styles/globals.css');
 require('../styles/wallet-adapter.css');
-import 'react-day-picker/dist/style.css';
 
 // Call `createTheme` and pass your custom values
 const lightTheme = createTheme({
@@ -42,12 +36,12 @@ const darkTheme = createTheme({
 })
 
 const App: FC<AppProps> = ({ Component, pageProps }) => {
-    const solanaProvider = useWallet();
     // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
-    const network = WalletAdapterNetwork.Devnet;
+    const network = WalletAdapterNetwork.Mainnet;
 
     // You can also provide a custom RPC endpoint
-    const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+    //const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+    const endpoint = "https://ssc-dao.genesysgo.net/"
 
     // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking and lazy loading --
     // Only the wallets you configure here will be compiled into your application, and only the dependencies
@@ -86,15 +80,19 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                 dark: darkTheme.className
             }}>
             <NextUIProvider>
-            <AudioPlayerProvider>
-                    <ConnectionProvider endpoint={endpoint}>
-                        <WalletProvider wallets={wallets} autoConnect>
-                            <WalletModalProvider>
-                                    <Component {...pageProps} />
-                            </WalletModalProvider>
-                        </WalletProvider>
-                    </ConnectionProvider>
-            </AudioPlayerProvider>
+                <AudioPlayerProvider>
+                    <MusicProvider>
+                        <ConnectionProvider endpoint={endpoint}>
+                            <WalletProvider wallets={wallets} autoConnect>
+                                <ProfileProvider>
+                                    <WalletModalProvider>
+                                            <Component {...pageProps} />
+                                    </WalletModalProvider>
+                                </ProfileProvider>
+                            </WalletProvider>
+                        </ConnectionProvider>
+                        </MusicProvider>
+                </AudioPlayerProvider>
             </NextUIProvider>
         </NextThemesProvider>
     );

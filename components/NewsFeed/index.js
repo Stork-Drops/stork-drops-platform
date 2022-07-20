@@ -15,8 +15,6 @@ const DecryptFeed = () => {
 
   if (error) return "An error has occurred.";
   if (!data) return <Loading type="points" />;
-
-  console.log(data)
  
   return (
       <>
@@ -32,7 +30,7 @@ const DecryptFeed = () => {
               <Grid xs={8}>
                 <p 
                   style={{
-                    fontSize: "0.7rem",
+                    fontSize: "0.6rem",
                   }}
                   className="font-semibold text-dracula">
                   {news.title}
@@ -68,7 +66,7 @@ const CoinTelegraph = () => {
             <Grid xs={8}>
               <p 
                 style={{
-                  fontSize: "0.7rem",
+                  fontSize: "0.6rem",
                 }}
                 className="font-semibold text-dracula">
                 {news.title}
@@ -108,7 +106,7 @@ const CoinDeskNews = () => {
             <Grid xs={8}>
               <p 
                 style={{
-                  fontSize: "0.7rem",
+                  fontSize: "0.6rem",
                 }}
                 className="font-semibold text-dracula">
                 {news.title}

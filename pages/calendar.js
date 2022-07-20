@@ -55,12 +55,15 @@ const Calendar = ({ cryptoProjects }) => {
 
             <Container xl>
               <Navigation/>
-              <Grid.Container gap={1} justify="center"> 
-                <Grid xs={12} className="min-h-screen">
+              <Grid.Container gap={2} justify="center"> 
+                <Grid xs={12} sm={12} md={1} lg={1} direction="column">
+                  <AppBar/>
+                </Grid> 
+                <Grid xs={11} className="min-h-screen">
                       <div>
                         <Grid.Container direction="column" gap={2}>
                           <Grid xs={12} sm={12} md={6} lg={6}>
-                            <h2 className="text-dracula text-5xl font-semibold">Calendar Drops</h2>
+                            <h2 className="text-dracula text-5xl font-semibold">Calendar</h2>
                           </Grid>
                           <Grid>
                             <span className="text-normal italic font-normal">Stay up-to-date on some dope upcoming projects. <br/>Hand-picked - no fluff or shite.</span>
