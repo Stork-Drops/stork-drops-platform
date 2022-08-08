@@ -54,64 +54,74 @@ const Calendar = ({ cryptoProjects }) => {
             </Head>
 
             <Container xl>
-              <Grid.Container gap={1} justify="center"> 
-                <Grid className="h-screen" xs={0} sm={0} md={1} lg={1}>
-                  <AppBar/>
-                </Grid>
-                <Grid xs={11} className="overflow-y-scroll overflow-x-hidden h-screen">
-                      <div>
-                        <Grid.Container direction="column" gap={2}>
-                          <Grid xs={12} sm={12} md={6} lg={6}>
-                            <h2 className="text-dracula text-4xl font-semibold">Calendar</h2>
-                          </Grid>
-                          <Grid>
-                            <span className="text-normal italic font-normal">Stay up-to-date on some dope upcoming projects. <br/>Hand-picked - no fluff or shite.</span>
-                          </Grid>
-                        </Grid.Container>
-                        <Grid.Container direction="row" gap={2}>
-                          <Grid xs={12} sm={12} md={3} lg={3}>
-                            <div className="w-full">
-                                <label className="block text-normal font-semibold text-dracula">Filter by category</label>
-                                <select
-                                  className="block w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                  onChange={handleCategoryChange}>
-                                  <option value="">All</option>
-                                  <option value="solana">Solana</option>
-                                  <option value="ethereum">Ethereum</option>
-                                  <option value="staking">Staking</option>
-                                </select>
-                            </div>
-                          </Grid>
-                          <Grid xs={12} sm={12} md={3} lg={3}>
-                            <div className="w-full">
-                                <label className="block text-normal font-semibold text-dracula">Sort by</label>
-                                <select
-                                  className="block w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                  onChange={handleSortingChange}>
-                                  <option value="">Newest</option>
-                                  <option value="ascending">Oldest</option>
-                                </select>
-                            </div>
-                          </Grid>
-                        </Grid.Container>
-                        <Grid.Container direction="row" gap={2}>
-                          {sortedProjects && sortedProjects.length > 0 ? (
-                            sortedProjects
-                              .map((cryptoProject) => (
-                                <Grid xs={12} sm={12} md={3} lg={3}>
-                                  <CryptoProjectCard 
-                                      key={cryptoProject.sys.id}
-                                      cryptoProject={cryptoProject}
-                                  />
-                                </Grid>
-                            ))
-                          ) : (
-                            <h1>No results found!</h1>
-                          )}
-                        </Grid.Container>
-                    </div>
-                </Grid>
-              </Grid.Container>
+            <Grid.Container gap={1} justify="center">
+                    <Grid xs={0} sm={0} md={0.5} lg={0.5}>
+                        <AppBar/>
+                    </Grid>
+                    <Grid xs={12} sm={12} md={11.5} lg={11.5} direction="column">
+                        <Navigation/>
+                        <Grid.Container gap={1} direction="row" alignItems="center"  justify="space-between">
+                            <Grid xs={12} sm={12} md={9.5} lg={9.5}>
+                            <div>
+                                  <Grid.Container direction="column" gap={2}>
+                                    <Grid xs={12} sm={12} md={6} lg={6}>
+                                      <h2 className="text-dracula text-4xl font-semibold">Calendar</h2>
+                                    </Grid>
+                                    <Grid>
+                                      <span className="text-normal italic font-normal">Stay up-to-date on some dope upcoming projects. <br/>Hand-picked - no fluff or shite.</span>
+                                    </Grid>
+                                  </Grid.Container>
+                                  <Grid.Container direction="row" gap={2}>
+                                    <Grid xs={12} sm={12} md={3} lg={3}>
+                                      <div className="w-full">
+                                          <label className="block text-normal font-semibold text-dracula">Filter by category</label>
+                                          <select
+                                            className="block w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                            onChange={handleCategoryChange}>
+                                            <option value="">All</option>
+                                            <option value="solana">Solana</option>
+                                            <option value="ethereum">Ethereum</option>
+                                            <option value="staking">Staking</option>
+                                          </select>
+                                      </div>
+                                    </Grid>
+                                    <Grid xs={12} sm={12} md={3} lg={3}>
+                                      <div className="w-full">
+                                          <label className="block text-normal font-semibold text-dracula">Sort by</label>
+                                          <select
+                                            className="block w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                            onChange={handleSortingChange}>
+                                            <option value="">Newest</option>
+                                            <option value="ascending">Oldest</option>
+                                          </select>
+                                      </div>
+                                    </Grid>
+                                  </Grid.Container>
+                                  <Grid.Container direction="row" gap={2}>
+                                    {sortedProjects && sortedProjects.length > 0 ? (
+                                      sortedProjects
+                                        .map((cryptoProject) => (
+                                          <Grid xs={12} sm={12} md={3} lg={3}>
+                                            <CryptoProjectCard 
+                                                key={cryptoProject.sys.id}
+                                                cryptoProject={cryptoProject}
+                                            />
+                                          </Grid>
+                                      ))
+                                    ) : (
+                                      <h1>No results found!</h1>
+                                    )}
+                                  </Grid.Container>
+                              </div>
+                            </Grid>
+                            <Grid xs={12} sm={12} md={2.5} lg={2.5}>
+                                <Grid.Container direction="column">
+                                    TF AM I PUTTING HERE
+                                </Grid.Container>  
+                            </Grid>
+                        </Grid.Container>       
+                    </Grid>
+                </Grid.Container>
             </Container>
         </div>
     )

@@ -1,24 +1,32 @@
 import React, { Fragment } from 'react'
 import { Text } from '@nextui-org/react';
 import Link from 'next/link';
-import { Grid, Container } from '@nextui-org/react';
+import { Grid, Tooltip } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import { FiHome, FiCompass, FiCodesandbox, FiMessageSquare, FiUser, FiCalendar } from "react-icons/fi";
-import { WalletMultiButton } from './WalletConnect';
-import { FiLogOut } from "react-icons/fi";
+import { HiOutlineLogout } from "react-icons/hi";
+import { useWallet } from '@solana/wallet-adapter-react';
 
 const AppBar = () => {
     const router = useRouter();
+    const { disconnect} = useWallet();
 
     return(
         <>
-            <Grid.Container className="fixed h-screen py-5 w-full" direction='column' justify='space-between' alignItems='center' alignContent='flex-start'>
-                <Grid>
+            <Grid.Container className="fixed h-screen py-5 w-min" direction='column' justify='space-between' alignItems='center' alignContent='flex-start'>
+                <Grid className="relative">
                     <Link href="/">
                         <img
                             className='w-10 h-10 cursor-pointer hover:opacity-80' 
                             src="/sd-package.svg"/>
                     </Link>
+                    <div 
+                        style={{
+                            fontSize: '0.6rem',
+                        }}
+                        className="animate-bounce absolute -top-2 -right-10 z-50 w-min bg_sunrise text-white px-2.5 py-1 rounded-full font-semibold hover:opacity-80">
+                        beta
+                    </div>
                 </Grid>
 
                 <Grid>
@@ -75,7 +83,13 @@ const AppBar = () => {
                 </Grid>
 
                 <Grid>
-                    <FiLogOut className="bg-gray-100 rounded-full p-2 w-10 h-10 text-dracula"/>
+                    <Tooltip 
+                        content={"Logout"}
+                        hideArrow>
+                        <button onClick={disconnect}>
+                            <HiOutlineLogout className="rounded-full text-2xl text-dracula"/>
+                        </button>
+                    </Tooltip>
                 </Grid>
             </Grid.Container>
         </>

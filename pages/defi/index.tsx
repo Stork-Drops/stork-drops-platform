@@ -17,12 +17,12 @@ const DefiPage = () => {
             </Head>
 
             <Container xl>
-              <Grid.Container justify="center"> 
-                <Grid className="h-screen" xs={0} sm={0} md={1} lg={1}>
+              <Grid.Container gap={1} justify="center"> 
+                <Grid className="h-screen" xs={0} sm={0} md={0.5} lg={0.5}>
                   <AppBar/>
                 </Grid>
 
-                  <Grid xs={12} sm={12} md={11} lg={11} direction="column">
+                  <Grid xs={12} sm={12} md={11.5} lg={11.5} direction="column">
                     <div className="grid grid-cols-1 grid-rows-auto md:grid-cols-2 md:grid-rows-1 gap-4 items-center my-5">
                       <div className="my-5">
                         <h2 className="flex items-center text-6xl font-semibold">DeFi</h2>

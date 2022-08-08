@@ -3,6 +3,7 @@ import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider } from '../components/WalletConnect/WalletModalProvider';
+import NetworkStatus from "@components/NetworkStatus";
 import {
     LedgerWalletAdapter,
     PhantomWalletAdapter,
@@ -91,6 +92,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                                         <WalletModalProvider>
                                                 <Background/>
                                                 <Component {...pageProps} />
+                                                <NetworkStatus />
                                         </WalletModalProvider>
                                     </ProfileProvider>
                                 </WalletProvider>

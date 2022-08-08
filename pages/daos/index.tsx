@@ -67,11 +67,12 @@ const DAOPage = () => {
 
             <Container xl>
               <Grid.Container gap={1} justify="center"> 
-                <Grid className="h-screen" xs={0} sm={0} md={1} lg={1}>
+                <Grid className="h-screen" xs={0} sm={0} md={0.5} lg={0.5}>
                   <AppBar/>
                 </Grid>
 
-                <Grid xs={12} sm={12} md={11} lg={11} direction="column">
+                <Grid xs={12} sm={12} md={11.5} lg={11.5} direction="column">
+                  <Navigation/>
                   <div>
                     <Grid.Container alignItems="center">
                       <Grid xs={12} sm={12} md={6} lg={6}>
