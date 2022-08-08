@@ -37,25 +37,20 @@ export const NftCard: FC<Props> = ({
   const { image } = data ?? {};
 
   return (
-    <div className="border border-dracula rounded-xl w-full shadow-sm">
-      <figure className="animation-pulse-color">
-        {fallbackImage || error ? (
-          <div className="w-full h-full flex items-center justify-center">     
-            <HiEyeOff className="h-full w-full" />
-          </div>
-        ) : (
-          // Fallback when preview isn't available
-          // This could be broken image, video, or audio
-          <img
-            src={image}
-            onError={onImageError}
-            className="rounded-t-xl object-contain w-full"
-          />
-        )}
-      </figure>
-      <div className="flex items-center justify-center my-2.5 text-center">
-        <h2 className="font-semibold text-sm">{name ? name : "N/A"}</h2>
-      </div>
-    </div>
+    <figure className="animation-pulse-color">
+      {fallbackImage || error ? (
+        <div className="w-full h-full flex items-center justify-center">     
+          <HiEyeOff className="h-12 w-12" />
+        </div>
+      ) : (
+        // Fallback when preview isn't available
+        // This could be broken image, video, or audio
+        <img
+          src={image}
+          onError={onImageError}
+          className="rounded-xl shadow-xl object-contain"
+        />
+      )}
+    </figure>
   );
 };

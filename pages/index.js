@@ -1,13 +1,22 @@
-import React, { useEffect, useState, useContext } from "react"
+import '@splidejs/react-splide/css/core';
+import React, { useContext, useState, useEffect } from "react"
 import Head from 'next/head';
 import Link from 'next/link'
+import { format } from 'date-fns'
 import Navigation from "../components/Navigation"
 import AppBar from "../components/AppBar"
 import NewsFeed from "../components/NewsFeed";
-import { Container, Grid, Spacer } from '@nextui-org/react';
+import { Container, Grid, Row, Col, Spacer, Loading } from '@nextui-org/react';
 import { fetchContent } from '../utils/fetchContentfulContent'
 import RecentDropsCard from '../components/RecentDropsCard'
 import { ProfileContext } from "../context/ProfileContext"
+import MarketCapFeed from "../components/MarketCapFeed"
+import certifiedRealms from "/public/realms/mainnet-beta.json"
+import { Splide, SplideSlide, SplideTrack } from '@splidejs/react-splide';
+import { HiArrowRight, HiArrowLeft, HiLink } from "react-icons/hi";
+import { BsTwitter } from "react-icons/bs";
+import { HiOutlineLink, HiOutlinePhotograph } from "react-icons/hi";
+import Discovery from "../components/Discovery"
 
 export async function getStaticProps() {
     const res = await fetchContent(`
@@ -37,6 +46,12 @@ export async function getStaticProps() {
 
 const Home = ({ cryptoProjects }) => {
     const { bonfidaUsername } = useContext(ProfileContext);
+    
+    const [dateState, setDateState] = useState(new Date());
+
+    const todaysDate = new Date();
+    console.log(certifiedRealms);
+
     // Filter NFT Categories
     const filterNFTProjects = cryptoProjects.filter((category) => {
         return category.projectCategory.toString().toLowerCase().includes('nft');
@@ -52,6 +67,10 @@ const Home = ({ cryptoProjects }) => {
         return category.projectCategory.toString().toLowerCase().includes('airdrop');
     })
 
+    useEffect(() => {
+        setInterval(() => setDateState(new Date()), 30000);
+    }, []);
+
     return (
         <div>
             <Head>
@@ -60,105 +79,60 @@ const Home = ({ cryptoProjects }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Container xl>
-                <Navigation/>
-                <Grid.Container gap={2} justify="center">
-                    <Grid xs={12} sm={12} md={1} lg={1} direction="column">
+            <Container fluid>
+                <Grid.Container gap={1} justify="center">
+                    <Grid xs={0} sm={0} md={0.5} lg={0.5}>
                         <AppBar/>
-                    </Grid> 
-                    <Grid xs={12} sm={12} md={9} lg={9} direction="column">
-                            <div>
-                                <Grid.Container direction="row" justify="space-between" gap={2}>
-                                    <Grid className="w-full">
-                                        <span className="text-2xl italic font-semibold text-dracula">gm, {bonfidaUsername ? bonfidaUsername + ".sol" : "anon"}.</span>
-                                        <p>Today's date is: + ".sol"[insert date and maybe localize]</p>
-                                        <p className="text-lg italic font-semibold text-gray-400">Here's what's new in the ecosystem.</p>
-                                    </Grid>
-                                </Grid.Container>
-                            </div>
-                            <div>
-                                <Grid.Container direction="row" justify="space-between" gap={2}>
-                                    <Grid className="w-full flex justify-between items-center">
-                                        <div>
-                                            <span className="px-3 py-2 text-normal font-semibold shadow-md text-white bg-clean-blue rounded-xl">Solana</span>
-                                        </div>
-                                        <Link href="/">
-                                            <a className="px-3 py-1 text-clean-blue font-semibold text-normal rounded-xl border border-clean-blue">
-                                                See all
-                                            </a>
-                                        </Link>
-                                    </Grid>
-                                </Grid.Container>
-                            </div>
-                            <div>
-                                <Grid.Container direction="row" gap={2}>
-                                    {filterSolanaProjects.slice(0, 3).map((cryptoProject) => ( 
-                                            <Grid xs={4} sm={4} md={4} lg={4}>
-                                                <RecentDropsCard 
-                                                    key={cryptoProject.sys.id}
-                                                    cryptoProject={cryptoProject}
-                                                />
-                                            </Grid>
-                                    ))}
-                                </Grid.Container>
-                            </div>
-                            <div>
-                                <Grid.Container direction="row" justify="space-between" gap={2}>
-                                    <Grid className="w-full flex justify-between items-center">
-                                        <div>
-                                            <span className="px-3 py-2 text-normal font-semibold shadow-md text-white bg-clean-blue rounded-xl">NFTs</span>
-                                        </div>
-                                        <Link href="/">
-                                            <a className="px-3 py-1 text-clean-blue font-semibold text-normal rounded-xl border border-clean-blue">
-                                                See all
-                                            </a>
-                                        </Link>
-                                    </Grid>
-                                </Grid.Container>
-                            </div>
-                        <Grid.Container direction="row" gap={2}>
-                            {filterNFTProjects.slice(0, 3).map((cryptoProject) => (
-                                <Grid xs={12} sm={12} md={4} lg={4}>
-                                    <RecentDropsCard 
-                                        key={cryptoProject.sys.id}
-                                        cryptoProject={cryptoProject}
-                                    />
-                                </Grid>
-                            ))}
-                        </Grid.Container>
-                        <div>
-                            <Grid.Container direction="row" justify="space-between" gap={2}>
-                                <Grid className="w-full flex justify-between items-center">
-                                    <div>
-                                        <span className="px-3 py-2 text-normal font-semibold shadow-md text-white bg-clean-blue rounded-xl">Airdrops</span>
-                                    </div>
-                                    <Link href="/">
-                                        <a className="px-3 py-1 text-clean-blue font-semibold text-normal rounded-xl border border-clean-blue">
-                                            See all
-                                        </a>
-                                    </Link>
-                                </Grid>
-                            </Grid.Container>
-                        </div>
-                        <Grid.Container direction="row" gap={2}>
-                            {filterAirdropsProjects && filterAirdropsProjects.length > 0 ? (
-                                filterAirdropsProjects.map((cryptoProject) => (
-                                  <Grid xs={12} sm={12} md={3} lg={3}>
-                                    <CryptoProjectCard 
-                                        key={cryptoProject.sys.id}
-                                        cryptoProject={cryptoProject}
-                                    />
-                                  </Grid>
-                                ))
-                              ) : (
-                                <div className="flex justify-center">
-                                    <span className="text-center">It's a bear market, anon.</span>
-                                </div>
-                            )}
-                        </Grid.Container>
                     </Grid>
-                    <Grid xs={12} sm={12} md={2} lg={2}>
-                       <NewsFeed/>
+                    <Grid xs={12} sm={12} md={11.5} lg={11.5} direction="column">
+                        <Navigation/>
+                        <Grid.Container gap={1} direction="row" alignItems="center"  justify="space-between">
+                            <Grid xs={12} sm={12} md={9.5} lg={9.5}>
+                                <Grid.Container direction='column'>
+                                    <Grid>
+                                        {/* Intro, solana price, mcap, etc */}
+                                        <div className="grid grid-cols-2 grid-rows-1 items-center">
+                                            <div>
+                                                <Col>
+                                                    <span className="text-2xl italic font-semibold text-dracula">gm, {bonfidaUsername ? bonfidaUsername + ".sol" : "anon"}.</span>
+                                                    <p className="text-normal">Today is 
+                                                        {' '}
+                                                        {dateState.toLocaleDateString('en-US', {
+                                                            day: 'numeric',
+                                                            month: 'long',
+                                                            year: 'numeric',
+                                                        })}, it is 
+                                                        {' '}
+                                                        {dateState.toLocaleString('en-US', {
+                                                            hour: 'numeric',
+                                                            minute: 'numeric',
+                                                            hour12: true,
+                                                        })}.
+                                                    </p>
+                                                    <p className="text-normal italic font-semibold text-gray-400">Here's what's new in the ecosystem.</p>
+                                                </Col>
+                                            </div>
+                                            <div className="min-w-min">
+                                                <MarketCapFeed/>  
+                                            </div>
+                                        </div>
+                                    </Grid>
+                                    <Grid>
+                                        <Discovery/>
+                                    </Grid>
+                                </Grid.Container>
+                            </Grid>
+                            <Grid xs={12} sm={12} md={2.5} lg={2.5}>
+                                <Grid.Container direction="column">
+                                    <Grid>
+                                        <NewsFeed/>
+                                    </Grid>
+                                    <Grid>
+                                        
+                                    </Grid>
+                                </Grid.Container>  
+                            </Grid>
+                        </Grid.Container>       
                     </Grid>
                 </Grid.Container>
             </Container>

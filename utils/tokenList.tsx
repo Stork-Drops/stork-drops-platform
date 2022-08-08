@@ -3,7 +3,6 @@ import { TokenListProvider, TokenInfo } from '@solana/spl-token-registry';
 import { Loading } from "@nextui-org/react"
 import useSWR from "swr";
 
-
 export const TokenIcon = (props: { mint: string }) => {
   const [tokenMap, setTokenMap] = useState<Map<string, TokenInfo>>(new Map());
 
@@ -24,8 +23,8 @@ export const TokenIcon = (props: { mint: string }) => {
   return (
     <>
       <img
-        className="rounded-full border"
-        width={45} 
+        className="rounded-full"
+        width={30} 
         src={token.logoURI} 
       />
     </>
@@ -115,8 +114,8 @@ export const TokenChange = (props: { tokenAddress: any }) => {
   
   return(
     <>
-      <span className={`text-sm ${data.priceChange24h < 0 ? "text-rose-400" : "text-emerald-400"}`}>
-        {(data.priceChange24h).toFixed(4)}%
+      <span className={`${data.priceChange24h < 0 ? "text-rose-400" : "text-emerald-400"}`}>
+        {(data.priceChange24h)}%
       </span>
     </>
   )

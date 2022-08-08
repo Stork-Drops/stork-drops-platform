@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import useSWR from "swr";
-import { Grid, Card, Link, Text, Col, Loading, Row, Button, Avatar } from "@nextui-org/react"
+import { Grid, Link, Loading, Avatar } from "@nextui-org/react"
 
 //set up SWR fetcher
 const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -18,27 +18,24 @@ const DecryptFeed = () => {
  
   return (
       <>
-        {data.items.slice(0,1).map((news) => (
+        {data.items.map((news) => (
           <Link key={news.title} target="_blank" href={news.link}>
-            <Grid.Container justify="center" alignContent="space-between" alignItems="center" direction="row" gap={1}>
-              <Grid xs={4}>
-              <Avatar
-                size="lg" 
-                squared 
-                src={news.thumbnail}/>
-              </Grid>
-              <Grid xs={8}>
+            <div className="flex items-center justify-between w-full hover:bg-gray-50 rounded-xl p-2">
+              <div className="w-4/12">
+                <img className="w-16 h-16 rounded-xl" src={news.thumbnail} alt=""/>
+              </div>
+              <div className="w-8/12">
                 <p 
                   style={{
-                    fontSize: "0.6rem",
+                    fontSize: "0.7rem",
                   }}
-                  className="font-semibold text-dracula">
+                  className="text-dracula">
                   {news.title}
                 </p>
-              </Grid>
-            </Grid.Container>
+              </div>
+            </div>
           </Link>
-        ))}
+        )).slice(0,1)}
       </>
   );
 }
@@ -54,27 +51,24 @@ const CoinTelegraph = () => {
 
   return (
       <>
-        {data.items.slice(0,1).map((news) => (
+        {data.items.map((news) => (
           <Link key={news.title} target="_blank" href={news.link}>
-          <Grid.Container justify="center" alignContent="space-between" alignItems="center" direction="row" gap={1}>
-            <Grid xs={4}>
-            <Avatar
-              size="lg" 
-              squared 
-              src={news.thumbnail}/>
-            </Grid>
-            <Grid xs={8}>
-              <p 
-                style={{
-                  fontSize: "0.6rem",
-                }}
-                className="font-semibold text-dracula">
-                {news.title}
-              </p>
-            </Grid>
-          </Grid.Container>
+            <div className="flex items-center justify-between w-full hover:bg-gray-50 rounded-xl p-2">
+              <div className="w-4/12">
+                <img className="w-16 h-16 rounded-xl" src={news.thumbnail} alt=""/>
+              </div>
+              <div className="w-8/12">
+                <p 
+                  style={{
+                    fontSize: "0.7rem",
+                  }}
+                  className="text-dracula">
+                  {news.title}
+                </p>
+              </div>
+            </div>
         </Link>
-        ))}
+        )).slice(0,1)}
       </>
   );
 }
@@ -90,52 +84,43 @@ const CoinDeskNews = () => {
  
   return (
       <>
-        {data.items.slice(0,1).map((news) => (
+        {data.items.map((news) => (
           <Link key={news.title} target="_blank" href={news.link}>
-          <Grid.Container justify="center" alignContent="space-between" alignItems="center" direction="row" gap={1}>
-            <Grid xs={4}>
-            <Avatar
-              css={{
-                border: 0
-              }}
-              bordered={false}
-              size="lg" 
-              squared 
-              src={news.enclosure.link}/>
-            </Grid>
-            <Grid xs={8}>
-              <p 
-                style={{
-                  fontSize: "0.6rem",
-                }}
-                className="font-semibold text-dracula">
-                {news.title}
-              </p>
-            </Grid>
-          </Grid.Container>
+            <div className="flex items-center justify-between w-full hover:bg-gray-50 rounded-xl p-2">
+              <div className="w-4/12">
+                <img className="w-16 h-16 rounded-xl" src={news.enclosure.link} alt=""/>
+              </div>
+              <div className="w-8/12">
+                <p 
+                  style={{
+                    fontSize: "0.7rem",
+                  }}
+                  className="text-dracula">
+                  {news.title}
+                </p>
+              </div>
+            </div>
         </Link>
-        ))}
+        )).slice(0,1)}
       </>
   );
 }
 
 const NewsFeed = () => {   
     return (
-        <div>
-          <Grid.Container gap={1}>
-            <Grid className="w-full flex justify-between items-center">
-                <span className="px-3 py-2 text-xs font-semibold shadow-md text-white bg-clean-blue rounded-xl">Latest news</span>
-            </Grid>
-            <Grid xs={12}>
-                <CoinTelegraph/>
-            </Grid>
-            <Grid xs={12}>
-                <DecryptFeed/>
-            </Grid>
-            <Grid xs={12}>
-                <CoinDeskNews/>
-            </Grid>
-          </Grid.Container>
+        <div className="grid grid-rows-auto grid-cols-1">
+          <div className="mb-5">
+            <span className="px-3 py-2 text-xs font-semibold shadow-md text-white bg-clean-blue rounded-xl">Latest crypto news</span>
+          </div>
+          <div>
+            <CoinTelegraph/>
+          </div>
+          <div>
+            <DecryptFeed/>
+          </div>
+          <div>
+            <CoinDeskNews/>
+          </div>
         </div>
     );
 }

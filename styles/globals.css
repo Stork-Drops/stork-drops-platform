@@ -6,9 +6,53 @@
 
 html,
 body {
-  font-family: 'DM Sans', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'DM Sans', sans-serif;
   padding: 0;
   margin: 0;
+  color: #444444;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 100vh;
+  background: #edf2f7;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 100vh;
+  border: 3px solid #edf2f7;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}
+
+#appbar{
+  height: -webkit-fill-available;
+}
+
+.bg__red {
+  position: fixed;
+  z-index: 1;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  overflow: hidden;
+  transform: translate3d(0px, 0px, 0px);
+  height: -webkit-fill-available;
+  background: linear-gradient(to right, rgb(236, 72, 153), rgb(239, 68, 68), rgb(234, 179, 8));
+  opacity: 0.01;
+  user-select: none;
+  pointer-events: none;
 }
 
 .main {
@@ -36,6 +80,9 @@ a {
 }
 
 @layer components {
+  .bg_sunrise{
+    @apply bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500
+  }
   .profile-button{
     @apply text-dracula;
   }

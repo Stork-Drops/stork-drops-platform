@@ -14,9 +14,12 @@ import {
 } from '@solana/wallet-adapter-wallets';
 import { AppProps } from 'next/app';
 import React, { FC, useMemo } from 'react';
+import { SWRConfig } from 'swr'
 import { AudioPlayerProvider } from "react-use-audio-player"
-import { ProfileContext, ProfileProvider } from "../context/ProfileContext"
+import { ProfileProvider } from "../context/ProfileContext"
 import { MusicProvider } from "../context/MusicContext"
+import Background from "../components/Background"
+import 'react-loading-skeleton/dist/skeleton.css'
 
 // Use require instead of import since order matters
 require('../styles/globals.css');
@@ -79,21 +82,22 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                 light: lightTheme.className,
                 dark: darkTheme.className
             }}>
-            <NextUIProvider>
-                <AudioPlayerProvider>
-                    <MusicProvider>
-                        <ConnectionProvider endpoint={endpoint}>
-                            <WalletProvider wallets={wallets} autoConnect>
-                                <ProfileProvider>
-                                    <WalletModalProvider>
-                                            <Component {...pageProps} />
-                                    </WalletModalProvider>
-                                </ProfileProvider>
-                            </WalletProvider>
-                        </ConnectionProvider>
-                        </MusicProvider>
-                </AudioPlayerProvider>
-            </NextUIProvider>
+                <NextUIProvider>
+                    <AudioPlayerProvider>
+                        <MusicProvider>
+                            <ConnectionProvider endpoint={endpoint}>
+                                <WalletProvider wallets={wallets} autoConnect>
+                                    <ProfileProvider>
+                                        <WalletModalProvider>
+                                                <Background/>
+                                                <Component {...pageProps} />
+                                        </WalletModalProvider>
+                                    </ProfileProvider>
+                                </WalletProvider>
+                            </ConnectionProvider>
+                            </MusicProvider>
+                    </AudioPlayerProvider>
+                </NextUIProvider>
         </NextThemesProvider>
     );
 };

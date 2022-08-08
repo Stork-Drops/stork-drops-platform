@@ -2,8 +2,9 @@ import React, { useEffect, useState, useContext, useCallback, useRef } from "rea
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import Head from 'next/head';
+import Link from 'next/link';
 import Navigation from "../components/Navigation"
-import { Container, Grid, Spacer, Row, Col } from '@nextui-org/react';
+import { Container, Grid, Spacer, Row, Col, Collapse, Progress, Loading } from '@nextui-org/react';
 import { ProfileContext } from "../context/ProfileContext"
 import { TokenIcon, TokenName, TokenSymbol, TokenPrice, TokenChange } from "../utils/tokenList";
 import AppBar from "../components/AppBar";
@@ -15,6 +16,9 @@ import { PublicKey } from "@solana/web3.js";
 import { HiOutlineIdentification } from "react-icons/hi";
 import { Metaplex } from "@metaplex-foundation/js";
 import { NftCard } from "../components/Profile/NftGalleryCard"
+import useSWR from "swr"
+import { FiPlusSquare } from "react-icons/fi";
+import Skeleton from 'react-loading-skeleton'
 
 interface Result {
   pubkey: PublicKey;
@@ -46,7 +50,7 @@ const Profile = () => {
     const { publicKey, wallet, disconnect, connected } = useWallet();
     const { connection } = useConnection();
     const [transactionHistory, setTransactionHistory] = React.useState(null);
-    const [domainCollection, setDomainCollection] = useState<Result[] | undefined>(undefined);
+    const [domainCollection, setDomainCollection] = useState<Result[] | any>([]);
     const [copied, setCopied] = useState(false);
 
     const mounted = useRef(true);
@@ -125,31 +129,20 @@ const Profile = () => {
     connection,
   });
 
-  // const getNfts = async () => {
-  //   try{
-  //     const nftAccounts = await metaplex.nfts().findAllByOwner(publicKey);
-  //     // loop over every nftAccount then findByMint and return that image src to console log
-  //     for (let i = 0; i < nftAccounts.length; i++) {
-  //       const nftAccount = nftAccounts[i];
-  //       const nft = await metaplex.nfts().findByMint(nftAccount.mint);
-  //       // push nft to nftAccounts array
-  //       nftAccounts.push(nft);
-  //       console.log(nftAccounts);
-  //       setNFTCollection(nftAccounts);
-  //     }
-  //   }
-  //   catch (error) {
-  //     console.log(error);
-  //   }
-  // }
+  console.log(nfts)
 
   const VerifiedTwitter = () => {
     return (
-      <a className="flex items-center w-max bg-twitter-blue text-white p-1 rounded-full text-xs font-semibold hover:opacity-75 hover:cursor-pointer" href="https://naming.bonfida.org/twitter" target="_blank" rel="noopener">
-          <BsTwitter className="mr-2 text-white h-3 w-3"/>@{twitterUsername}
+      <a className="flex items-center w-max bg-twitter-blue text-white rounded-full text-xs font-semibold hover:opacity-75 hover:cursor-pointer" href={`https://twitter.com/${twitterUsername}`} target="_blank" rel="noopener">
+        @{twitterUsername}
       </a>
     )
   }
+
+  const fetcher = url => fetch(url).then(r => r.json())
+  const { data } = useSWR(`https://api.helius.xyz/v0/addresses/${walletAddress}/transactions?api-key=ba739f74-3869-40bb-bfd3-3cfc4be8ef7c`, fetcher)
+
+  const portfolioItemTotal = tokenCollection.length + nfts.length + domainCollection.length;
 
   useEffect(() => {
     getTokenAccounts();
@@ -164,71 +157,115 @@ const Profile = () => {
         <div>
             <Head>
                 <title>Stork Drops - Airdrops. Whitelists. Alpha. One Social Platform.</title>
-                <meta name="description" content="What if we assembled a group of people to buy a futbol club?" />
+                <meta name="description" content="Social meets degeneracy." />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
             <Container xl>
-                <Navigation/>
-                <Grid.Container gap={2} justify="center"> 
-                    <Grid xs={12} sm={12} md={1} lg={1} direction="column">
-                        <AppBar/>
-                    </Grid> 
+                <Grid.Container gap={1} justify="center"> 
+                    <Grid className="h-screen" xs={0} sm={0} md={1} lg={1}>
+                      <AppBar/>
+                    </Grid>
 
-                    <Grid xs={12} sm={12} md={11} lg={11}>
-                      <Grid.Container direction="column">
+                    <Grid xs={12} sm={12} md={9} lg={9}>
+                      <Grid.Container gap={1} direction="column">
+
+                        {/* Profile Intro */}
                         <Grid>
-                          <Grid.Container direction="row" alignItems="center">
-                              <Grid>
-                                  <img 
+                          <Grid.Container className="w-full" direction="row" alignItems="center" justify="flex-end"  alignContent="flex-end">
+                            <Grid xs={12} sm={12} md={9} lg={9}>
+                                <Row align="center">
+                                  <Col span={2}>
+                                    <img 
                                     className="w-24 h-24 rounded-full"
                                     src="https://i.pravatar.cc/150?u=a042581f4e29026024d"/>
-                              </Grid>
-                              <Spacer/>
-                              <Grid>
-                                  <Row className="items-center">
-                                      <Col>
-                                        <Row align="center">
-                                          <span className="mr-2 text-4xl font-normal text-dracula">{bonfidaUsername ? bonfidaUsername + `.sol` : compactWalletAddress}</span>
-                                          <span onClick={copyAddress} className="flex items-center w-min bg-gray-200 text-dracula my-1.5 px-2.5 py-1 rounded-full text-xs font-semibold hover:opacity-80 hover:cursor-pointer">
-                                            {compactWalletAddress}
-                                          </span>
-                                        </Row>
-                                        <Spacer y={0.5}/>
-                                        <a className="flex items-center w-min bg-twitter-blue text-white my-1.5 px-2.5 py-1 rounded-full text-xs font-semibold hover:opacity-80 hover:cursor-pointer" href={`https://twitter.com/${twitterUsername}`} target="_blank" rel="noopener">
-                                          {twitterUsername ? <VerifiedTwitter/> : <NonVerifiedTwitter/>}
-                                        </a>
+                                  </Col>
+                                  <Col>
+                                    <Row align="center">
+                                      <span className="mr-2.5 text-4xl font-normal text-dracula">{bonfidaUsername ? bonfidaUsername + `.sol` : compactWalletAddress}</span>
+                                      <span onClick={copyAddress} className="flex items-center w-min bg-gray-200 text-dracula px-2.5 py-1 rounded-full text-xs font-semibold hover:opacity-80 hover:cursor-pointer">
+                                        {compactWalletAddress}
+                                      </span>
+                                    </Row>
+                                    <Spacer y={0.5}/>
+                                    <Row>
+                                      <a className="flex items-center w-min bg-twitter-blue text-white px-2.5 py-1 rounded-xl text-xs font-semibold hover:opacity-80 hover:cursor-pointer" href={`https://twitter.com/${twitterUsername}`} target="_blank" rel="noopener">
+                                        {twitterUsername ? <VerifiedTwitter/> : <NonVerifiedTwitter/>}
+                                      </a>
+                                    </Row>
+                                    <Spacer y={0.5}/>
+                                    <Row className="text-sm text-dracula">
+                                      <Col span={2}>
+                                        0 Followers
                                       </Col>
-                                  </Row>
-                              </Grid>
+                                      <Col>
+                                        0 Following
+                                      </Col>
+                                    </Row>
+                                  </Col>
+                                </Row>
+                            </Grid>
+                            <Grid xs={12} sm={12} md={3} lg={3}>
+                              <Col className="bg-gray-100 border border-gray-200 rounded-xl p-4 w-full">
+                                <Row>
+                                  <span className="text-sm font-semibold">Net Worth</span>
+                                </Row>
+                                <Spacer y={0.5}/>
+                                <Row align="center">
+                                  <Col className="text-xs">NFTs</Col>
+                                  <Col>
+                                    <Progress size="sm" color="success" value={((nfts.length /portfolioItemTotal) * 100)} />
+                                  </Col>
+                                  <Col className="text-xs ml-2 text-right">
+                                    {((nfts.length /portfolioItemTotal) * 100).toFixed(2)}%
+                                  </Col>
+                                </Row>
+                                <Row align="center">
+                                  <Col className="text-xs">Wallet</Col>
+                                  <Col>
+                                    <Progress size="sm" color="secondary" value={((tokenCollection.length /portfolioItemTotal) * 100)} />
+                                  </Col>
+                                  <Col className="text-xs ml-2 text-right">
+                                    {((tokenCollection.length /portfolioItemTotal) * 100).toFixed(2)}%
+                                  </Col>
+                                </Row>
+                                <Row align="center">
+                                  <Col className="text-xs">Domains</Col>
+                                  <Col className="w-full">
+                                    <Progress className="w-full" size="sm" color="primary" value={((domainCollection.length /portfolioItemTotal) * 100)} />
+                                  </Col>
+                                  <Col className="text-xs ml-2 text-right">
+                                    {((domainCollection.length /portfolioItemTotal) * 100).toFixed(2)}%
+                                  </Col>
+                                </Row>
+                              </Col>
+                            </Grid>
                           </Grid.Container>
                         </Grid>
-
-                        <Spacer y={2.5}/>
-
+                        
                         <Grid>
                           <Tab.Group>
                             <Tab.List>
-                              <Grid.Container alignContent="flex-end" alignItems="flex-end">
+                              <Grid.Container className="my-5 p-2 border border-gray-200 rounded-xl" alignContent="flex-end" alignItems="flex-end">
                                 <Grid xs={12}>
                                   <Tab className={({ selected }) =>
-                                    selected ? 'font-semibold text-white text-normal bg-clean-blue rounded-xl px-2 py-0.5' : 'font-semibold text-dracula text-normal rounded-xl px-2 py-1'}>
+                                    selected ? 'font-semibold text-white text-sm bg_sunrise rounded-xl px-2 py-0.5' : 'font-semibold text-dracula text-sm rounded-xl px-2 py-1'}>
                                     <Grid.Container gap={1} alignItems="center" alignContent="center">
                                       <Grid>
-                                        Coins
+                                        Wallet
                                       </Grid>
                                       <Grid>
                                         <div className="text-xs bg-gray-200 text-dracula px-1.5 py-0.5 rounded-md">
-                                          {tokenCollection ? tokenCollection.length : 0}
+                                          {tokenCollection ? tokenCollection.length + domainCollection.length : 0}
                                         </div>
                                       </Grid>
                                     </Grid.Container>
                                   </Tab>
                                   <Tab className={({ selected }) =>
-                                    selected ? 'font-semibold text-white text-normal bg-clean-blue rounded-xl px-2 py-0.5' : 'font-semibold text-dracula text-normal rounded-xl px-2 py-1'}>
+                                    selected ? 'font-semibold text-white text-sm bg_sunrise rounded-xl px-2 py-0.5' : 'font-semibold text-dracula text-sm rounded-xl px-2 py-1'}>
                                     <Grid.Container gap={1} alignItems="center" alignContent="center">
                                       <Grid>
-                                        Collectibles
+                                        NFTs
                                       </Grid>
                                       <Grid>
                                         <div className="text-xs bg-gray-200 text-dracula px-1.5 py-0.5 rounded-md">
@@ -238,14 +275,14 @@ const Profile = () => {
                                     </Grid.Container>
                                   </Tab>
                                   <Tab className={({ selected }) =>
-                                    selected ? 'font-semibold text-white text-normal bg-clean-blue rounded-xl px-2 py-0.5' : 'font-semibold text-dracula text-normal rounded-xl px-2 py-1'}>
+                                    selected ? 'font-semibold text-white text-sm bg_sunrise rounded-xl px-2 py-0.5' : 'font-semibold text-dracula text-sm rounded-xl px-2 py-1'}>
                                     <Grid.Container gap={1} alignItems="center" alignContent="center">
                                       <Grid>
-                                        Domains
+                                        Activity
                                       </Grid>
                                       <Grid>
                                         <div className="text-xs bg-gray-200 text-dracula px-1.5 py-0.5 rounded-md">
-                                          {domainCollection ? domainCollection.length : 0}
+                                          {data ? data.length : 0}
                                         </div>
                                       </Grid>
                                     </Grid.Container>
@@ -254,100 +291,163 @@ const Profile = () => {
                               </Grid.Container>
                             </Tab.List>
 
-                            <Spacer y={2.5}/>
-
-                            {/* Coins Tab */}
+                            {/* Portfolio Tab */}
                             <Tab.Panels>
                               <Tab.Panel>
                                 <div className="">
                                   <Grid.Container gap={1}>
-                                    {tokenCollection && tokenCollection.length > 0 ? (
-                                      tokenCollection.map(account => (
-                                        <Grid xs={4}>
-                                          <div className="bg-gray-100 w-full rounded-xl p-2 shadow-sm">
-                                            <Grid.Container gap={2} justify="space-around" alignItems="center">
-                                              <Grid xs={3}>
-                                                <TokenIcon mint={account.account.data["parsed"]["info"]["mint"]}/>
-                                              </Grid>
-                                              <Grid className="text-sm" xs={5}>
-                                                <Col>
-                                                    <p className="text-sm font-semibold">
-                                                      {<TokenName mint={account.account.data["parsed"]["info"]["mint"]}/> ? <TokenName mint={account.account.data["parsed"]["info"]["mint"]}/> : account.account.data["parsed"]["info"]["mint"]}
-                                                    </p>
-                                                    <div className="text-dracula">
-                                                      {(account.account.data["parsed"]["info"]["tokenAmount"]["uiAmount"]).toFixed(4)}
-                                                      <span className="ml-1">{<TokenSymbol mint={account.account.data["parsed"]["info"]["mint"]}/> ? <TokenSymbol mint={account.account.data["parsed"]["info"]["mint"]}/> : account.account.data["parsed"]["info"]["mint"]}</span>
-                                                    </div>
-                                                </Col>
-                                              </Grid>
-                                              <Grid className="text-sm" xs={4} alignContent="center">
-                                                  <Col>
-                                                    <span className="font-semibold">
-                                                      $<TokenPrice tokenAddress={(account.account.data["parsed"]["info"]["mint"])} sumAmount={(account.account.data["parsed"]["info"]["tokenAmount"]["uiAmount"])}/>
-                                                    </span>
-                                                    <div className="text-dracula font-semibold">
-                                                      <TokenChange tokenAddress={(account.account.data["parsed"]["info"]["mint"])}/>
-                                                    </div>
-                                                  </Col>
-                                              </Grid>
-                                            </Grid.Container>
+                                    <Grid xs={12} sm={12} md={8} lg={8}>                            
+                                    <Row>
+                                    <Collapse
+                                          expanded
+                                          className="w-full h-full"
+                                          bordered
+                                          title={<span className="text-normal font-semibold text-dracula">Coins ({tokenCollection.length})</span>}
+                                          arrowIcon={<FiPlusSquare/>}
+                                        >
+                                    <Grid.Container direction="column">
+                                      {tokenCollection && tokenCollection.length > 0 ? (
+                                        tokenCollection.map(account => (
+                                          <>
+                                        <Grid xs={12}>
+                                          <div className="rounded-xl hover:bg-gray-50 w-full h-full px-4">
+                                          <Row align="center">
+                                            <Col span={3}>
+                                              <TokenIcon mint={account.account.data["parsed"]["info"]["mint"]}/>
+                                            </Col>
+                                            <Col>
+                                              <p className="text-sm font-semibold">
+                                                {<TokenName mint={account.account.data["parsed"]["info"]["mint"]}/> ? <TokenName mint={account.account.data["parsed"]["info"]["mint"]}/> : account.account.data["parsed"]["info"]["mint"]}
+                                              </p>
+                                              <div className="text-dracula text-sm">
+                                                {(account.account.data["parsed"]["info"]["tokenAmount"]["uiAmount"]).toFixed(4)}
+                                                <span className="ml-1">{<TokenSymbol mint={account.account.data["parsed"]["info"]["mint"]}/> ? <TokenSymbol mint={account.account.data["parsed"]["info"]["mint"]}/> : account.account.data["parsed"]["info"]["mint"]}</span>
+                                              </div>
+                                            </Col>
+                                            <Col>
+                                              <span className="font-semibold text-sm">
+                                                $<TokenPrice tokenAddress={(account.account.data["parsed"]["info"]["mint"])} sumAmount={(account.account.data["parsed"]["info"]["tokenAmount"]["uiAmount"])}/>
+                                              </span>
+                                              <div className="text-dracula font-semibold text-sm">
+                                                <TokenChange tokenAddress={(account.account.data["parsed"]["info"]["mint"])}/>
+                                              </div>
+                                            </Col>
+                                          </Row>
                                           </div>
                                         </Grid>
+                                        </>
                                         ))
                                         ) : (
-                                          <div className="flex justify-center">
-                                            No coins.
-                                          </div>
+                                          <Skeleton count={5} />
                                         )}
+                                      </Grid.Container>
+                                      </Collapse>
+                                    </Row>  
+                                  </Grid>
+
+                                    <Grid xs={12} sm={12} md={4} lg={4}>
+                                      <Col>
+                                        <Row>
+                                        <Collapse
+                                          expanded
+                                          className="w-full h-full"
+                                          bordered
+                                          title={<span className="text-normal font-semibold text-dracula">Domains ({domainCollection.length})</span>}
+                                          arrowIcon={<FiPlusSquare/>}
+                                        >
+                                          <Grid.Container gap={1} direction="column">
+                                            {domainCollection && domainCollection.length > 0 ? (
+                                              domainCollection
+                                              .map(domains => (
+                                                <Grid className="hover:bg-gray-50 rounded-xl h-full" xs={12}>
+                                                  <Row align="center">
+                                                    <Col span={1}>
+                                                      <TokenIcon mint="EchesyfXePKdLtoiZSL8pBe8Myagyy8ZRqsACNCFGnvp"/>
+                                                    </Col>
+                                                    <Col offset={1}>
+                                                      <span className="flex items-center text-sm text-dracula">
+                                                        {domains.reverse}.sol
+                                                      </span>
+                                                    </Col>
+                                                  </Row>
+                                                </Grid>
+                                                ))
+                                                ) : (
+                                                <Skeleton count={5} />
+                                            )}
+                                        </Grid.Container>
+                                        </Collapse>
+                                        </Row>
+                                      </Col>
+                                    </Grid>
                                   </Grid.Container>
+                                 
                                 </div>
                               </Tab.Panel>
                               
                               {/* Collectibles Tab Panel */}
                               <Tab.Panel>
-                                <Grid.Container gap={2}>
+                                <Grid.Container gap={1}>
                                 {nfts && nfts.length > 0 ? (
                                   nfts.map(nft => (
-                                    <Grid xs={2}>
-                                      <NftCard key={nft.mint} details={nft} />
+                                    <Grid xs={6} sm={6} md={3} lg={4} alignContent="flex-start" alignItems="flex-start">
+                                      <div className="rounded-xl w-full">
+                                          <NftCard key={nft.mint} details={nft} />
+                                        <p className="mt-5 text-sm text-dracula font-semibold">{nft.data.symbol}</p>
+                                        <p className="text-sm text-dracula font-normal">{nft.data.name}</p>
+                                      </div>
                                     </Grid>
                                     ))
                                     ) : (
                                     <div className="flex justify-center">
-                                      No coins.
+                                      No NFTs.
                                     </div>
                                 )}
                                 </Grid.Container>
                               </Tab.Panel>
 
-                              {/* Domains Tab Panel */}
+                              {/* Activity Tab Panel */}
                               <Tab.Panel>
-                                <Grid.Container gap={2} alignItems="center">
-                                    {domainCollection && domainCollection.length > 0 ? (
-                                      domainCollection
-                                      .map(domains => (
-                                        <Grid key={domains.reverse} xs={2}>
-                                          <div className="w-full flex items-center justify-center bg-gray-200 p-2 rounded-xl h-16 shadow-sm">
-                                            <span className="flex items-center justify-center text-normal font-semibold text-dracula">
-                                              <HiOutlineIdentification className="mr-2 text-dracula w-5 h-5"/>{domains.reverse}.sol
-                                            </span>
-                                          </div>
-                                        </Grid>
-                                        ))
-                                        ) : (
-                                      <div className="flex justify-center">
-                                        No domains found.
-                                      </div>
-                                    )}
+                                <Grid.Container gap={2} direction="column">
+                                  {data && data.length > 0 ? (
+                                    data
+                                    .map(transactionHistory => (
+                                      <Grid key={transactionHistory.timestamp} xs={12}>
+                                        <div className="w-full flex items-center justify-center bg-gray-200 p-2 rounded-xl h-16 shadow-sm">
+                                          <Grid.Container gap={2}>
+                                            <Grid xs={3}>
+                                              {transactionHistory.type}
+                                            </Grid>
+                                            <Grid className="text-xs" xs={6}>
+                                              {transactionHistory.description}
+                                            </Grid>
+                                            <Grid xs={3}>
+                                              {transactionHistory.source}
+                                            </Grid>
+                                          </Grid.Container>
+                                        </div>
+                                      </Grid>
+                                      ))
+                                      ) : (
+                                    <div className="flex justify-center">
+                                      No transactions found.
+                                    </div>
+                                  )}
                                 </Grid.Container>
                               </Tab.Panel>
+
                             </Tab.Panels>
 
                           </Tab.Group>
-                        </Grid>
+                        </Grid>             
                       </Grid.Container>
-                      
                     </Grid> 
+
+                    <Grid xs={12} sm={12} md={2} lg={2}>
+                      <Grid.Container gap={1} direction="row">
+                        
+                        </Grid.Container>
+                    </Grid>
                     {/* end of column */}
                 </Grid.Container>
             </Container>

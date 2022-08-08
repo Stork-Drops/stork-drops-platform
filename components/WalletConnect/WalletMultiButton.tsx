@@ -4,7 +4,7 @@ import { Button, ButtonProps } from './Button';
 import { useWalletModal } from './useWalletModal';
 import { WalletConnectButton } from './WalletConnectButton';
 import { WalletModalButton } from './WalletModalButton';
-import { Dropdown, Grid, Text, User } from "@nextui-org/react";
+import { Dropdown, Grid, Text, User, Avatar } from "@nextui-org/react";
 import { FiCopy, FiLayers, FiPower, FiHelpCircle } from "react-icons/fi";
 import MusicPlayer from "../../components/MusicPlayer";
 import { fetchSolanaNameServiceName, findOwnedNameAccountsForUser } from "../../utils/name-service"
@@ -121,67 +121,80 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
     if (!base58) return <WalletConnectButton {...props}>{children}</WalletConnectButton>;
 
     return (
-        <Grid.Container gap={2} alignItems='center'>
-        <Grid>
-            <MusicPlayer/>
-        </Grid>
-        <Grid>
-        <Dropdown placement="bottom-right">
-          <Dropdown.Trigger>
-            <User
-                css={{
-                    textTransform: 'lowercase',
-                }}
-                className="lowercase"
-                squared
-                bordered
-                as="button"
-                size="lg"
-                color="primary"
-                name={bonfidaUsername ? bonfidaUsername  : shortenedWalletAddress}
-                description={twitterUsername ? "@" + twitterUsername : ''}
-                src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
-            />
-          </Dropdown.Trigger>
-          <Dropdown.Menu color="primary" aria-label="User Actions">
-            <Dropdown.Item key="profile" css={{ height: "$18" }}>
-              <Text b color="inherit" css={{ d: "flex" }}>
-                Signed in as {bonfidaUsername ? bonfidaUsername + ".sol" : shortenedWalletAddress}
-              </Text>
-            </Dropdown.Item>
-            <Dropdown.Item key="copyAddress" withDivider>
-                <Button onClick={copyAddress}>
-                    <div className="flex items-center">
-                        <FiCopy className="mr-2"/>
-                        {copied ? 'Copied' : 'Copy Address'}
-                    </div>
-                </Button>
-            </Dropdown.Item>
-            <Dropdown.Item key="helpCenter">
-                <Button onClick={copyAddress}>
-                    <div className="flex items-center">
-                        <FiHelpCircle className="mr-2"/>
-                        Help Center
-                    </div>
-                </Button>
-            </Dropdown.Item>
-            <Dropdown.Item key="help_and_feedback" withDivider>
-                <Button onClick={openModal}>
-                    <div className="flex items-center">
-                        <FiLayers className="mr-2"/> Change wallet
-                    </div>
-                </Button>
-            </Dropdown.Item>
-            <Dropdown.Item key="logout" color="error" withDivider>
-                <Button onClick={disconnect}>
-                    <div className="flex items-center">
-                        <FiPower className="mr-2"/> Disconnect
-                    </div>
-                </Button>
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-        </Grid>
-        </Grid.Container>
+        <>
+            <Grid.Container gap={1} alignItems='center' direction='row'>
+                <Grid>
+                    <MusicPlayer/>
+                </Grid>
+                <Grid>
+                <Dropdown placement="bottom-right">
+                    <Dropdown.Trigger>
+                        <User
+                            css={{
+                                textTransform: 'lowercase',
+                            }}
+                            className="lowercase"
+                            squared
+                            bordered
+                            as="button"
+                            size="lg"
+                            color="primary"
+                            name={bonfidaUsername ? bonfidaUsername  : shortenedWalletAddress}
+                            description={twitterUsername ? "@" + twitterUsername : ''}
+                            src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
+                        />
+                    </Dropdown.Trigger>
+                    <Dropdown.Menu color="primary" aria-label="User Actions">
+                        <Dropdown.Item key="compactProfile" css={{ height: "$18" }}>
+                            <User
+                                css={{
+                                    textTransform: 'lowercase',
+                                }}
+                                className="lowercase"
+                                squared
+                                bordered
+                                as="button"
+                                size="lg"
+                                color="primary"
+                                name={bonfidaUsername ? bonfidaUsername  : shortenedWalletAddress}
+                                description={twitterUsername ? "@" + twitterUsername : ''}
+                                src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
+                            />
+                        </Dropdown.Item>
+                        <Dropdown.Item key="copyAddress" withDivider>
+                            <Button onClick={copyAddress}>
+                                <div className="flex items-center">
+                                    <FiCopy className="mr-1"/>
+                                    {copied ? 'Copied' : 'Copy Address'}
+                                </div>
+                            </Button>
+                        </Dropdown.Item>
+                        <Dropdown.Item key="helpCenter">
+                            <Button onClick={copyAddress}>
+                                <div className="flex items-center">
+                                    <FiHelpCircle className="mr-1"/>
+                                    Help Center
+                                </div>
+                            </Button>
+                        </Dropdown.Item>
+                        <Dropdown.Item key="help_and_feedback" withDivider>
+                            <Button onClick={openModal}>
+                                <div className="flex items-center">
+                                    <FiLayers className="mr-1"/> Change wallet
+                                </div>
+                            </Button>
+                        </Dropdown.Item>
+                        <Dropdown.Item key="logout" color="error" withDivider>
+                            <Button onClick={disconnect}>
+                                <div className="flex items-center">
+                                    <FiPower className="mr-1"/> Disconnect
+                                </div>
+                            </Button>
+                        </Dropdown.Item>
+                    </Dropdown.Menu>
+                    </Dropdown>
+                </Grid>
+            </Grid.Container>
+        </>
     );
 };
