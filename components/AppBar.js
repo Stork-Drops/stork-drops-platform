@@ -18,20 +18,16 @@ const AppBar = () => {
         <>
             <Grid.Container className="h-full border-r border-gray-200" direction='column' justify='space-between'>
                 <div className="fixed w-fit">
-                <Grid>
-                    <Grid.Container gap={1} direction="column">
-                            <Grid>
-                                <Link href="/">
-                                    <a className={router.pathname == "/" ? "w-full bg_sunrise flex items-center space-between text-white p-2 rounded-xl" : "flex items-center space-between text-gray-500 w-full p-2"}>
-                                        <React.Fragment>
-                                            <FiHome className="mr-2 w-5 h-5"/>
-                                            <span className="font-semibold text-sm">Home</span>
-                                        </React.Fragment>
-                                    </a>
-                                </Link>
-                            </Grid>
-                            <Grid>
-                                <Disclosure>
+                    <div className="my-2.5 grid grid-cols-1 gap-2 auto-rows-auto">
+                        <Link href="/">
+                            <a className={router.pathname == "/" ? "w-full bg_sunrise flex items-center space-between text-white p-2 rounded-xl" : "flex items-center space-between text-gray-500 w-full p-2"}>
+                                <React.Fragment>
+                                    <FiHome className="mr-2 w-5 h-5"/>
+                                    <span className="font-semibold text-sm">Home</span>
+                                </React.Fragment>
+                            </a>
+                        </Link>
+                        <Disclosure>
                                     {({ open }) => (
                                         <>
                                         <Disclosure.Button className="flex items-center space-between text-gray-500 w-full p-2">
@@ -74,30 +70,24 @@ const AppBar = () => {
                                         </Disclosure.Panel>
                                         </>
                                     )}
-                                </Disclosure>
-                            </Grid>
-                            <Grid>
-                                <Link href="/profile">
-                                    <a className={router.pathname == "/profile" ? "w-full bg_sunrise flex items-center space-between text-white p-2 rounded-xl" : "flex items-center space-between text-gray-500 w-full p-2"}>
-                                        <React.Fragment>
-                                            <FiUser className="mr-2 w-5 h-5"/>
-                                            <span className="font-semibold text-sm">Profile</span>
-                                        </React.Fragment>
-                                    </a>
-                                </Link>
-                            </Grid>
-                            <Grid>
-                                <Link href="/dyor">
-                                    <a className={router.pathname == "/dyor" ? "w-full bg_sunrise flex items-center space-between text-white p-2 rounded-xl" : "flex items-center space-between text-gray-500 w-full p-2"}>
-                                        <React.Fragment>
-                                            <FiDroplet className="mr-2 w-5 h-5"/>
-                                            <span className="font-semibold text-sm">DYOR</span>
-                                        </React.Fragment>
-                                    </a>
-                                </Link>
-                            </Grid>     
-                    </Grid.Container>
-                </Grid>
+                            </Disclosure>
+                            <Link href="/profile">
+                                <a className={router.pathname == "/profile" ? "w-full bg_sunrise flex items-center space-between text-white p-2 rounded-xl" : "flex items-center space-between text-gray-500 w-full p-2"}>
+                                    <React.Fragment>
+                                        <FiUser className="mr-2 w-5 h-5"/>
+                                        <span className="font-semibold text-sm">Profile</span>
+                                    </React.Fragment>
+                                </a>
+                            </Link>
+                            <Link href="/dyor">
+                                <a className={router.pathname == "/dyor" ? "w-full bg_sunrise flex items-center space-between text-white p-2 rounded-xl" : "flex items-center space-between text-gray-500 w-full p-2"}>
+                                    <React.Fragment>
+                                        <FiDroplet className="mr-2 w-5 h-5"/>
+                                        <span className="font-semibold text-sm">DYOR</span>
+                                    </React.Fragment>
+                                </a>
+                            </Link>
+                    </div>
                 </div>
             </Grid.Container>
         </>

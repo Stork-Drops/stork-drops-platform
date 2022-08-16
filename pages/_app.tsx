@@ -93,7 +93,6 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                                         <WalletModalProvider>
                                                 <Background/>
                                                 <Component {...pageProps} />
-                                                <NetworkStatus />
                                         </WalletModalProvider>
                                     </ProfileProvider>
                                 </WalletProvider>

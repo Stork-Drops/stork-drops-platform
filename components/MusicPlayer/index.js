@@ -89,17 +89,8 @@ const MusicPlayerControls = () => {
 }
 
 const MusicPlayer = () => {
-    const [isOpen, setIsOpen] = React.useState(false);
 
     return(
-        // <Popover placement="right-bottom" isOpen={isOpen} onOpenChange={setIsOpen}>
-        //     <Popover.Trigger>
-        //         <Avatar squared size="md" icon={<FiMusic className="bg-celan-blue" size={16} />} />
-        //     </Popover.Trigger>
-        //     <Popover.Content className="rounded-xl shadow-lg">
-        //         <MusicPlayerControls/>
-        //     </Popover.Content>
-        // </Popover>
         <MusicPlayerControls/>
     )
 }

@@ -47,20 +47,11 @@ const NetworkStatus = () => {
     return(
         <>
             <Tooltip 
-                placement="topEnd"
-                className="select-none z-50 fixed bottom-2.5 right-2.5" 
+                placement="rightEnd"
+                className="" 
                 content={
-                    <div className="relative w-48">
-                        <p>The most recent block number on the network.</p>
-                        <li>
-                            Green - TPS is good.
-                        </li>
-                        <li>
-                            Yellow - The network is experiencing some congestion.
-                        </li>
-                        <li>
-                            Red - TPS is low.
-                        </li>
+                    <div className="">
+                        <p>The most recent slot number on the network.</p>
                     </div>
                 }
                 hideArrow>
