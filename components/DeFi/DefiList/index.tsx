@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Table } from '@nextui-org/react'
 import axios from 'axios'
 import useSWR from 'swr'
-import { formatDollar } from '../../../utils/formatDollar'
+import { formatDollar } from '../../../utils/formatters'
 
 const DefiList = () => {
         //set up fetcher for swr

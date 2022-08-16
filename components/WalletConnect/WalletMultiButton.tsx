@@ -4,12 +4,12 @@ import { Button, ButtonProps } from './Button';
 import { useWalletModal } from './useWalletModal';
 import { WalletConnectButton } from './WalletConnectButton';
 import { WalletModalButton } from './WalletModalButton';
-import { Dropdown, Grid, Text, User, Avatar } from "@nextui-org/react";
+import { Dropdown, Grid, User } from "@nextui-org/react";
 import { FiCopy, FiLayers, FiPower, FiHelpCircle } from "react-icons/fi";
-import MusicPlayer from "../../components/MusicPlayer";
-import { fetchSolanaNameServiceName, findOwnedNameAccountsForUser } from "../../utils/name-service"
+import { fetchSolanaNameServiceName } from "../../utils/name-service"
 import { ProfileContext } from "../../context/ProfileContext"
 import { getHandleAndRegistryKey } from "@bonfida/spl-name-service";
+import MusicPlayer from '@components/MusicPlayer';
 
 export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
     const { bonfidaUsername, setBonfidaUsername, setWalletAddress, setCompactWalletAddress, twitterUsername, setTwitterUsername, setDomainCollection } = useContext(ProfileContext);
@@ -43,27 +43,14 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
     }
 
     const getTwitterName = async () => {
-    try{
-        const registry = await getHandleAndRegistryKey(connection, publicKey);
-        setTwitterUsername(registry[0]);
-    } catch (error){
-        console.log(error)
+        try{
+            const registry = await getHandleAndRegistryKey(connection, publicKey);
+            setTwitterUsername(registry[0]);
+        } catch (error){
+            console.log(error)
+        }
     }
-    }
-
-    // Find Owned SNS Accounts
-    // const loadSNSAccounts = async () => {
-    //     try {
-    //         //const ownedAccounts = await useDomainsForUser(publicKey);
-    //         const ownedAccounts = await getAllDomains(connection, publicKey);
-    //         console.log(`Your owned accounts: ` + ownedAccounts);
-    //         setDomainCollection(ownedAccounts)
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
     
-
     const shortenedWalletAddress = useMemo(() => {
         if (children) return children;
         if (!wallet || !base58) return null;
@@ -137,8 +124,7 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
                             squared
                             bordered
                             as="button"
-                            size="lg"
-                            color="primary"
+                            size="md"
                             name={bonfidaUsername ? bonfidaUsername  : shortenedWalletAddress}
                             description={twitterUsername ? "@" + twitterUsername : ''}
                             src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
@@ -187,7 +173,7 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
                         <Dropdown.Item key="logout" color="error" withDivider>
                             <Button onClick={disconnect}>
                                 <div className="flex items-center">
-                                    <FiPower className="mr-1"/> Disconnect
+                                    <FiPower className="mr-1"/> Logout
                                 </div>
                             </Button>
                         </Dropdown.Item>

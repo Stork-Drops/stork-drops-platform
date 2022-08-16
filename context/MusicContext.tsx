@@ -8,10 +8,7 @@ function MusicProvider({ children }){
     const [songIndex, setSongIndex] = useState(0)
 
 	return(
-		<MusicContext.Provider 
-			value={{ 
-				songIndex, setSongIndex
-			}}>
+		<MusicContext.Provider value={{ songIndex, setSongIndex }}>
 				{children}
 		</MusicContext.Provider>
 	);

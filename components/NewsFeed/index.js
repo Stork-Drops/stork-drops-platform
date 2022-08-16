@@ -17,24 +17,24 @@ const DecryptFeed = () => {
   if (!data) return <Loading type="points" />;
  
   return (
-      <>
+      <div className="grid grid-cols-1 auto-rows-auto gap-2">
         {data.items.map((news) => (            
-            <Link key={news.title} target="_blank" href={news.link} className="flex items-center justify-between w-full hover:bg-gray-50 rounded-xl p-2">
-              <div className="w-4/12">
+            <Link key={news.title} target="_blank" href={news.link} className="flex items-center justify-between w-full hover:bg-gray-50 rounded-xl p-2 border border-gray-200">
+              <div className="w-3/12">
                 <img className="w-16 h-16 rounded-xl" src={news.thumbnail} alt=""/>
               </div>
-              <div className="w-8/12">
+              <div className="w-9/12">
                 <p 
                   style={{
-                    fontSize: "0.7rem",
+                    fontSize: "0.8rem",
                   }}
-                  className="text-dracula">
+                  className="text-dracula font-medium">
                   {news.title}
                 </p>
               </div>
             </Link>
-        )).slice(0,1)}
-      </>
+        )).slice(0,2)}
+      </div>
   );
 }
 
@@ -48,26 +48,26 @@ const CoinTelegraph = () => {
   if (!data) return <Loading type="points" />;
 
   return (
-      <>
+      <div className="grid grid-cols-1 auto-rows-auto gap-2">
         {data.items.map((news) => (
           <Link key={news.title} target="_blank" href={news.link}>
-            <div className="flex items-center justify-between w-full hover:bg-gray-50 rounded-xl p-2">
-              <div className="w-4/12">
+            <div className="flex items-center justify-between w-full hover:bg-gray-50 rounded-xl p-2 border border-gray-200">
+              <div className="w-3/12">
                 <img className="w-16 h-16 rounded-xl" src={news.thumbnail} alt=""/>
               </div>
-              <div className="w-8/12">
+              <div className="w-9/12">
                 <p 
                   style={{
-                    fontSize: "0.7rem",
+                    fontSize: "0.8rem",
                   }}
-                  className="text-dracula">
+                  className="text-dracula font-medium">
                   {news.title}
                 </p>
               </div>
             </div>
-        </Link>
-        )).slice(0,1)}
-      </>
+          </Link>
+        )).slice(0,2)}
+      </div>
   );
 }
 
@@ -81,33 +81,34 @@ const CoinDeskNews = () => {
   if (!data) return <Loading type="points" />;
  
   return (
-      <>
+      <div className="grid grid-cols-1 auto-rows-auto gap-2">
         {data.items.map((news) => (
-            <a key={news.title} target="_blank" href={news.link} className="flex items-center justify-between w-full hover:bg-gray-50 rounded-xl p-2">
-              <div className="w-4/12">
+            <a key={news.title} target="_blank" href={news.link} className="flex items-center justify-between w-full hover:bg-gray-50 rounded-xl p-2 border border-gray-200">
+              <div className="w-3/12">
                 <img className="w-16 h-16 rounded-xl" src={news.enclosure.link} alt=""/>
               </div>
-              <div className="w-8/12">
+              <div className="w-9/12">
                 <p 
                   style={{
-                    fontSize: "0.7rem",
+                    fontSize: "0.8rem",
                   }}
-                  className="text-dracula">
+                  className="text-dracula font-medium">
                   {news.title}
                 </p>
               </div>
             </a>
-        )).slice(0,1)}
-      </>
+        )).slice(0,2)}
+      </div>
   );
 }
 
 const NewsFeed = () => {   
     return (
-        <div className="grid auto-rows-auto grid-cols-1">
-          <div className="mb-2.5">
-            <span className="px-2 py-2 text-xs font-semibold shadow-md text-white bg_sunrise rounded-xl">Latest crypto news</span>
-          </div>
+      <>
+        <div>
+          <span className="px-2 py-2 text-xs font-semibold text-white bg_sunrise rounded-xl">Crypto News</span>
+        </div>
+        <div className="my-5 grid gap-4 items-center grid-rows-1 grid-cols-3">
           <div>
             <CoinTelegraph/>
           </div>
@@ -118,6 +119,7 @@ const NewsFeed = () => {
             <CoinDeskNews/>
           </div>
         </div>
+      </>
     );
 }
 

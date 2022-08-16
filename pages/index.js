@@ -9,6 +9,7 @@ import { fetchContent } from '../utils/fetchContentfulContent'
 import { ProfileContext } from "../context/ProfileContext"
 import MarketCapFeed from "../components/MarketCapFeed"
 import Discovery from "../components/Discovery"
+import Footer from "@components/Footer"
 
 const Home = () => {
     const { bonfidaUsername } = useContext(ProfileContext);
@@ -29,50 +30,44 @@ const Home = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Container xl>
-                <Grid.Container gap={1} justify="center">
-                    <Grid xs={0} sm={0} md={0.5} lg={0.5}>
+            <Navigation/>
+
+            <Container fluid>
+                <Grid.Container justify="flex-start">
+                    <Grid xs={0} sm={0} md={1.5} lg={1.5}>
                         <AppBar/>
                     </Grid>
-                    <Grid xs={12} sm={12} md={11.5} lg={11.5} direction="column">
-                        <Navigation/>
-                        <Grid.Container gap={2} direction="row" alignItems="center">
-                            <Grid xs={12} sm={12} md={9.5} lg={9.5}>
-                                <Grid.Container direction='column'>
-                                        {/* Intro, solana price, mcap, etc */}
-                                        <div className="grid grid-cols-2 grid-rows-1 items-center justify-between mb-10">
-                                            <div> 
-                                                <span className="text-2xl font-extrabold text-dracula">gm, {bonfidaUsername ? bonfidaUsername + ".sol" : "anon"}.</span>
-                                                <p className="text-normal">Today is 
-                                                    {' '}
-                                                    {dateState.toLocaleDateString('en-US', {
-                                                        day: 'numeric',
-                                                        month: 'long',
-                                                        year: 'numeric',
-                                                    })}, it is 
-                                                    {' '}
-                                                    {dateState.toLocaleString('en-US', {
-                                                        hour: 'numeric',
-                                                        minute: 'numeric',
-                                                        hour12: true,
-                                                    })}.
-                                                </p>
-                                                <p className="text-normal italic font-semibold text-gray-400">Here's what's new in the ecosystem.</p>
-                                            </div>
-                                            <div className="flex justify-end">
-                                                <MarketCapFeed/>  
-                                            </div>
-                                        </div>
-                                        <Discovery/>
-                                </Grid.Container>
-                            </Grid>
-                            <Grid xs={12} sm={12} md={2.5} lg={2.5}>
+                    <Grid className="h-screen p-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
+                            <div className="grid grid-cols-2 grid-rows-1 items-center justify-around">
+                                <div> 
+                                    <span className="text-2xl italic font-semibold text-dracula">gm, {bonfidaUsername ? bonfidaUsername + ".sol" : "anon"}.</span>
+                                    <p className="text-base">
+                                        {dateState.toLocaleDateString('en-US', {
+                                            day: 'numeric',
+                                            month: 'long',
+                                            year: 'numeric',
+                                        })},
+                                        {' '}
+                                        {dateState.toLocaleString('en-US', {
+                                            hour: 'numeric',
+                                            minute: 'numeric',
+                                            hour12: true,
+                                        })}.
+                                    </p>
+                                    <p className="text-normal font-normal text-gray-400">Here's what's new in the ecosystem.</p>
+                                </div>
+                                <div className="flex justify-end">
+                                    <MarketCapFeed/>  
+                                </div>
+                            </div>
+                            <div className="my-10">
                                 <NewsFeed/>
-                            </Grid>
-                        </Grid.Container>       
+                            </div>
+                        <Discovery/>
                     </Grid>
                 </Grid.Container>
             </Container>
+            <Footer/>
         </div>
     );
 };

@@ -99,8 +99,8 @@ const SolanaTVLChart = () => {
                     tickFormatter={formatNumber}
                     className="text-xs" 
                     dataKey="totalLiquidityUSD"/>
-            </AreaChart>
-        </ResponsiveContainer>
+                </AreaChart>
+                </ResponsiveContainer>
         </div>
     )
 };

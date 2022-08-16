@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useMemo } from 'react'
-import Link from "next/link"
 import Navigation from "../components/Navigation"
 import AppBar from "../components/AppBar"
 import Head from 'next/head'
 import { Container, Grid, Row } from '@nextui-org/react'
 import { fetchContent } from '../utils/fetchContentfulContent'
 import CryptoProjectCard from '../components/CryptoProjectCard'
+import Footer from '@components/Footer'
 
 
-const Calendar = ({ cryptoProjects }) => {
+const Dropzone = ({ cryptoProjects }) => {
     const [cryptoProjectsList, setCryptoProjectsList] = useState([])
     const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedSort, setSelectedSort] = useState('')
@@ -53,22 +53,25 @@ const Calendar = ({ cryptoProjects }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Container xl>
-            <Grid.Container gap={1} justify="center">
-                    <Grid xs={0} sm={0} md={0.5} lg={0.5}>
+            <Navigation/>
+
+            <Container fluid>
+            <Grid.Container>
+                    <Grid xs={0} sm={0} md={1.5} lg={1.5}>
                         <AppBar/>
                     </Grid>
-                    <Grid xs={12} sm={12} md={11.5} lg={11.5} direction="column">
-                        <Navigation/>
-                        <Grid.Container gap={1} direction="row" alignItems="center"  justify="space-between">
+                    <Grid xs={12} sm={12} md={10.5} lg={10.5} direction="column">
+                        <Grid.Container gap={1} direction="row" justify="space-between">
                             <Grid xs={12} sm={12} md={9.5} lg={9.5}>
                             <div>
-                                  <Grid.Container direction="column" gap={2}>
+                                  <Grid.Container direction="column" gap={1}>
                                     <Grid xs={12} sm={12} md={6} lg={6}>
-                                      <h2 className="text-dracula text-4xl font-semibold">Calendar</h2>
+                                      <h2 className="text-dracula text-6xl font-semibold">DYOR</h2>
                                     </Grid>
                                     <Grid>
-                                      <span className="text-normal italic font-normal">Stay up-to-date on some dope upcoming projects. <br/>Hand-picked - no fluff or shite.</span>
+                                      <span className="text-normal italic font-normal">
+                                        Try not to get rekt'd. Seriously..do your own research!
+                                      </span>
                                     </Grid>
                                   </Grid.Container>
                                   <Grid.Container direction="row" gap={2}>
@@ -123,11 +126,12 @@ const Calendar = ({ cryptoProjects }) => {
                     </Grid>
                 </Grid.Container>
             </Container>
+            <Footer/>
         </div>
     )
 }
 
-export default Calendar;
+export default Dropzone;
 
 export async function getStaticProps() {
   const res = await fetchContent(`

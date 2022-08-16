@@ -3,7 +3,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "lib/posts.js", "lib/defaults.js", "pages/index.js", "components/Footer/Footer.js", "components/AppBar.js", "pages/_app.js", "pages/settings.js", "components/NewsFeed/index.js", "components/BonfidaSNS/index.tsx", "hooks/useDomainsForUser.js", "components/DeFi/TVLChart/index.js"  ],
+, "lib/posts.js", "lib/defaults.js", "pages/index.js", "components/Footer/Footer.js", "components/AppBar.js", "pages/_app.js", "pages/settings.js", "components/NewsFeed/index.js", "components/BonfidaSNS/index.tsx", "hooks/useDomainsForUser.js", "components/DeFi/TVLChart/index.js", "pages/nfts/index.js", "components/NFTs/MagicEdenTimeline/index.tsx", "components/NFTs/PopularCollections/SevenDayList/index.tsx"  ],
 "exclude": ["node_modules", "packages/*/*/node_modules"],
   "compilerOptions": {
     "target": "es6",

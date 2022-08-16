@@ -1,96 +1,104 @@
 import React, { Fragment } from 'react'
-import { Text } from '@nextui-org/react';
 import Link from 'next/link';
-import { Grid, Tooltip } from '@nextui-org/react';
+import { Grid, Tooltip, Collapse, Text } from '@nextui-org/react';
 import { useRouter } from 'next/router';
-import { FiHome, FiCompass, FiCodesandbox, FiMessageSquare, FiUser, FiCalendar } from "react-icons/fi";
+import { FiHome, FiCompass, FiDroplet, FiCodesandbox, FiMessageSquare, FiUser, FiCalendar } from "react-icons/fi";
 import { HiOutlineLogout } from "react-icons/hi";
-import { useWallet } from '@solana/wallet-adapter-react';
+import { useWallet, useConnection } from '@solana/wallet-adapter-react';
+import { Disclosure } from '@headlessui/react'
+import { HiChevronDown } from "react-icons/hi";
+import MusicPlayer from '@components/MusicPlayer';
 
 const AppBar = () => {
     const router = useRouter();
-    const { disconnect} = useWallet();
+    const { wallet, disconnect } = useWallet();
+    const { connected } = useConnection();
 
     return(
         <>
-            <Grid.Container className="fixed h-screen py-5 w-min" direction='column' justify='space-between' alignItems='center' alignContent='flex-start'>
-                <Grid className="relative">
-                    <Link href="/">
-                        <img
-                            className='w-10 h-10 cursor-pointer hover:opacity-80' 
-                            src="/sd-package.svg"/>
-                    </Link>
-                    <div 
-                        style={{
-                            fontSize: '0.6rem',
-                        }}
-                        className="animate-bounce absolute -top-2 -right-10 z-50 w-min bg_sunrise text-white px-2.5 py-1 rounded-full font-semibold hover:opacity-80">
-                        beta
-                    </div>
-                </Grid>
-
+            <Grid.Container className="h-full border-r border-gray-200" direction='column' justify='space-between'>
+                <div className="fixed w-fit">
                 <Grid>
-                    <Grid.Container direction="column" gap={2}>
-                        <div>
-                        <Grid>
-                            <Link href="/">
-                                <a className={router.pathname == "/" ? "flex items-center space-between text-clean-blue text-2xl" : "flex items-center space-between text-gray-400 text-2xl"}>
-                                    <React.Fragment>
-                                        <FiHome/>
-                                    </React.Fragment>
-                                </a>
-                            </Link>
-                        </Grid>
-                        <Grid>
-                            <Link className="flex items-center space-between text-dracula text-lg font-semibold" href="/profile">
-                                <a className={router.pathname == "/profile" ? "flex items-center space-between text-clean-blue text-2xl" : "flex items-center space-between text-2xl text-gray-400"}>
-                                    <React.Fragment>
-                                        <FiUser/>
-                                    </React.Fragment>
-                                </a>
-                            </Link>
-                        </Grid>
-                        <Grid>
-                            <Link className="flex items-center space-between text-dracula text-lg font-semibold" href="/calendar">
-                                <a className={router.pathname == "/calendar" ? "flex items-center space-between text-clean-blue text-2xl" : "flex items-center space-between text-2xl text-gray-400"}>
-                                    <React.Fragment>
-                                        <FiCalendar/>
-                                    </React.Fragment>
-                                </a>
-                            </Link>
-                        </Grid>
-                        <Grid className="hidden">
-                            <Link className="flex items-center space-between text-dracula text-lg font-semibold" href="/">
-                                <a className={router.pathname == "/dropzone" ? "flex items-center space-between font-normal text-clean-blue text-2xl" : "flex items-center space-between text-dracula text-2xl font-normal"}>
-                                    <React.Fragment>
-                                        Dropzone
-                                    </React.Fragment>
-                                </a>
-                            </Link>
-                        </Grid>
-                        <Grid className="hidden">
-                            <Link className="flex items-center space-between text-dracula text-lg font-semibold" href="#">
-                                <a className={router.pathname == "/chat" ? "flex items-center space-between font-normal text-clean-blue text-lg" : "flex items-center space-between text-gray-200 text-lg font-normal"}>
-                                    <React.Fragment>
-                                        <FiMessageSquare className="mr-2"/>
-                                        Chat Hub
-                                    </React.Fragment>
-                                </a>
-                            </Link>
-                        </Grid>
-                        </div> 
+                    <Grid.Container gap={1} direction="column">
+                            <Grid>
+                                <Link href="/">
+                                    <a className={router.pathname == "/" ? "w-full bg_sunrise flex items-center space-between text-white p-2 rounded-xl" : "flex items-center space-between text-gray-500 w-full p-2"}>
+                                        <React.Fragment>
+                                            <FiHome className="mr-2 w-5 h-5"/>
+                                            <span className="font-semibold text-sm">Home</span>
+                                        </React.Fragment>
+                                    </a>
+                                </Link>
+                            </Grid>
+                            <Grid>
+                                <Disclosure>
+                                    {({ open }) => (
+                                        <>
+                                        <Disclosure.Button className="flex items-center space-between text-gray-500 w-full p-2">
+                                            <div className="flex items-center justify-between">
+                                                <FiCompass className="mr-2 w-5 h-5"/>
+                                                <span className="text-sm font-semibold">Explore</span>
+                                            </div>
+                                            <HiChevronDown className={`${open ? 'rotate-180 transform' : ''} ml-1 w-4 text-gray-500`}/>
+                                        </Disclosure.Button>
+                                        <Disclosure.Panel className="p-2 text-sm text-gray-500">
+                                            <ul>
+                                                <li>
+                                                    <Link href="/daos">
+                                                        <a className={router.pathname == "/daos" ? "w-full bg_sunrise flex items-center space-between text-white p-2 rounded-xl" : "flex items-center space-between text-gray-500 w-full p-2"}>
+                                                            <React.Fragment>
+                                                                <span className="font-semibold text-sm">DAOs</span>
+                                                            </React.Fragment>
+                                                        </a>
+                                                    </Link>
+                                                </li>
+                                                <li>
+                                                    <Link href="/nfts">
+                                                        <a className={router.pathname == "/nfts" ? "w-full bg_sunrise flex items-center space-between text-white p-2 rounded-xl" : "flex items-center space-between text-gray-500 w-full p-2"}>
+                                                            <React.Fragment>
+                                                                <span className="font-semibold text-sm">NFTs</span>
+                                                            </React.Fragment>
+                                                        </a>
+                                                    </Link>
+                                                </li>
+                                                <li>
+                                                    <Link href="/defi">
+                                                        <a className={router.pathname == "/defi" ? "w-full bg_sunrise flex items-center space-between text-white p-2 rounded-xl" : "flex items-center space-between text-gray-500 w-full p-2"}>
+                                                            <React.Fragment>
+                                                                <span className="font-semibold text-sm">DeFi</span>
+                                                            </React.Fragment>
+                                                        </a>
+                                                    </Link>
+                                                </li>
+                                            </ul>
+                                        </Disclosure.Panel>
+                                        </>
+                                    )}
+                                </Disclosure>
+                            </Grid>
+                            <Grid>
+                                <Link href="/profile">
+                                    <a className={router.pathname == "/profile" ? "w-full bg_sunrise flex items-center space-between text-white p-2 rounded-xl" : "flex items-center space-between text-gray-500 w-full p-2"}>
+                                        <React.Fragment>
+                                            <FiUser className="mr-2 w-5 h-5"/>
+                                            <span className="font-semibold text-sm">Profile</span>
+                                        </React.Fragment>
+                                    </a>
+                                </Link>
+                            </Grid>
+                            <Grid>
+                                <Link href="/dyor">
+                                    <a className={router.pathname == "/dyor" ? "w-full bg_sunrise flex items-center space-between text-white p-2 rounded-xl" : "flex items-center space-between text-gray-500 w-full p-2"}>
+                                        <React.Fragment>
+                                            <FiDroplet className="mr-2 w-5 h-5"/>
+                                            <span className="font-semibold text-sm">DYOR</span>
+                                        </React.Fragment>
+                                    </a>
+                                </Link>
+                            </Grid>     
                     </Grid.Container>
                 </Grid>
-
-                <Grid>
-                    <Tooltip 
-                        content={"Logout"}
-                        hideArrow>
-                        <button onClick={disconnect}>
-                            <HiOutlineLogout className="rounded-full text-2xl text-dracula"/>
-                        </button>
-                    </Tooltip>
-                </Grid>
+                </div>
             </Grid.Container>
         </>
     )

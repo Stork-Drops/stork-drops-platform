@@ -1,6 +1,6 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import { useAudioPlayer } from "react-use-audio-player"
-import { Popover, Grid, Avatar } from '@nextui-org/react';
+import { Popover, Grid, Avatar, Tooltip, Button } from '@nextui-org/react';
 import { FiMusic, FiPlay, FiPause, FiSkipForward, FiSkipBack } from "react-icons/fi";
 import { MusicContext } from "../../context/MusicContext"
 
@@ -26,14 +26,20 @@ const MusicPlayerControls = () => {
             src: 'https://creatornode2.audius.co/tracks/stream/YmoZm'
         },
     ]
-    console.log(`song index is: ` + songs[songIndex].src);
 
     const { togglePlayPause, ready, loading, playing, load } = useAudioPlayer({
         src: songs[songIndex].src,
         html5: true,
         format: "mp3",
         autoplay: true,
-        onend: () => nextTrack(),
+        onend: () => {
+            if(songIndex < songs.length - 1){
+                setSongIndex(songIndex + 1)
+            } else {
+                setSongIndex(0)
+            }
+        },
+        autoSuspend: false,
     })
 
     //if (!ready && !loading) return <div>No audio to play</div>
@@ -56,35 +62,28 @@ const MusicPlayerControls = () => {
     }
 
     return (
-        <div>
-            <Grid.Container gap={2} direction="row">
-            <Grid>
-                <img 
-                    className="rounded-xl w-16 h-16" 
-                    src={songs[songIndex].songCoverArt} alt="songCoverArt" 
-                />
-            </Grid>
-            <Grid>
-                <p className="text-dracula text-xs font-semibold">{songs[songIndex].title}</p>
-                <p className="text-gray-400 text-xs">{songs[songIndex].artist}</p>
-                <Grid.Container gap={2} direction="row" justify="center">
-                    <Grid xs={4}>
+        <div className="w-fit">
+            <div className="flex items-center justify-between">
+                <div className="flex items-center mr-4">
+                    <img 
+                        className="mr-2 rounded-xl w-10 h-10" 
+                        src={songs[songIndex].songCoverArt} alt="songCoverArt" 
+                    />
+                    <div>
+                        <p className="text-dracula text-xs font-semibold">{songs[songIndex].title}</p>
+                        <p className="text-gray-400 text-xs">{songs[songIndex].artist}</p>
+                    </div>
+                </div>
+                <div>
+                    <div className="grid grid-cols-3 grid-rows-1 items-center gap-4">
                         <button onClick={()=> prevTrack()}>
-                            {songIndex === 0 ?  "" : <FiSkipBack className="w-5 h-5"/>}
+                            {songIndex === 0 ?  "" : <FiSkipBack className="w-4 h-4"/>}
                         </button>
-                    </Grid>
-                    <Grid xs={4}>
-                        <button onClick={togglePlayPause}>{playing ? <FiPause className="w-5 h-5"/> : <FiPlay className="w-5 h-5"/>}</button>
-                    </Grid>
-                    <Grid xs={4}>
-                        <button onClick={()=> nextTrack()}><FiSkipForward className="w-5 h-5"/></button>
-                    </Grid>
-                </Grid.Container>
-            </Grid>
-        </Grid.Container>
-        <div className="flex items-center justify-center mb-2.5">
-            <img src="/audius.png" alt="Audius Logo" className="w-16"/>
-        </div>
+                        <button onClick={togglePlayPause}>{playing ? <FiPause className="w-4 h-4"/> : <FiPlay className="w-4 h-4"/>}</button>
+                        <button onClick={()=> nextTrack()}><FiSkipForward className="w-4 h-4"/></button>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
@@ -93,14 +92,15 @@ const MusicPlayer = () => {
     const [isOpen, setIsOpen] = React.useState(false);
 
     return(
-        <Popover placement="right-bottom" isOpen={isOpen} onOpenChange={setIsOpen}>
-            <Popover.Trigger>
-                <Avatar squared size="md" icon={<FiMusic className="bg-celan-blue" size={16} />} />
-            </Popover.Trigger>
-            <Popover.Content className="rounded-xl shadow-lg">
-                <MusicPlayerControls/>
-            </Popover.Content>
-        </Popover>
+        // <Popover placement="right-bottom" isOpen={isOpen} onOpenChange={setIsOpen}>
+        //     <Popover.Trigger>
+        //         <Avatar squared size="md" icon={<FiMusic className="bg-celan-blue" size={16} />} />
+        //     </Popover.Trigger>
+        //     <Popover.Content className="rounded-xl shadow-lg">
+        //         <MusicPlayerControls/>
+        //     </Popover.Content>
+        // </Popover>
+        <MusicPlayerControls/>
     )
 }
 

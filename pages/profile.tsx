@@ -19,6 +19,7 @@ import { NftCard } from "../components/Profile/NftGalleryCard"
 import useSWR from "swr"
 import { FiPlusSquare } from "react-icons/fi";
 import Skeleton from 'react-loading-skeleton'
+import Footer from '@components/Footer';
 
 interface Result {
   pubkey: PublicKey;
@@ -161,31 +162,30 @@ const Profile = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Container xl>
-            <Grid.Container gap={1} justify="center">
-                    <Grid xs={0} sm={0} md={0.5} lg={0.5}>
+            <Navigation/>
+
+            <Container fluid>
+            <Grid.Container justify="center">
+                    <Grid xs={0} sm={0} md={1.5} lg={1.5}>
                         <AppBar/>
                     </Grid>
-                    <Grid xs={12} sm={12} md={11.5} lg={11.5} direction="column">
-                        <Navigation/>
-                        <Grid.Container gap={1} direction="row" alignItems="center"  justify="space-between">
+                    <Grid className="p-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
+                        <Grid.Container direction="row" justify="space-between">
                             <Grid xs={12} sm={12} md={9.5} lg={9.5}>
                                 <Grid.Container direction='column'>
                                     <Grid>
                                     <Grid.Container gap={1} direction="column">
                                       {/* Profile Intro */}
                                       <Grid>
-                                        <Grid.Container className="w-full" direction="row" alignItems="center" justify="flex-end"  alignContent="flex-end">
-                                          <Grid xs={12} sm={12} md={9} lg={9}>
-                                              <Row align="center">
-                                                <Col span={2}>
-                                                  <img 
-                                                  className="w-24 h-24 rounded-full"
-                                                  src="https://i.pravatar.cc/150?u=a042581f4e29026024d"/>
-                                                </Col>
-                                                <Col>
+                                        <div className="grid grid-cols-2 grid-rows-1 items-center space-between">
+                                          <div className="flex items-center">
+                                            <img 
+                                              className="mr-4 w-24 h-24 rounded-full border-2 border-green-500"
+                                              src="https://i.pravatar.cc/150?u=a042581f4e29026024d"/>
+                                            <div>
+                                            <Col>
                                                   <Row align="center">
-                                                    <span className="mr-2.5 text-4xl font-normal text-dracula">{bonfidaUsername ? bonfidaUsername + `.sol` : compactWalletAddress}</span>
+                                                    <span className="mr-2.5 text-3xl font-normal text-dracula">{bonfidaUsername ? bonfidaUsername + `.sol` : compactWalletAddress}</span>
                                                     <span onClick={copyAddress} className="flex items-center w-min bg-gray-200 text-dracula px-2.5 py-1 rounded-full text-xs font-semibold hover:opacity-80 hover:cursor-pointer">
                                                       {compactWalletAddress}
                                                     </span>
@@ -197,19 +197,20 @@ const Profile = () => {
                                                     </a>
                                                   </Row>
                                                   <Spacer y={0.5}/>
-                                                  <Row className="text-sm text-dracula">
-                                                    <Col span={2}>
+                                                  <div className="flex items-center justify-between text-sm">
+                                                    <div>
                                                       0 Followers
-                                                    </Col>
-                                                    <Col>
+                                                    </div>
+                                                    <div>
                                                       0 Following
-                                                    </Col>
-                                                  </Row>
+                                                    </div>
+                                                  </div>
                                                 </Col>
-                                              </Row>
-                                          </Grid>
-                                          <Grid xs={12} sm={12} md={3} lg={3}>
-                                            <Col className="bg-gray-100 border border-gray-200 rounded-xl p-4 w-full">
+                                            </div>
+                                          </div>
+
+                                          <div className="min-w-fit">
+                                          <Col className="bg-gray-100 border border-gray-200 rounded-xl p-4">
                                               <Row>
                                                 <span className="text-sm font-semibold">Net Worth</span>
                                               </Row>
@@ -242,8 +243,8 @@ const Profile = () => {
                                                 </Col>
                                               </Row>
                                             </Col>
-                                          </Grid>
-                                        </Grid.Container>
+                                          </div>
+                                        </div>
                                       </Grid>
                                       
                                       <Grid>
@@ -297,12 +298,10 @@ const Profile = () => {
                                           {/* Portfolio Tab */}
                                           <Tab.Panels>
                                             <Tab.Panel>
-                                              <div className="">
-                                                <Grid.Container gap={1}>
-                                                  <Grid xs={12} sm={12} md={8} lg={8}>                            
-                                                  <Row>
-                                                  <Collapse
-                                                        expanded
+                                              <div className="grid grid-cols-2 grid-rows-1 gap-4">
+                                                <div className="">
+                                                <Collapse
+                                                        expanded={true}
                                                         className="w-full h-full"
                                                         bordered
                                                         title={<span className="text-normal font-semibold text-dracula">Coins ({tokenCollection.length})</span>}
@@ -345,20 +344,16 @@ const Profile = () => {
                                                       )}
                                                     </Grid.Container>
                                                     </Collapse>
-                                                  </Row>  
-                                                </Grid>
-
-                                                  <Grid xs={12} sm={12} md={4} lg={4}>
-                                                    <Col>
-                                                      <Row>
-                                                      <Collapse
-                                                        expanded
+                                                </div>
+                                                <div className="">
+                                                <Collapse
+                                                        expanded={true}
                                                         className="w-full h-full"
                                                         bordered
                                                         title={<span className="text-normal font-semibold text-dracula">Domains ({domainCollection.length})</span>}
                                                         arrowIcon={<FiPlusSquare/>}
                                                       >
-                                                        <Grid.Container gap={1} direction="column">
+                                                        <Grid.Container gap={2} direction="column">
                                                           {domainCollection && domainCollection.length > 0 ? (
                                                             domainCollection
                                                             .map(domains => (
@@ -380,11 +375,7 @@ const Profile = () => {
                                                           )}
                                                       </Grid.Container>
                                                       </Collapse>
-                                                      </Row>
-                                                    </Col>
-                                                  </Grid>
-                                                </Grid.Container>
-                                              
+                                                </div>
                                               </div>
                                             </Tab.Panel>
                                             
@@ -450,7 +441,9 @@ const Profile = () => {
                             <Grid xs={12} sm={12} md={2.5} lg={2.5}>
                                 <Grid.Container direction="column">
                                     <Grid>
-                                        TF AM I PUTTING HERE?
+                                    <div>
+                                        <span className="px-2 py-2 text-xs font-semibold shadow-md text-white bg_sunrise rounded-xl">People to follow</span>
+                                    </div>
                                     </Grid>
                                 </Grid.Container>  
                             </Grid>
@@ -458,6 +451,7 @@ const Profile = () => {
                     </Grid>
                 </Grid.Container>
             </Container>
+            <Footer/>
         </>
     );
 };

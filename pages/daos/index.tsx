@@ -5,11 +5,10 @@ import Navigation from "../../components/Navigation"
 import Head from 'next/head'
 import { Container, Grid, Row, Avatar, Col, Spacer, Tooltip, Input } from '@nextui-org/react'
 import { getRealms } from '@solana/spl-governance';
-
 import { Connection, PublicKey } from '@solana/web3.js';
 import AppBar from "../../components/AppBar";
 import { HiOutlineExternalLink } from "react-icons/hi";
-import { FiTwitter } from "react-icons/fi";
+import Footer from '@components/Footer';
 
 
 const DAOPage = () => {
@@ -65,19 +64,20 @@ const DAOPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Container xl>
-              <Grid.Container gap={1} justify="center"> 
-                <Grid className="h-screen" xs={0} sm={0} md={0.5} lg={0.5}>
+            <Navigation/>
+
+            <Container fluid>
+              <Grid.Container justify="center"> 
+                <Grid xs={0} sm={0} md={1.5} lg={1.5}>
                   <AppBar/>
                 </Grid>
 
-                <Grid xs={12} sm={12} md={11.5} lg={11.5} direction="column">
-                  <Navigation/>
+                <Grid className="p-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
                   <div>
                     <Grid.Container alignItems="center">
                       <Grid xs={12} sm={12} md={6} lg={6}>
                         <Col>
-                          <div className="my-5 text-dracula">
+                          <div className="mb-5 text-dracula">
                           <h2 className="flex items-center text-6xl font-semibold">DAOs <span className="mx-2 text-2xl bg-gray-200 py-1 px-2 h-min rounded-xl tracking-tighter">{certifiedRealms.length + uncharteredDaoList.length}</span></h2>
                           <p className="text-sm">Decentralized Autonomous Organizations.</p>
                           <div className="p-2">
@@ -266,10 +266,8 @@ const DAOPage = () => {
                       </Grid.Container>
                   </Grid>
                 </Grid.Container>
-
-
-                
             </Container>
+            <Footer/>
         </>
     )
 }

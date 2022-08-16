@@ -2,20 +2,33 @@ import React, { Fragment } from 'react'
 import Link from 'next/link';
 import { Grid, Container, Input } from '@nextui-org/react';
 import { useRouter } from 'next/router';
-import AppBar from './AppBar';
 import { WalletMultiButton } from './WalletConnect';
 
 const Navigation = () => {
     const router = useRouter();
 
     return(
-        <Grid.Container gap={1} direction="row" alignItems="center" justify="space-between">
-            <Grid>  
-            </Grid>
-            <Grid className="flex items-center">
-                <WalletMultiButton/>
-            </Grid>
-        </Grid.Container>
+        <Container fluid className="border-b border-gray-200">
+            <Grid.Container gap={1} direction="row" alignItems="center" justify="space-between">
+                <Grid className="flex items-center justify-between">
+                    <Link href="/">
+                        <img
+                            className='w-36 cursor-pointer hover:opacity-80' 
+                            src="/sd-full.svg"/>
+                    </Link>
+                    <div 
+                        style={{
+                            fontSize: '0.6rem',
+                        }}
+                        className="ml-1 w-min bg_sunrise text-white px-2.5 py-1 rounded-full font-semibold hover:opacity-80">
+                        beta
+                    </div>  
+                </Grid>
+                <Grid className="flex items-center">
+                    <WalletMultiButton/>
+                </Grid>
+            </Grid.Container>
+        </Container>
     )
 }
 

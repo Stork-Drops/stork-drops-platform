@@ -6,6 +6,8 @@ import { Container, Grid, Row, Avatar, Col, Spacer, Tooltip, Input } from '@next
 import DefiList from '@components/DeFi/DefiList';
 import SolanaTVLChart from '@components/DeFi/TVLChart';
 import AppBar from "../../components/AppBar";
+import Navigation from '@components/Navigation';
+import Footer from '@components/Footer';
 
 const DefiPage = () => {
     return(
@@ -16,28 +18,36 @@ const DefiPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Container xl>
-              <Grid.Container gap={1} justify="center"> 
-                <Grid className="h-screen" xs={0} sm={0} md={0.5} lg={0.5}>
+            <Navigation/>
+
+            <Container fluid>
+              <Grid.Container justify="center"> 
+                <Grid xs={0} sm={0} md={1.5} lg={1.5}>
                   <AppBar/>
                 </Grid>
 
-                  <Grid xs={12} sm={12} md={11.5} lg={11.5} direction="column">
-                    <div className="grid grid-cols-1 grid-rows-auto md:grid-cols-2 md:grid-rows-1 gap-4 items-center my-5">
-                      <div className="my-5">
-                        <h2 className="flex items-center text-6xl font-semibold">DeFi</h2>
-                        <p className="text-lg my-5">Explore decentralized finance on Solana. While the ecosystem is young, there are many protocols out there to let your SOL or whatever SPL token work for you.</p>
-                      </div>
-                      <div className="">
-                        <SolanaTVLChart/>
+                  <Grid className="p-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
+                    <div className="grid grid-cols-1 grid-rows-auto md:grid-cols-2 md:grid-rows-1 gap-4 items-center">
+                      <div>
+                        <h1 className="flex items-center text-6xl font-semibold">DeFi</h1>
+                        <p className="text-lg my-5">
+                          While the ecosystem is still young, there are many protocols out there <br/>to let your SOL or any SPL token work for you.
+                        </p>
                       </div>
                     </div>
+
+                    <div className="my-5">
+                      <SolanaTVLChart/>
+                    </div>
+
                     <div>
                       <DefiList/>
                     </div>
                   </Grid>
                 </Grid.Container>
             </Container>
+
+            <Footer/>
         </>
     )
 }

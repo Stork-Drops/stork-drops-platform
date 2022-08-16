@@ -20,6 +20,7 @@ import { AudioPlayerProvider } from "react-use-audio-player"
 import { ProfileProvider } from "../context/ProfileContext"
 import { MusicProvider } from "../context/MusicContext"
 import Background from "../components/Background"
+import MusicPlayer from "@components/MusicPlayer";
 import 'react-loading-skeleton/dist/skeleton.css'
 
 // Use require instead of import since order matters
@@ -84,8 +85,8 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                 dark: darkTheme.className
             }}>
                 <NextUIProvider>
+                <MusicProvider>
                     <AudioPlayerProvider>
-                        <MusicProvider>
                             <ConnectionProvider endpoint={endpoint}>
                                 <WalletProvider wallets={wallets} autoConnect>
                                     <ProfileProvider>
@@ -97,8 +98,8 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                                     </ProfileProvider>
                                 </WalletProvider>
                             </ConnectionProvider>
-                            </MusicProvider>
                     </AudioPlayerProvider>
+                </MusicProvider>
                 </NextUIProvider>
         </NextThemesProvider>
     );
