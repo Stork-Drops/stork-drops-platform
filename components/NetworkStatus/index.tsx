@@ -47,7 +47,7 @@ const NetworkStatus = () => {
     return(
         <>
             <Tooltip 
-                placement="rightEnd"
+                placement="topStart"
                 className="" 
                 content={
                     <div className="">
