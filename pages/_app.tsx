@@ -77,13 +77,6 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
     // // }, [])
 
     return (
-        <NextThemesProvider
-                defaultTheme="light"
-                attribute="class"
-                value={{
-                light: lightTheme.className,
-                dark: darkTheme.className
-            }}>
                 <NextUIProvider>
                 <MusicProvider>
                     <AudioPlayerProvider>
@@ -100,7 +93,6 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                     </AudioPlayerProvider>
                 </MusicProvider>
                 </NextUIProvider>
-        </NextThemesProvider>
     );
 };
 

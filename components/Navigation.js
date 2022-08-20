@@ -9,7 +9,7 @@ const Navigation = () => {
 
     return(
         <>
-            <div className="border-b border-gray-200">
+            <div className="border-b border-gray-200 py-5">
                 <Container fluid>
                     <Grid.Container direction="row" alignItems="center" justify="space-between">
                         <Grid className="flex items-center justify-between">
