@@ -2,7 +2,7 @@
 
 ## @storkdrops_
 
-<!-- @TODO -->
+## TODO
 * Defi Detail Pages
 * DAOs Detail Pages
 * SQUADS Multisig Integration
