@@ -3,6 +3,12 @@
 ## @storkdrops_
 
 <!-- @TODO -->
+* Defi Detail Pages
+* DAOs Detail Pages
+* SQUADS Multisig Integration
+* NFT Discovery powered by Hyperspace
+* Send/Receive Crypto w/ QR
+* xNFT!
 
 ## Getting Started
 
