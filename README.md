@@ -3,7 +3,7 @@
 ## @storkdrops_
 
 ## TODO
-* Defi Detail Pages
+* Defi Detail Pages [x]
 * DAOs Detail Pages
 * SQUADS Multisig Integration
 * NFT Discovery powered by Hyperspace
