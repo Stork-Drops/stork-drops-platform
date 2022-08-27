@@ -11,7 +11,7 @@ import { fetchContent } from '../../utils/fetchContentfulContent'
 import RecentDropsCard from '@components/RecentDropsCard'
 import { ProfileContext } from "../../context/ProfileContext"
 import MarketCapFeed from "@components/MarketCapFeed"
-//import certifiedRealms from "/public/realms/mainnet-beta.json"
+//import certifiedRealms from "../../realms/certifiedRealms.json"
 import { Splide, SplideSlide, SplideTrack } from '@splidejs/react-splide';
 import { HiArrowRight, HiArrowLeft, HiLink } from "react-icons/hi";
 import { BsTwitter } from "react-icons/bs";
@@ -60,7 +60,7 @@ import Discovery from "@components/Discovery"
 
         <div>
         <SplideTrack>
-            {certifiedRealms && certifiedRealms.length > 0 ? (
+            {/* {certifiedRealms && certifiedRealms.length > 0 ? (
                 certifiedRealms.map((verifiedRealms) => (
                 <SplideSlide>
                     <Link href={`/daos/#${verifiedRealms.symbol}`}>
@@ -103,7 +103,7 @@ import Discovery from "@components/Discovery"
         )))
         : (
             <Loading/>
-        )}
+        )} */}
         </SplideTrack>
         </div>
     </Splide>

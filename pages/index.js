@@ -1,4 +1,3 @@
-import '@splidejs/react-splide/css/core';
 import React, { useContext, useState, useEffect } from "react"
 import Head from 'next/head';
 import Navigation from "../components/Navigation"
