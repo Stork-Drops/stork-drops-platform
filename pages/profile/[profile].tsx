@@ -22,6 +22,7 @@ import Skeleton from 'react-loading-skeleton'
 import Footer from '@components/Footer';
 import { getHandleAndRegistryKey } from "@bonfida/spl-name-service";
 import { fetchSolanaNameServiceName } from "@utils/name-service"
+import { WalletMultiButton } from '@components/WalletConnect';
 
 interface Result {
   pubkey: PublicKey;
@@ -260,7 +261,9 @@ const Profile = () => {
                         <AppBar/>
                     </Grid>
                     <Grid className="p-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
-                        <Grid.Container direction="row" justify="space-between">
+                      {connected ? (
+                        <>
+                          <Grid.Container direction="row" justify="space-between">
                             <Grid xs={12} sm={12} md={9.5} lg={9.5}>
                                 <Grid.Container direction='column'>
                                     <Grid>
@@ -530,7 +533,16 @@ const Profile = () => {
                                     </Grid>
                                 </Grid.Container>  
                             </Grid>
-                        </Grid.Container>       
+                        </Grid.Container>   
+                        </>
+                      ) : (
+                         <>
+                        <div className="flex items-center justify-center h-screen">
+                          <WalletMultiButton/>
+                        </div>
+                         </> 
+                      )}
+                            
                     </Grid>
                 </Grid.Container>
             </Container>

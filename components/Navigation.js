@@ -10,7 +10,7 @@ const Navigation = () => {
     return(
         <>
             <div className="border-b border-gray-200 py-2.5">
-                <Container fluid>
+                <Container xl>
                     <Grid.Container direction="row" alignItems="center" justify="space-between">
                         <Grid className="flex items-center justify-between">
                             <Link href="/">

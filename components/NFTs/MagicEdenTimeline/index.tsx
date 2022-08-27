@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import useSWR from 'swr'
 import { Loading } from '@nextui-org/react'
-import { formatFourDigitWalletAddress, lamportsToSolString, formatTimeAgo } from '@utils/formatters'
+import { formatWalletAddress, lamportsToSolString, formatTimeAgo } from '@utils/formatters'
 import { Connection, clusterApiUrl } from "@solana/web3.js";
 import { Metaplex } from "@metaplex-foundation/js";
 const axios = require('axios')
@@ -95,7 +95,7 @@ const MagicEdenTimeLine = () => {
                                     <span className="text-xs font-extrabold">
                                         {event.nfts.map((nft) => (
                                                 <>
-                                                    {formatFourDigitWalletAddress(nft.mint)}
+                                                    {formatWalletAddress(nft.mint)}
                                                 </>
                                             ))
                                         }

@@ -37,7 +37,7 @@ const DefiPage = () => {
                     </div>
 
                     <div>
-                      <h2 className="mb-2.5 font-semibold text-2xl">Magic Feed</h2>
+                      <h2 className="mb-2.5 flex items-center font-semibold text-2xl">Magic Feed - <span className="ml-2 text-sm font-base">Recent NFT sales on MagicEden.</span></h2>
                       <MagicEdenTimeLine/>
                     </div>
                     
