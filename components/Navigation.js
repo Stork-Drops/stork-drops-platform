@@ -9,20 +9,20 @@ const Navigation = () => {
 
     return(
         <>
-            <div className="border-b border-gray-200">
+            <div className="border-b border-gray-200 py-2.5">
                 <Container fluid>
                     <Grid.Container direction="row" alignItems="center" justify="space-between">
                         <Grid className="flex items-center justify-between">
                             <Link href="/">
                                 <img
-                                    className='w-36 cursor-pointer hover:opacity-80' 
+                                    className='w-32 sm:w-36 cursor-pointer hover:opacity-80' 
                                     src="/sd-full.svg"/>
                             </Link>
                             <div 
                                 style={{
                                     fontSize: '0.6rem',
                                 }}
-                                className="ml-1 w-min bg_sunrise text-white px-2.5 py-1 rounded-full font-semibold hover:opacity-80">
+                                className="ml-1 w-min bg_sunrise text-white px-1 py-0.5 sm:px-2.5 sm:py-1 rounded-full font-semibold hover:opacity-80">
                                 beta
                             </div>  
                         </Grid>

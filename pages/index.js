@@ -32,7 +32,7 @@ const Home = () => {
 
             <Navigation/>
 
-            <Container fluid>
+            <Container xl>
                 <Grid.Container justify="flex-start">
                     <Grid xs={0} sm={0} md={1.5} lg={1.5}>
                         <AppBar/>

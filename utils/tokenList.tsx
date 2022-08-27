@@ -3,7 +3,7 @@ import { TokenListProvider, TokenInfo } from '@solana/spl-token-registry';
 import { Loading } from "@nextui-org/react"
 import useSWR from "swr";
 
-export const TokenIcon = (props: { mint: string }) => {
+export const TokenIcon = (props: { mint: any }) => {
   const [tokenMap, setTokenMap] = useState<Map<string, TokenInfo>>(new Map());
 
   useEffect(() => {
@@ -21,17 +21,14 @@ export const TokenIcon = (props: { mint: string }) => {
   if (!token || !token.logoURI) return null;
 
   return (
-    <>
       <img
-        className="rounded-full"
-        width={30} 
+        className="rounded-full w-full h-full"
         src={token.logoURI} 
       />
-    </>
   );
 }
 
-export const TokenName = (props: { mint: string }) => {
+export const TokenName = (props: { mint: any }) => {
   const [tokenMap, setTokenMap] = useState<Map<string, TokenInfo>>(new Map());
 
   useEffect(() => {
@@ -48,14 +45,14 @@ export const TokenName = (props: { mint: string }) => {
   const token = tokenMap.get(props.mint);
   if (!token || !token.name) return null;
 
-  return (
+  return(
     <>
-      <span>{token.name}</span>
+      {token.name}
     </>
-  );
+  )
 }
 
-export const TokenSymbol = (props: { mint: string }) => {
+export const TokenSymbol = (props: { mint: any }) => {
   const [tokenMap, setTokenMap] = useState<Map<string, TokenInfo>>(new Map());
 
   useEffect(() => {
@@ -72,14 +69,14 @@ export const TokenSymbol = (props: { mint: string }) => {
   const token = tokenMap.get(props.mint);
   if (!token || !token.symbol) return null;
 
-  return (
+  return(
     <>
-      <span>{token.symbol}</span>
+      {token.symbol}
     </>
-  );
+  )
 }
 
-export const TokenPrice = (props: { tokenAddress: any, sumAmount: number }) => {
+export const TokenTotalPrice = (props: { tokenAddress: any, sumAmount: number }) => {
   // Set up SWR fetcher
   const fetcher = (url) => fetch(url).then((res) => res.json());
   const API_TO_JSON = `https://public-api.solscan.io/market/token/${props.tokenAddress}`;
@@ -99,6 +96,28 @@ export const TokenPrice = (props: { tokenAddress: any, sumAmount: number }) => {
   )
 }
 
+export const TokenPrice = (props: { mintAddress: any }) => {
+  // Set up SWR fetcher
+  const fetcher = (url) => fetch(url).then((res) => res.json());
+  const API_TO_JSON = `https://api.coingecko.com/api/v3/coins/solana/contract/${props.mintAddress}`;
+
+  const { data, error } = useSWR(
+    API_TO_JSON,
+    fetcher
+  );
+
+  if (error) return <p>An error has occurred.</p>;
+  if (!data) return <Loading type="points" />;
+  
+  return(
+    <>
+      {parseFloat(data.market_data.current_price.usd).toFixed(4)}
+    </>
+  )
+}
+
+
+
 export const TokenChange = (props: { tokenAddress: any }) => {
   // Set up SWR fetcher
   const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -115,7 +134,7 @@ export const TokenChange = (props: { tokenAddress: any }) => {
   return(
     <>
       <span className={`${data.priceChange24h < 0 ? "text-rose-400" : "text-emerald-400"}`}>
-        {(data.priceChange24h)}%
+        {(data.priceChange24h).toFixed(2)}%
       </span>
     </>
   )

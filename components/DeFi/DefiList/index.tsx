@@ -1,56 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import { Table } from '@nextui-org/react'
-import axios from 'axios'
-import useSWR from 'swr'
-import { formatDollar } from '../../../utils/formatters'
+import DefiCard from '@components/DeFi/DefiCard'
 
 const DefiList = () => {
-        //set up fetcher for swr
-        const fetcher = url => axios.get(url).then(res => res.data) 
-        const [defiList, setDefiList] = useState([])
-        const [solanaFilteredList, setSolanaFilteredList] = useState([])
-        const { data, error } = useSWR(
-            'https://yields.llama.fi/pools', 
-            fetcher
-        );
-
-        console.log(data)
-    
-        // if (error) return <p>There was an error bro</p>
-        // if (!data) return <p>Loading...</p>
-
     return(
         <>
-            <Table
-                sticked
-                aria-label="Example table with static content"
-                css={{
-                    height: "auto",
-                    minWidth: "100%",
-                }}>
-                <Table.Header>
-                    <Table.Column>PROTOCOL</Table.Column>
-                    <Table.Column>POOL</Table.Column>
-                    <Table.Column>APY</Table.Column>
-                    <Table.Column>TOTAL VALUE LOCKED (TVL)</Table.Column>
-                </Table.Header>
-                <Table.Body>
-                    {data && data.data
-                        .filter(item => item.chain === "Solana")   
-                        .map((item, index) => {
-                                return (
-                                    <Table.Row key={index}>
-                                        <Table.Cell>{item.project}</Table.Cell>
-                                        <Table.Cell>{item.pool}</Table.Cell>
-                                        <Table.Cell>{item.apy}</Table.Cell>
-                                        <Table.Cell>{formatDollar(item.tvlUsd)}</Table.Cell>
-                                    </Table.Row>
-                                )
-                            }
-                        )                 
-                    }                   
-                </Table.Body>
-            </Table>
+            <div className="grid grid-cols-1 md:grid-cols-4 auto-rows-auto gap-4">
+                <DefiCard address='SLNDpmoWTVADgEdndyvWzroNL7zSi1dF9PC3xHGtPwp' defiDescription='The autonomous interest rate machine for lending on Solana.'/>
+                <DefiCard address='MangoCzJ36AjZyKwVj3VnYU4GTonjfVEnJmvvWaxLac' defiDescription='Long &amp; short everything.'/>
+                <DefiCard address='5oVNBeEEQvYi1cX3ir8Dx5n1P7pdxydbGF2X4TxVusJm' defiDescription='The best risk-free yields on Solana.'/>
+                <DefiCard address='mSoLzYCxHdYgdzU16g5QSh3i5K3z3KZK7ytfqcJm7So' defiDescription='Stake Solana without locking in your funds.'/>
+                <div className="p-3 border border-green-500 font-semibold text-lg text-green-500 rounded-xl">
+                    Want a specific protocol integrated into Stork Drops? Let us know.
+                </div>
+            </div>
         </>
     )
 }

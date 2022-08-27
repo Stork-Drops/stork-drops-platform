@@ -1,31 +1,45 @@
-import React, { useEffect, useState, useContext, useCallback, useRef } from "react"
+import React, { useEffect, useState, useContext, useCallback, useRef, useMemo } from "react"
+import { useRouter } from 'next/router'
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import Head from 'next/head';
-import Link from 'next/link';
-import Navigation from "../components/Navigation"
-import { Container, Grid, Spacer, Row, Col, Collapse, Progress, Loading } from '@nextui-org/react';
-import { ProfileContext } from "../context/ProfileContext"
-import { TokenIcon, TokenName, TokenSymbol, TokenPrice, TokenChange } from "../utils/tokenList";
-import AppBar from "../components/AppBar";
+import axios from 'axios';
+import Navigation from "../../components/Navigation"
+import { Container, Grid, Spacer, Row, Col, Collapse, Progress, Loading, Table } from '@nextui-org/react';
+import { ProfileContext } from "../../context/ProfileContext"
+import { TokenIcon, TokenName, TokenSymbol, TokenTotalPrice, TokenChange } from "../../utils/tokenList";
+import AppBar from "../../components/AppBar";
 import { Tab } from '@headlessui/react'
 import { useWalletNfts, NftTokenAccount } from "@nfteyez/sol-rayz-react";
 import { BsTwitter } from "react-icons/bs";
 import { getAllDomains, NameRegistryState, performReverseLookupBatch } from "@bonfida/spl-name-service";
-import { PublicKey } from "@solana/web3.js";
-import { HiOutlineIdentification } from "react-icons/hi";
+import { LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import { Metaplex } from "@metaplex-foundation/js";
-import { NftCard } from "../components/Profile/NftGalleryCard"
+import { NftCard } from "../../components/Profile/NftGalleryCard"
 import useSWR from "swr"
 import { FiPlusSquare } from "react-icons/fi";
 import Skeleton from 'react-loading-skeleton'
 import Footer from '@components/Footer';
+import { getHandleAndRegistryKey } from "@bonfida/spl-name-service";
+import { fetchSolanaNameServiceName } from "@utils/name-service"
 
 interface Result {
   pubkey: PublicKey;
   registry: NameRegistryState;
   reverse: string;
 }
+
+interface TokenAccount {
+  publicKey: string;
+  mint: string;
+  amount: number;
+  decimals: number;
+  symbol: string;
+  logo: string | undefined;
+}
+
+const TOKEN_LIST_API =
+  "https://raw.githubusercontent.com/solana-labs/token-list/main/src/tokens/solana.tokenlist.json";
 
 // Mint address of tokens we display
 const acceptedTokens = [
@@ -34,63 +48,138 @@ const acceptedTokens = [
   { name: "BLwTnYKqf7u4qjgZrrsKeNs2EzWkMLqVCu6j8iHyrNA3" }, // BOP PROTOCOL
   { name: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" }, // USDC
   { name: "9vMJfxuKxXBoEa7rM12mYLMwTacLMLDJqHozw96WQL8i" }, // UST
-  { name: "AURYydfxJib1ZkTir1Jn1J9ECYUtjb6rKQVmtYaixWPP" } // AURY
+  { name: "AURYydfxJib1ZkTir1Jn1J9ECYUtjb6rKQVmtYaixWPP" }, // AURY
+  { name: "So11111111111111111111111111111111111111112" } // SOL
 ]
 
 const NonVerifiedTwitter = () => {
   return (
-    <a className="flex items-center w-max bg-twitter-blue text-white p-1 rounded-full text-xs font-semibold hover:opacity-75 hover:cursor-pointer" href="https://naming.bonfida.org/twitter" target="_blank" rel="noopener">
-      <BsTwitter className="mr-2 text-white h-3 w-3"/>Link Twitter Handle
+    <a className="flex items-center w-max bg-twitter-blue text-white text-xs font-semibold hover:opacity-75 hover:cursor-pointer" href="https://naming.bonfida.org/twitter" target="_blank" rel="noopener">
+      <BsTwitter className="mr-2 text-white"/>Link Twitter Handle
     </a>
   )
 }
 
+const fetcher = url => fetch(url).then(r => r.json())
 
 const Profile = () => {
-    const { bonfidaUsername, walletAddress, compactWalletAddress, tokenCollection, setTokenCollection, nftCollection, setNFTCollection, twitterUsername } = useContext(ProfileContext);
+    const router = useRouter()
+    const { profile } = router.query
+    const publicAddress = profile as string;
+    const formattedPublicKey = new PublicKey(parseFloat(publicAddress));
+
+    const { data } = useSWR(`https://api.helius.xyz/v0/addresses/${publicAddress}/transactions?api-key=ba739f74-3869-40bb-bfd3-3cfc4be8ef7c`, fetcher);
+    const { data: allSNSAccounts } = useSWR(`https://api.helius.xyz/v0/addresses/${formattedPublicKey}/names?api-key=ba739f74-3869-40bb-bfd3-3cfc4be8ef7c`, fetcher, { refreshInterval: 35000 });
+
+    const [loading, setLoading] = useState(true);
+    const [tokens, setTokens] = useState<TokenAccount[] | null>(null);
+    
     const { publicKey, wallet, disconnect, connected } = useWallet();
+    const base58PubKey = useMemo(() => publicKey?.toBase58(), [publicKey]);
     const { connection } = useConnection();
     const [transactionHistory, setTransactionHistory] = React.useState(null);
+    const [twitterNameLookup, setTwitterNameLookup] = useState("");
+    const [bonfidaNameLookup, setBonfidaNameLookup] = useState("");
     const [domainCollection, setDomainCollection] = useState<Result[] | any>([]);
+    const [tokenCollection, setTokenCollection] = useState<any>([]);
     const [copied, setCopied] = useState(false);
 
     const mounted = useRef(true);
 
-    const metaplex = new Metaplex(connection);
+    const shortenedWalletAddress = useMemo(() => {
+      if (!publicAddress) return null;
+      return publicAddress.slice(0, 4) + '..' + publicAddress.slice(-4);
+  }, [publicAddress]);
 
     const copyAddress = useCallback(async () => {
-      if (walletAddress) {
-          await navigator.clipboard.writeText(walletAddress);
+      if (publicAddress) {
+          await navigator.clipboard.writeText(publicAddress);
           setCopied(true);
           setTimeout(() => setCopied(false), 400);
       }
-  }, [walletAddress]);
+  }, [publicAddress]);
 
-    const getSNSAccounts = async () => {
-      try{
-          const domains = await getAllDomains(connection, publicKey);
-          const registries = await NameRegistryState.retrieveBatch(connection, [
-            ...domains,
-          ]);
-          const reverses = await performReverseLookupBatch(connection, [
-            ...domains,
-          ]);
-          const _domainCollection: Result[] = [];
-          for (let i = 0; i < domains.length; i++) {
-            _domainCollection.push({
-              pubkey: domains[i],
-              registry: registries[i]!,
-              reverse: reverses[i]!,
-            });
-          }
-          if (mounted.current) {
-            setDomainCollection(_domainCollection)
-            mounted.current = false;
-          }
+  const getSNSAccounts = async () => {
+    try{
+        const domains = await getAllDomains(connection, publicKey);
+        const registries = await NameRegistryState.retrieveBatch(connection, [
+          ...domains,
+        ]);
+        const reverses = await performReverseLookupBatch(connection, [
+          ...domains,
+        ]);
+        const _domainCollection: Result[] = [];
+        for (let i = 0; i < domains.length; i++) {
+          _domainCollection.push({
+            pubkey: domains[i],
+            registry: registries[i]!,
+            reverse: reverses[i]!,
+          });
+        }
+        if (mounted.current) {
+          setDomainCollection(_domainCollection)
+          console.log(domainCollection)
+          mounted.current = false;
+        }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+    const getTwitterName = async () => {
+        try{
+            const registry = await getHandleAndRegistryKey(connection, publicKey);
+            setTwitterNameLookup(registry[0]);
+        } catch (error){
+            console.log(error)
+        }
+    }
+
+    // Bonfida SNS Username
+    const loadSNSUsername = async () => {
+      try {
+          const username = await fetchSolanaNameServiceName(connection, publicAddress);
+          setBonfidaNameLookup(username.solanaDomain);
       } catch (error) {
-        console.log(error);
+          console.log(error);
       }
     }
+
+    const fetchTokens = async () => {
+        // Get Token Accounts owned by wallet
+        const {
+          data: { tokens: tokenList },
+        } = await axios.get(TOKEN_LIST_API);
+        const response = await connection.getParsedTokenAccountsByOwner(
+          formattedPublicKey,
+          { programId: TOKEN_PROGRAM_ID }
+        );
+  
+        // Parsing Token info
+        let parsedTokens: TokenAccount[] = [];
+        response.value.forEach((tokenAccount) => {
+          const mint = tokenAccount.account.data["parsed"]["info"]["mint"];
+          const amount = Number(
+            tokenAccount.account.data["parsed"]["info"]["tokenAmount"]["amount"]
+          );
+          if (amount) {
+            const tokenMetadata = tokenList.find(
+              (tokenInfo: any) => tokenInfo.address === mint
+            );
+            if (tokenMetadata) {
+              parsedTokens.push({
+                publicKey: tokenAccount.pubkey.toBase58(),
+                mint,
+                amount,
+                decimals: tokenMetadata.decimals,
+                symbol: tokenMetadata.symbol,
+                logo: tokenMetadata.logoURI,
+              });
+            }
+          }
+        });
+        setTokens(parsedTokens);
+    };
 
     const getTokenAccounts = async () => {
       try{
@@ -104,7 +193,7 @@ const Profile = () => {
             {
               memcmp: {
                 offset: 32, // number of bytes
-                bytes: walletAddress, // base58 encoded string
+                bytes: publicAddress, // base58 encoded string
               },
             },
           ],
@@ -119,36 +208,37 @@ const Profile = () => {
         });
 
         setTokenCollection(sortedTokenAccounts);
-        console.log(sortedTokenAccounts);
+        //console.log(sortedTokenAccounts);
       } catch (error) {
         console.log(error);
       }
   }
 
   const { nfts, isLoading, error } = useWalletNfts({
-    publicAddress: walletAddress,
+    publicAddress: publicAddress,
     connection,
   });
 
-  console.log(nfts)
-
   const VerifiedTwitter = () => {
     return (
-      <a className="flex items-center w-max bg-twitter-blue text-white rounded-full text-xs font-semibold hover:opacity-75 hover:cursor-pointer" href={`https://twitter.com/${twitterUsername}`} target="_blank" rel="noopener">
-        @{twitterUsername}
+      <a className="flex items-center w-max bg-twitter-blue text-white rounded-full text-xs font-semibold hover:opacity-75 hover:cursor-pointer" href={`https://twitter.com/${twitterNameLookup}`} target="_blank" rel="noopener">
+        @{twitterNameLookup}
       </a>
     )
   }
 
-  const fetcher = url => fetch(url).then(r => r.json())
-  const { data } = useSWR(`https://api.helius.xyz/v0/addresses/${walletAddress}/transactions?api-key=ba739f74-3869-40bb-bfd3-3cfc4be8ef7c`, fetcher)
-
-  const portfolioItemTotal = tokenCollection.length + nfts.length + domainCollection.length;
+  const portfolioItemTotal = (tokenCollection.length + 1) + nfts.length;
 
   useEffect(() => {
-    getTokenAccounts();
+    loadSNSUsername();
     getSNSAccounts();
-  }, [publicKey])
+    getTwitterName();
+    getTokenAccounts();
+
+    if (connected){
+      router.push(`/profile/${base58PubKey}`);
+    }
+  }, [publicAddress]);
   
   // if (!publicKey) return <></>;
   // if (error === true) return <div>Have some error</div>;
@@ -164,7 +254,7 @@ const Profile = () => {
 
             <Navigation/>
 
-            <Container fluid>
+            <Container xl>
             <Grid.Container justify="center">
                     <Grid xs={0} sm={0} md={1.5} lg={1.5}>
                         <AppBar/>
@@ -180,20 +270,20 @@ const Profile = () => {
                                         <div className="grid grid-cols-2 grid-rows-1 items-center space-between">
                                           <div className="flex items-center">
                                             <img 
-                                              className="mr-4 w-24 h-24 rounded-full border-2 border-green-500"
+                                              className="mr-4 w-24 h-24 rounded-full"
                                               src="https://i.pravatar.cc/150?u=a042581f4e29026024d"/>
                                             <div>
                                             <Col>
                                                   <Row align="center">
-                                                    <span className="mr-2.5 text-3xl font-normal text-dracula">{bonfidaUsername ? bonfidaUsername + `.sol` : compactWalletAddress}</span>
+                                                    <span className="mr-2.5 text-3xl font-normal text-dracula">{bonfidaNameLookup ? bonfidaNameLookup + ".sol" : shortenedWalletAddress}</span>
                                                     <span onClick={copyAddress} className="flex items-center w-min bg-gray-200 text-dracula px-2.5 py-1 rounded-full text-xs font-semibold hover:opacity-80 hover:cursor-pointer">
-                                                      {compactWalletAddress}
+                                                      {shortenedWalletAddress}
                                                     </span>
                                                   </Row>
                                                   <Spacer y={0.5}/>
                                                   <Row>
-                                                    <a className="flex items-center w-min bg-twitter-blue text-white px-2.5 py-1 rounded-xl text-xs font-semibold hover:opacity-80 hover:cursor-pointer" href={`https://twitter.com/${twitterUsername}`} target="_blank" rel="noopener">
-                                                      {twitterUsername ? <VerifiedTwitter/> : <NonVerifiedTwitter/>}
+                                                    <a className="flex items-center w-min bg-twitter-blue text-white px-2.5 py-1 rounded-xl text-xs font-semibold hover:opacity-80 hover:cursor-pointer" href={`https://twitter.com/${twitterNameLookup}`} target="_blank" rel="noopener">
+                                                      {twitterNameLookup ? <VerifiedTwitter/> : <NonVerifiedTwitter/>}
                                                     </a>
                                                   </Row>
                                                   <Spacer y={0.5}/>
@@ -304,7 +394,7 @@ const Profile = () => {
                                                         expanded={true}
                                                         className="w-full h-full"
                                                         bordered
-                                                        title={<span className="text-normal font-semibold text-dracula">Coins ({tokenCollection.length})</span>}
+                                                        title={<span className="text-normal font-semibold text-dracula">Coins ({tokenCollection.length + 1})</span>}
                                                         arrowIcon={<FiPlusSquare/>}
                                                       >
                                                   <Grid.Container direction="column">
@@ -315,23 +405,23 @@ const Profile = () => {
                                                         <div className="rounded-xl hover:bg-gray-50 w-full h-full px-4">
                                                         <Row align="center">
                                                           <Col span={3}>
-                                                            <TokenIcon mint={account.account.data["parsed"]["info"]["mint"]}/>
+                                                            <TokenIcon mint={account.mint}/>
                                                           </Col>
                                                           <Col>
                                                             <p className="text-sm font-semibold">
-                                                              {<TokenName mint={account.account.data["parsed"]["info"]["mint"]}/> ? <TokenName mint={account.account.data["parsed"]["info"]["mint"]}/> : account.account.data["parsed"]["info"]["mint"]}
+                                                              {<TokenName mint={account.mint}/> ? <TokenName mint={account.mint}/> : account.mint}
                                                             </p>
                                                             <div className="text-dracula text-sm">
-                                                              {(account.account.data["parsed"]["info"]["tokenAmount"]["uiAmount"]).toFixed(4)}
-                                                              <span className="ml-1">{<TokenSymbol mint={account.account.data["parsed"]["info"]["mint"]}/> ? <TokenSymbol mint={account.account.data["parsed"]["info"]["mint"]}/> : account.account.data["parsed"]["info"]["mint"]}</span>
+                                                              {(account.amount) / LAMPORTS_PER_SOL}
+                                                              <span className="ml-1">{<TokenSymbol mint={account.mint}/> ? <TokenSymbol mint={account.mint}/> : account.mint}</span>
                                                             </div>
                                                           </Col>
                                                           <Col>
                                                             <span className="font-semibold text-sm">
-                                                              $<TokenPrice tokenAddress={(account.account.data["parsed"]["info"]["mint"])} sumAmount={(account.account.data["parsed"]["info"]["tokenAmount"]["uiAmount"])}/>
+                                                              {/* $<TokenTotalPrice tokenAddress={(account.mint)} sumAmount={(account.amount)}/> */}
                                                             </span>
                                                             <div className="text-dracula font-semibold text-sm">
-                                                              <TokenChange tokenAddress={(account.account.data["parsed"]["info"]["mint"])}/>
+                                                              {/* <TokenChange tokenAddress={(account.mint)}/> */}
                                                             </div>
                                                           </Col>
                                                         </Row>
@@ -350,13 +440,12 @@ const Profile = () => {
                                                         expanded={true}
                                                         className="w-full h-full"
                                                         bordered
-                                                        title={<span className="text-normal font-semibold text-dracula">Domains ({domainCollection.length})</span>}
+                                                        title={<span className="text-normal font-semibold text-dracula">Domains ()</span>}
                                                         arrowIcon={<FiPlusSquare/>}
                                                       >
                                                         <Grid.Container gap={2} direction="column">
-                                                          {domainCollection && domainCollection.length > 0 ? (
-                                                            domainCollection
-                                                            .map(domains => (
+                                                          {allSNSAccounts && allSNSAccounts.length > 0 ? (
+                                                            allSNSAccounts.map(domains => (
                                                               <Grid className="hover:bg-gray-50 rounded-xl h-full" xs={12}>
                                                                 <Row align="center">
                                                                   <Col span={1}>
@@ -364,7 +453,7 @@ const Profile = () => {
                                                                   </Col>
                                                                   <Col offset={1}>
                                                                     <span className="flex items-center text-sm text-dracula">
-                                                                      {domains.reverse}.sol
+                                                                      {domains}.sol
                                                                     </span>
                                                                   </Col>
                                                                 </Row>
@@ -402,32 +491,26 @@ const Profile = () => {
 
                                             {/* Activity Tab Panel */}
                                             <Tab.Panel>
-                                              <Grid.Container gap={2} direction="column">
-                                                {data && data.length > 0 ? (
-                                                  data
-                                                  .map(transactionHistory => (
-                                                    <Grid key={transactionHistory.timestamp} xs={12}>
-                                                      <div className="w-full flex items-center justify-center bg-gray-200 p-2 rounded-xl h-16 shadow-sm">
-                                                        <Grid.Container gap={2}>
-                                                          <Grid xs={3}>
-                                                            {transactionHistory.type}
-                                                          </Grid>
-                                                          <Grid className="text-xs" xs={6}>
+                                                <div className="grid grid-cols-1 auto-rows-auto gap-4">
+                                                  {data && data.length > 0 ? (
+                                                    data
+                                                    .map(transactionHistory => (
+                                                      <div className="p-3 border rounded-xl">
+                                                          <div className="flex items-center text-xs mb-2.5">
+                                                            <span className="p-1 rounded-full font-semibold bg-gray-200 text-dracula">{transactionHistory.type}</span>
+                                                            <span className="ml-2 p-1 rounded-full font-semibold bg-gray-200 text-dracula">{transactionHistory.source}</span>
+                                                          </div>
+                                                          <div>
                                                             {transactionHistory.description}
-                                                          </Grid>
-                                                          <Grid xs={3}>
-                                                            {transactionHistory.source}
-                                                          </Grid>
-                                                        </Grid.Container>
+                                                          </div>
                                                       </div>
-                                                    </Grid>
-                                                    ))
-                                                    ) : (
-                                                  <div className="flex justify-center">
-                                                    No transactions found.
-                                                  </div>
-                                                )}
-                                              </Grid.Container>
+                                                      ))
+                                                      ) : (
+                                                    <div className="flex justify-center border rounded-xl p-2">
+                                                      No transactions found.
+                                                    </div>
+                                                  )}
+                                                </div>
                                             </Tab.Panel>
 
                                           </Tab.Panels>

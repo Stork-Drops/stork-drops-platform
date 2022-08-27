@@ -45,3 +45,29 @@ export const useDomainsForUser = (user: any) => {
 
   return result;
 };
+
+// const getSNSAccounts = async () => {
+//   try{
+//       const domains = await getAllDomains(connection, formattedPublicKey);
+//       const registries = await NameRegistryState.retrieveBatch(connection, [
+//         ...domains,
+//       ]);
+//       const reverses = await performReverseLookupBatch(connection, [
+//         ...domains,
+//       ]);
+//       const _domainCollection: Result[] = [];
+//       for (let i = 0; i < domains.length; i++) {
+//         _domainCollection.push({
+//           pubkey: domains[i],
+//           registry: registries[i]!,
+//           reverse: reverses[i]!,
+//         });
+//       }
+//       if (mounted.current) {
+//         setDomainCollection(_domainCollection)
+//         mounted.current = false;
+//       }
+//   } catch (error) {
+//     console.log(error);
+//   }
+//}

@@ -8,6 +8,7 @@ import SolanaTVLChart from '@components/DeFi/TVLChart';
 import AppBar from "../../components/AppBar";
 import Navigation from '@components/Navigation';
 import Footer from '@components/Footer';
+import { BiCoin } from "react-icons/bi";
 
 const DefiPage = () => {
     return(
@@ -20,31 +21,27 @@ const DefiPage = () => {
 
             <Navigation/>
 
-            <Container fluid>
+            <Container xl>
               <Grid.Container justify="center"> 
                 <Grid xs={0} sm={0} md={1.5} lg={1.5}>
                   <AppBar/>
                 </Grid>
 
-                  <Grid className="p-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
-                    <div className="grid grid-cols-1 grid-rows-auto md:grid-cols-2 md:grid-rows-1 gap-4 items-center">
-                      <div>
-                        <h1 className="flex items-center text-6xl font-semibold">DeFi</h1>
-                        <p className="text-lg my-5">
-                          While the ecosystem is still young, there are many protocols out there <br/>to let your SOL or any SPL token work for you.
-                        </p>
-                      </div>
+                <Grid className="p-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
+                    <div className="">
+                        <h1 className=" text-4xl md:text-7xl font-semibold">
+                          DeFi
+                        </h1>
+                        <p className="text-sm">Decentralized Finance.</p>
                     </div>
 
                     <div className="my-5">
                       <SolanaTVLChart/>
                     </div>
 
-                    <div>
-                      <DefiList/>
-                    </div>
-                  </Grid>
-                </Grid.Container>
+                    <DefiList/>
+                </Grid>
+              </Grid.Container>
             </Container>
 
             <Footer/>

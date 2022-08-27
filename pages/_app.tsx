@@ -27,18 +27,18 @@ import 'react-loading-skeleton/dist/skeleton.css'
 require('../styles/globals.css');
 require('../styles/wallet-adapter.css');
 
-// Call `createTheme` and pass your custom values
-const lightTheme = createTheme({
-    type: 'light',
-    theme: {
-    }
-  })
+// // Call `createTheme` and pass your custom values
+// const lightTheme = createTheme({
+//     type: 'light',
+//     theme: {
+//     }
+//   })
   
-const darkTheme = createTheme({
-    type: 'dark',
-    theme: {
-    }
-})
+// const darkTheme = createTheme({
+//     type: 'dark',
+//     theme: {
+//     }
+// })
 
 const App: FC<AppProps> = ({ Component, pageProps }) => {
     // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
@@ -77,13 +77,6 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
     // // }, [])
 
     return (
-        <NextThemesProvider
-                defaultTheme="light"
-                attribute="class"
-                value={{
-                light: lightTheme.className,
-                dark: darkTheme.className
-            }}>
                 <NextUIProvider>
                 <MusicProvider>
                     <AudioPlayerProvider>
@@ -100,7 +93,6 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                     </AudioPlayerProvider>
                 </MusicProvider>
                 </NextUIProvider>
-        </NextThemesProvider>
     );
 };
 

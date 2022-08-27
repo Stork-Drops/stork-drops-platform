@@ -3,7 +3,7 @@ import useSWR from "swr";
 import sumBy from 'lodash/sumBy'
 import { Connection } from '@solana/web3.js';
 import { BsCircleFill } from "react-icons/bs";
-import { Tooltip } from '@nextui-org/react'
+import { Tooltip, Loading } from '@nextui-org/react'
 
 const tpsAlertThreshold = 1000
 const tpsWarningThreshold = 1300
@@ -50,12 +50,12 @@ const NetworkStatus = () => {
                 placement="topStart"
                 className="" 
                 content={
-                    <div className="">
+                    <div className="w-full">
                         <p>The most recent slot number on the network.</p>
                     </div>
                 }
                 hideArrow>
-                <div className="flex items-center justify-between max-w-fit">
+                <div className="flex items-center justify-between w-fit">
                     <BsCircleFill 
                         style={{
                             marginRight: "0.2rem",
@@ -64,11 +64,11 @@ const NetworkStatus = () => {
                         className={status}
                     />
                     <div 
-                    style={{
-                        fontSize: "0.7rem",
-                    }}
-                    className={status}>
-                        {slot ? slot : "...."}
+                        style={{
+                            fontSize: "0.7rem",
+                        }}
+                        className={status}>
+                        {slot ? slot : <Loading/>}
                     </div>
                 </div>
             </Tooltip>

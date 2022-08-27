@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useMemo } from 'react'
 import Link from 'next/link';
 import { Grid, Tooltip, Collapse, Text } from '@nextui-org/react';
 import { useRouter } from 'next/router';
@@ -8,11 +8,14 @@ import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import { Disclosure } from '@headlessui/react'
 import { HiChevronDown } from "react-icons/hi";
 import MusicPlayer from '@components/MusicPlayer';
+import { ProfileContext } from '@context/ProfileContext';
 
 const AppBar = () => {
     const router = useRouter();
-    const { wallet, disconnect } = useWallet();
+    const { publicKey, wallet, disconnect } = useWallet();
     const { connected } = useConnection();
+
+    const base58PubKey = useMemo(() => publicKey?.toBase58(), [publicKey]);
 
     return(
         <>
@@ -71,8 +74,8 @@ const AppBar = () => {
                                         </>
                                     )}
                             </Disclosure>
-                            <Link href="/profile">
-                                <a className={router.pathname == "/profile" ? "w-full bg_sunrise flex items-center space-between text-white p-2 rounded-xl" : "flex items-center space-between text-gray-500 w-full p-2"}>
+                            <Link href={`/profile/` + base58PubKey}>
+                                <a className={router.pathname == "/profile/" ? "w-full bg_sunrise flex items-center space-between text-white p-2 rounded-xl" : "flex items-center space-between text-gray-500 w-full p-2"}>
                                     <React.Fragment>
                                         <FiUser className="mr-2 w-5 h-5"/>
                                         <span className="font-semibold text-sm">Profile</span>

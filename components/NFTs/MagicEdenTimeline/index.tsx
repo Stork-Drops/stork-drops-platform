@@ -84,7 +84,7 @@ const MagicEdenTimeLine = () => {
         <div className="grid grid-cols-4 grid-rows-1 w-full gap-4">
             {data ? data
             .map((event) => (
-                <a href="https://solcan.io/${event.signature}" key={event.signature} className="w-full p-2 rounded-xl hover:shadow-md">
+                <a href={`https://solscan.io/tx/` + event.signature} key={event.signature} className="w-full p-2 rounded-xl hover:shadow-md">
                     <div className="flex items-center justify-evenly">
                             <img
                                 className="w-14 h-14 rounded-xl mr-2" 

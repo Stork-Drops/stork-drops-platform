@@ -18,7 +18,7 @@ const DefiPage = () => {
 
             <Navigation/>
 
-            <Container fluid>
+            <Container xl>
               <Grid.Container justify="center"> 
                 <Grid xs={0} sm={0} md={1.5} lg={1.5}>
                   <AppBar/>
@@ -28,7 +28,7 @@ const DefiPage = () => {
                     <div className="grid grid-cols-1 grid-rows-auto md:grid-cols-2 md:grid-rows-1 gap-4 items-center">
                       <div>
                         <h1 className="flex items-center text-6xl font-semibold">NFTs</h1>
-                        <p className="text-lg my-5">
+                        <p className="text-sm my-5">
                           The Solana NFT ecosystem is bustling with new collections each and every day.
                           Explore top collections and find a community that aligns with your interests.
                         </p>

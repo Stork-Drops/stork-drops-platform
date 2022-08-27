@@ -2,6 +2,20 @@ import BN from "bn.js";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import moment from 'moment'
 
+export function formatUSD(number) {
+  return number.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+}
+
+export function formatAbbreviationNumber(num) {
+  if (num >= 1000000000) {
+      return `${formatDollar(num/1000000000)}B`
+  } else if (num >= 1000000) {
+      return `${formatDollar(num/1000000)}M`
+  } else {
+      return `${formatDollar(num)}`
+  }
+}
+
 export function formatDollar(num) {
     var p = num.toFixed(2).split(".");
     return ["$", p[0].split("").reverse().reduce(function(acc, num, i) {
@@ -35,8 +49,9 @@ export function lamportsToSolString(lamports: any): string {
     return lamportsToSol(lamports).toString();
 }
 
-export function formatFourDigitWalletAddress(address: string): string {
-    return address.slice(0, 4) + "..." + address.slice(address.length - 4);
+// function that takes in a wallet address as a string and returns the first 4 and last 4 characters of the address 
+export function formatWalletAddress(address: any): any {
+    return address.slice(0, 4) + "..." + address.slice(-4);
 }
 
 export const formatTimeAgo = (tickFormat) => {

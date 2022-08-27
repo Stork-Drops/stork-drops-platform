@@ -109,11 +109,11 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
 
     return (
         <>
-            <Grid.Container gap={1} alignItems='center' direction='row'>
-                <Grid>
+            <div className="flex justify-between items-center">
+                <div className="hidden sm:block mr-5">
                     <MusicPlayer/>
-                </Grid>
-                <Grid>
+                </div>
+                <div>
                 <Dropdown placement="bottom-right">
                     <Dropdown.Trigger>
                         <User
@@ -179,8 +179,8 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
                         </Dropdown.Item>
                     </Dropdown.Menu>
                     </Dropdown>
-                </Grid>
-            </Grid.Container>
+                </div>
+            </div>
         </>
     );
 };
