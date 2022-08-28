@@ -4,6 +4,7 @@
 
 ## TODO
 * Defi Detail Pages [x]
+* ENV Variables & Security Combthrough
 * DAOs Detail Pages
 * SQUADS Multisig Integration
 * NFT Discovery powered by Hyperspace
