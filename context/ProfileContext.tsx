@@ -1,6 +1,5 @@
 import React, { useState, useMemo, createContext, useEffect, Children } from 'react';
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
-import { fetchSolanaNameServiceName } from "../utils/name-service"
 
 const ProfileContext = React.createContext(null);
 

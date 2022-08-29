@@ -232,7 +232,7 @@ const DAOPage = () => {
                                 <span className="mr-1 p-1.5 border-dashed border-2 rounded-xl">Unchartered</span>
                               </Tooltip>
                               DAOs 
-                              <span className="mx-2 text-2xl bg-gray-200 py-1 px-2 h-min rounded-xl tracking-tighter">{uncharteredDaoList.length}/{allRealms.length}</span>
+                              <span className="mx-2 text-2xl bg-gray-200 py-1 px-2 h-min rounded-xl tracking-tighter">{uncharteredDaoList.length}</span>
                             </h2>
                           </div>
                         </Row>

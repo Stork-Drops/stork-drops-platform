@@ -20,7 +20,8 @@ import { AudioPlayerProvider } from "react-use-audio-player"
 import { ProfileProvider } from "../context/ProfileContext"
 import { MusicProvider } from "../context/MusicContext"
 import Background from "../components/Background"
-import MusicPlayer from "@components/MusicPlayer";
+import { useWallet, useConnection } from '@solana/wallet-adapter-react';
+import Welcome from '@components/Welcome'
 import 'react-loading-skeleton/dist/skeleton.css'
 
 // Use require instead of import since order matters
@@ -41,6 +42,8 @@ require('../styles/wallet-adapter.css');
 // })
 
 const App: FC<AppProps> = ({ Component, pageProps }) => {
+    const { connected, publicKey } = useWallet();
+    
     // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
     const network = WalletAdapterNetwork.Mainnet;
 
@@ -77,22 +80,23 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
     // // }, [])
 
     return (
-                <NextUIProvider>
+        <>
+            <NextUIProvider>
                 <MusicProvider>
                     <AudioPlayerProvider>
                             <ConnectionProvider endpoint={endpoint}>
                                 <WalletProvider wallets={wallets} autoConnect>
                                     <ProfileProvider>
                                         <WalletModalProvider>
-                                                <Background/>
-                                                <Component {...pageProps} />
+                                            <Component {...pageProps} /> 
                                         </WalletModalProvider>
                                     </ProfileProvider>
                                 </WalletProvider>
                             </ConnectionProvider>
                     </AudioPlayerProvider>
                 </MusicProvider>
-                </NextUIProvider>
+            </NextUIProvider>
+         </>
     );
 };
 

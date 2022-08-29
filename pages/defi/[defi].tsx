@@ -12,16 +12,30 @@ import { formatWalletAddress, formatDollar, formatAbbreviationNumber }  from '@u
 import axios from 'axios'
 import useSWR from 'swr'
 
+
+export async function getServerSideProps(context) {
+    const { defi } = context.query;
+    const res = await fetch(`https://api.coingecko.com/api/v3/coins/solana/contract/${defi}`);
+    const data = await res.json();
+  
+    console.log(`Fetched place: ${data.name}`);
+    return { 
+        props: { 
+            data 
+        } 
+    };
+  }
+
 //Set up fetcher for SWR
 const fetcher = url => axios.get(url).then(res => res.data) 
 
 const DefiDetailPage = () => {
-    const router = useRouter()
-    const { defi } = router.query
-    const mintAddress = defi;
+    const router = useRouter();
+    const { defi  } = router.query;
+    const mintAddress = defi as string;
 
-    const { data } = useSWR(`https://api.coingecko.com/api/v3/coins/solana/contract/${defi}`, fetcher);
-    console.log(data);
+    const { data, error } = useSWR(`https://api.coingecko.com/api/v3/coins/solana/contract/${mintAddress}`, fetcher);
+    if (error) return <div>Failed to load</div>
 
     return(
         <>
@@ -68,22 +82,22 @@ const DefiDetailPage = () => {
                                     <span className="capitalize text-xs">USD</span>
                                 </div>
                                 <div className="ml-2 text-base">
-                                    <span className={`${data?.market_data.price_change_24h_in_currency.usd < 0 ? "text-rose-400" : "text-emerald-400"}`}>
-                                        {data?.market_data.price_change_24h_in_currency.usd < 0 ? "-" : "+"}({(data?.market_data.price_change_24h_in_currency.usd).toFixed(4)})
+                                    <span className={`${data?.market_data?.price_change_24h_in_currency?.usd < 0 ? "text-rose-400" : "text-emerald-400"}`}>
+                                        {data?.market_data?.price_change_24h_in_currency?.usd < 0 ? "-" : "+"}({(data?.market_data?.price_change_24h_in_currency?.usd)?.toFixed(4)})
                                     </span>
                                     <span className={`${data?.market_data.market_cap_change_percentage_24h < 0 ? "text-rose-400" : "text-emerald-400"}`}>
-                                        ({(data?.market_data.market_cap_change_percentage_24h).toFixed(2)}%)
+                                        ({(data?.market_data.market_cap_change_percentage_24h)?.toFixed(2)}%)
                                     </span>
                                 </div>
                             </div>
                             <Spacer y={0.5}/>
                             <div className="grid grid-cols-3 items-end">
                                 <div>
-                                    <p>{formatAbbreviationNumber(data?.market_data?.market_cap.usd)}</p>
+                                    <p>{formatAbbreviationNumber(data?.market_data?.market_cap?.usd)}</p>
                                     <span className="uppercase text-xs font-semibold">Market Cap</span>
                                 </div>
                                 <div>
-                                    <p>{formatDollar(data?.market_data?.market_cap_change_24h_in_currency.usd)}</p>
+                                    <p>{formatDollar(data?.market_data?.market_cap_change_24h_in_currency?.usd)}</p>
                                     <span className="uppercase text-xs font-semibold">24H Trading Volume</span>
                                 </div>
                                 <div>

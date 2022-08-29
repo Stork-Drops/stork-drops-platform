@@ -3,7 +3,7 @@ import React from "react"
 const Background = () => {
     return(
         <>
-            <div className="bg__red">
+            <div className="bg_sunrise h-screen">
 
             </div>
         </>
