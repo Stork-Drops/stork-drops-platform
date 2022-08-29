@@ -3,6 +3,7 @@
 ## @storkdrops_
 
 ## TODO
+* Fix Profile Wallet + Domains 
 * Defi Detail Pages [x]
 * ENV Variables & Security Combthrough
 * DAOs Detail Pages
