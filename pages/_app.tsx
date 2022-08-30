@@ -14,7 +14,7 @@ import {
     TorusWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
 import { AppProps } from 'next/app';
-import React, { FC, useMemo } from 'react';
+import React, { FC, useMemo, useEffect } from 'react';
 import { SWRConfig } from 'swr'
 import { AudioPlayerProvider } from "react-use-audio-player"
 import { ProfileProvider } from "../context/ProfileContext"
@@ -22,6 +22,7 @@ import { MusicProvider } from "../context/MusicContext"
 import Background from "../components/Background"
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import Welcome from '@components/Welcome'
+import { GoogleAnalytics } from "nextjs-google-analytics";
 import 'react-loading-skeleton/dist/skeleton.css'
 
 // Use require instead of import since order matters
@@ -41,8 +42,16 @@ require('../styles/wallet-adapter.css');
 //     }
 // })
 
+const UnauthenticatedView = () => {
+    return (
+        <>
+
+        </>
+    )
+}
+
 const App: FC<AppProps> = ({ Component, pageProps }) => {
-    const { connected, publicKey } = useWallet();
+    const { connected, wallet } = useWallet();
     
     // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
     const network = WalletAdapterNetwork.Mainnet;
@@ -75,9 +84,6 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
     //     chainRef: "", // from jiayi: not needed + can pass empty string instead
     //   });
 
-    // // useEffect(() => {
-    // //     cyberConnect();
-    // // }, [])
 
     return (
         <>
@@ -88,7 +94,8 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                                 <WalletProvider wallets={wallets} autoConnect>
                                     <ProfileProvider>
                                         <WalletModalProvider>
-                                            <Component {...pageProps} /> 
+                                                <GoogleAnalytics trackPageViews />
+                                                <Component {...pageProps} />
                                         </WalletModalProvider>
                                     </ProfileProvider>
                                 </WalletProvider>

@@ -9,9 +9,12 @@ import { ProfileContext } from "../context/ProfileContext"
 import MarketCapFeed from "../components/MarketCapFeed"
 import Discovery from "../components/Discovery"
 import Footer from "@components/Footer"
+import { useWallet } from '@solana/wallet-adapter-react';
+import Welcome from '@components/Welcome';
 
 const Home = () => {
     const { bonfidaUsername } = useContext(ProfileContext);
+    const { connected } = useWallet();
     
     const [dateState, setDateState] = useState(new Date());
 
@@ -22,7 +25,7 @@ const Home = () => {
     }, []);
 
     return (
-        <div>
+        <>
             <Head>
                 <title>Stork Drops - Airdrops. Whitelists. Alpha. One Social Platform.</title>
                 <meta name="description" content="What if we assembled a group of people to buy a futbol club?" />
@@ -53,7 +56,7 @@ const Home = () => {
                                             hour12: true,
                                         })}.
                                     </p>
-                                    <p className="text-normal font-normal text-gray-400">Here's what's new in the ecosystem.</p>
+                                    <p className="text-normal font-normal text-gray-400">Here's what's new.</p>
                                 </div>
                                 <div className="flex justify-end">
                                     <MarketCapFeed/>  
@@ -67,7 +70,7 @@ const Home = () => {
                 </Grid.Container>
             </Container>
             <Footer/>
-        </div>
+        </>
     );
 };
 

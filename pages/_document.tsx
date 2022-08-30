@@ -13,7 +13,20 @@ class MyDocument extends Document {
   render() {
     return (
       <Html lang="en">
-        <Head>{CssBaseline.flush()}</Head>
+        <Head>
+          {CssBaseline.flush()}
+          <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8FNBSTHX9"></script>
+          <script
+            async
+            dangerouslySetInnerHTML={{
+              __html: `window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+            
+              gtag('config', 'G-F8FNBSTHX9');`
+            }}
+          />
+        </Head>
         <body>
           <Main />
           <NextScript />

@@ -13,7 +13,7 @@ import { ProfileContext } from '@context/ProfileContext';
 const AppBar = () => {
     const router = useRouter();
     const { publicKey, wallet, disconnect } = useWallet();
-    const { connected } = useConnection();
+    const { connected } = useWallet();
 
     const base58PubKey = useMemo(() => publicKey?.toBase58(), [publicKey]);
 
@@ -74,14 +74,19 @@ const AppBar = () => {
                                         </>
                                     )}
                             </Disclosure>
-                            <Link href={`/profile/` + base58PubKey}>
-                                <a className={router.pathname == "/profile/" ? "w-full bg_sunrise flex items-center space-between text-white p-2 rounded-xl" : "flex items-center space-between text-gray-500 w-full p-2"}>
-                                    <React.Fragment>
-                                        <FiUser className="mr-2 w-5 h-5"/>
-                                        <span className="font-semibold text-sm">Profile</span>
-                                    </React.Fragment>
-                                </a>
-                            </Link>
+                            { connected 
+                                ? 
+                                <Link href={`/profile/` + base58PubKey}>
+                                    <a className={router.pathname == "/profile/" ? "w-full bg_sunrise flex items-center space-between text-white p-2 rounded-xl" : "flex items-center space-between text-gray-500 w-full p-2"}>
+                                        <React.Fragment>
+                                            <FiUser className="mr-2 w-5 h-5"/>
+                                            <span className="font-semibold text-sm">Profile</span>
+                                        </React.Fragment>
+                                    </a>
+                                </Link>
+                                : 
+                                null 
+                            }
                             <Link href="/dyor">
                                 <a className={router.pathname == "/dyor" ? "w-full bg_sunrise flex items-center space-between text-white p-2 rounded-xl" : "flex items-center space-between text-gray-500 w-full p-2"}>
                                     <React.Fragment>

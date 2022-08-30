@@ -3,7 +3,7 @@ import { useConnection } from '@solana/wallet-adapter-react';
 import Link from "next/link"
 import Navigation from "../../components/Navigation"
 import Head from 'next/head'
-import { Container, Grid, Row, Avatar, Col, Spacer, Tooltip, Input } from '@nextui-org/react'
+import { Container, Grid, Row, Avatar, Col, Spacer, Tooltip, Input, Loading } from '@nextui-org/react'
 import { getRealms } from '@solana/spl-governance';
 import { Connection, PublicKey } from '@solana/web3.js';
 import AppBar from "../../components/AppBar";
@@ -78,7 +78,7 @@ const DAOPage = () => {
                       <Grid xs={12} sm={12} md={6} lg={6}>
                         <Col>
                           <div className="mb-5 text-dracula">
-                          <h2 className="flex items-center text-6xl font-semibold">DAOs <span className="mx-2 text-2xl bg-gray-200 py-1 px-2 h-min rounded-xl tracking-tighter">{certifiedRealms.length + uncharteredDaoList.length}</span></h2>
+                          <h2 className="flex items-center text-6xl font-semibold">DAOs <span className="mx-2 text-2xl bg-gray-200 py-1 px-2 h-min rounded-xl tracking-tighter">{certifiedRealms.length + uncharteredDaoList.length ? certifiedRealms.length + uncharteredDaoList.length : <Loading/>}</span></h2>
                           <p className="text-sm">Decentralized Autonomous Organizations.</p>
                           <div className="p-2">
                             <Avatar.Group count={allRealms.length - 6}>
@@ -259,7 +259,7 @@ const DAOPage = () => {
                             </Grid>
                             ))
                           ) : (
-                            <h1>No results found!</h1>
+                            <Loading/>
                           )}
                         </Grid.Container>
                         </Grid>

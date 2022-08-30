@@ -2,7 +2,10 @@ import React, { useState, useMemo, createContext, useEffect, Children } from 're
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import { fetchSolanaNameServiceName } from "../utils/name-service"
 
-const MusicContext = React.createContext(null);
+const MusicContext = React.createContext({
+	songIndex: 0,
+	setSongIndex: (songIndex: any) => {},
+});
 
 function MusicProvider({ children }){
     const [songIndex, setSongIndex] = useState(0)

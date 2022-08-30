@@ -1,7 +1,22 @@
 import React, { useState, useMemo, createContext, useEffect, Children } from 'react';
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 
-const ProfileContext = React.createContext(null);
+const ProfileContext = React.createContext({
+	walletAddress: "",
+	setWalletAddress: (walletAddress: string) => {},
+	bonfidaUsername: "",
+	setBonfidaUsername: (bonfidaUsername: string) => {},
+	compactWalletAddress: "",
+	setCompactWalletAddress: (compactWalletAddress: any) => {},
+	twitterUsername: "",
+	setTwitterUsername: (twitterUsername: string) => {},
+	domainCollection: [],
+	setDomainCollection: (domainCollection: any) => {},
+	nftCollection: [],
+	setNFTCollection: (nftCollection: any) => {},
+	tokenCollection: [],
+	setTokenCollection: (tokenCollection: any) => {}
+});
 
 function ProfileProvider({ children }){
 	const { connection } = useConnection();

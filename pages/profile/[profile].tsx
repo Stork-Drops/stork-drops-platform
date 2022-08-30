@@ -238,6 +238,8 @@ const Profile = () => {
 
     if (connected){
       router.push(`/profile/${base58PubKey}`);
+    } else {
+      router.push(`/`);
     }
   }, [publicAddress]);
   
