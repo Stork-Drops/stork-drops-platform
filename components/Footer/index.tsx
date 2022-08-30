@@ -6,7 +6,7 @@ import NetworkStatus from '@components/NetworkStatus';
 
 const Footer = () => {
     return(
-        <div className="border-t border-gray-200 py-2.5">
+        <div className="hidden md:block border-t border-gray-200 py-2.5">
             <Container fluid>
                 <Grid.Container direction="row" alignItems="center" justify="space-between">
                     <Grid>

@@ -117,7 +117,7 @@ const DAOPage = () => {
                         <Grid.Container gap={1}>
                         {searchInput.length > 1 ? (
                             filteredResults.map((verifiedRealms) => (
-                                <Grid alignContent='flex-end' id={verifiedRealms.symbol} key={verifiedRealms.displayName} xs={4}>
+                                <Grid alignContent='flex-end' id={verifiedRealms.symbol} key={verifiedRealms.displayName} xs={12} sm={12} md={4} lg={4}>
                                   <div className="w-full border border-gray-200 rounded-xl p-1 shadow-md">
                                     <Grid.Container gap={1} justify="flex-end" alignItems="center" alignContent='space-around'>
                                       <Grid xs={2}>
@@ -139,7 +139,7 @@ const DAOPage = () => {
                                         <Col>
                                           <Row justify='flex-end'>
                                             {verifiedRealms.twitter ? 
-                                              <a className="text-twitter-blue text-xs underline">
+                                              <a key={verifiedRealms.twitter} target="_blank" href={`https://twitter.com/${verifiedRealms.twitter}`} className="text-twitter-blue text-xs underline">
                                                 {verifiedRealms.twitter}
                                               </a>
                                               : null
@@ -148,7 +148,7 @@ const DAOPage = () => {
                                           <Spacer y={0.5}/>
                                           <Row justify='flex-end'>
                                             {verifiedRealms.website ? 
-                                              <a target="_blank" href={verifiedRealms.website} className="text-dracula text-xs underline">
+                                              <a key={verifiedRealms.website} target="_blank" href={verifiedRealms.website} className="text-dracula text-xs underline">
                                                 View Website
                                               </a>
                                               : null
@@ -190,7 +190,7 @@ const DAOPage = () => {
                                       <Col>
                                         <Row justify='flex-end'>
                                           {verifiedRealms.twitter ? 
-                                            <a className="text-twitter-blue text-xs underline">
+                                            <a key={verifiedRealms.twitter} target="_blank" href={`https://twitter.com/${verifiedRealms.twitter}`} className="text-twitter-blue text-xs underline">
                                               {verifiedRealms.twitter}
                                             </a>
                                             : null
@@ -199,7 +199,7 @@ const DAOPage = () => {
                                         <Spacer y={0.5}/>
                                         <Row justify='flex-end'>
                                           {verifiedRealms.website ? 
-                                            <a target="_blank" href={verifiedRealms.website} className="text-dracula text-xs underline">
+                                            <a key={verifiedRealms.twitter} target="_blank" href={verifiedRealms.website} className="text-dracula text-xs underline">
                                               View Website
                                             </a>
                                             : null

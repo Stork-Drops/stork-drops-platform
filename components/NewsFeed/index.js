@@ -108,7 +108,7 @@ const NewsFeed = () => {
         <div>
           <span className="px-2 py-2 text-xs font-semibold text-white bg_sunrise rounded-xl">Crypto News</span>
         </div>
-        <div className="my-5 grid gap-4 items-center grid-rows-1 grid-cols-3">
+        <div className="my-5 grid gap-4 items-center auto-rows-auto grid-cols-1 md:grid-rows-1 md:grid-cols-3">
           <div>
             <CoinTelegraph/>
           </div>

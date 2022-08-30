@@ -81,11 +81,11 @@ const MagicEdenTimeLine = () => {
     }
 
     return (
-        <div className="grid grid-cols-4 grid-rows-1 w-full gap-4">
+        <div className="grid grid-cols-1 auto-rows-auto md:grid-cols-4 md:grid-rows-1 gap-2">
             {data ? data
             .map((event) => (
-                <a href={`https://solscan.io/tx/` + event.signature} key={event.signature} className="w-full p-2 rounded-xl hover:shadow-md">
-                    <div className="flex items-center justify-evenly">
+                <a href={`https://solscan.io/tx/` + event.signature} key={event.signature} className="w-full p-2 border rounded-xl hover:shadow-md">
+                    <div className="flex items-center justify-between w-full">
                             <img
                                 className="w-14 h-14 rounded-xl mr-2" 
                                 src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" 
