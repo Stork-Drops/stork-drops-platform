@@ -1,3 +1,4 @@
+import { NextSeo } from 'next-seo';
 import React, { useEffect, useState, useMemo } from 'react'
 import { useConnection } from '@solana/wallet-adapter-react';
 import Link from "next/link"
@@ -13,11 +14,23 @@ import { BiCoin } from "react-icons/bi";
 const DefiPage = () => {
     return(
         <>
-            <Head>
-                <title>Stork Drops - Airdrops. Whitelists. Alpha. One Social Platform.</title>
-                <meta name="description" content="What if we assembled a group of people to buy a futbol club?" />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+            <NextSeo
+                title="Explore Solana Defi - Learn more about Solana protocols, find the best yields, and swap tokens."
+                description="Stork Drops is creating a platfrom to explore the Solana ecosystem, connect with others, and collect unique drops."
+                openGraph={{
+                    title: 'Explore Solana Defi - Learn more about Solana protocols, find the best yields, and swap tokens.',
+                    description: 'Stork Drops is creating a platfrom to explore the Solana ecosystem, connect with others, and collect unique drops.',
+                    images: [
+                    {
+                        url: '/logos/og-banner.png',
+                        width: 800,
+                        height: 400,
+                        alt: 'Stork Drops Banner',
+                        type: 'image/png',
+                    },
+                    ],
+                }}
+            />
 
             <Navigation/>
 

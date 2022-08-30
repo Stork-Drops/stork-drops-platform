@@ -1,3 +1,4 @@
+import { DefaultSeo } from 'next-seo';
 import { createTheme, NextUIProvider } from "@nextui-org/react"
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
@@ -110,6 +111,19 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                                 <WalletProvider wallets={wallets} autoConnect>
                                     <ProfileProvider>
                                         <WalletModalProvider>
+                                                <DefaultSeo      
+                                                    openGraph={{
+                                                        type: 'website',
+                                                        locale: 'en_US',
+                                                        url: 'https://beta.storkdrops.xyz',
+                                                        site_name: 'Stork Drops',
+                                                    }}
+                                                    twitter={{
+                                                        handle: '@storkdrops_',
+                                                        site: '@storkdrops_',
+                                                        cardType: 'summary_large_image',
+                                                    }}
+                                                />
                                                 {/* Global Site Tag (gtag.js) - Google Analytics */}
                                                 <Script
                                                     strategy="afterInteractive"

@@ -1,3 +1,4 @@
+import { NextSeo } from 'next-seo';
 import React, { useEffect, useState, useMemo } from 'react'
 import Navigation from "../components/Navigation"
 import AppBar from "../components/AppBar"
@@ -47,11 +48,23 @@ const Dropzone = ({ cryptoProjects }) => {
 
     return(
         <div>
-            <Head>
-                <title>Stork Drops - Airdrops. Whitelists. Alpha. One Social Platform.</title>
-                <meta name="description" content="What if we assembled a group of people to buy a futbol club?" />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+            <NextSeo
+                title="DYOR - Community-sourced alpha. What could go wrong?"
+                description="Stork Drops is creating a platfrom to explore the Solana ecosystem, connect with others, and collect unique drops."
+                openGraph={{
+                    title: 'DYOR - Community-sourced alpha. What could go wrong?',
+                    description: 'Stork Drops is creating a platfrom to explore the Solana ecosystem, connect with others, and collect unique drops.',
+                    images: [
+                    {
+                        url: '/logos/og-banner.png',
+                        width: 800,
+                        height: 400,
+                        alt: 'Stork Drops Banner',
+                        type: 'image/png',
+                    },
+                    ],
+                }}
+            />
 
             <Navigation/>
 

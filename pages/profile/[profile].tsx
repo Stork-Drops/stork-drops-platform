@@ -1,3 +1,4 @@
+import { NextSeo } from 'next-seo';
 import React, { useEffect, useState, useContext, useCallback, useRef, useMemo } from "react"
 import { useRouter } from 'next/router'
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
@@ -249,11 +250,23 @@ const Profile = () => {
 
     return (
         <>
-            <Head>
-                <title>Stork Drops - Airdrops. Whitelists. Alpha. One Social Platform.</title>
-                <meta name="description" content="Social meets degeneracy." />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+            <NextSeo
+                title="My Solana Profile - Track your Solana NFTs, tokens, and journey across the ecosystem."
+                description="Stork Drops is creating a platfrom to explore the Solana ecosystem, connect with others, and collect unique drops."
+                openGraph={{
+                    title: 'My Solana Profile - Track your Solana NFTs, tokens, and journey across the ecosystem.',
+                    description: 'Stork Drops is creating a platfrom to explore the Solana ecosystem, connect with others, and collect unique drops.',
+                    images: [
+                    {
+                        url: '/logos/og-banner.png',
+                        width: 800,
+                        height: 400,
+                        alt: 'Stork Drops Banner',
+                        type: 'image/png',
+                    },
+                    ],
+                }}
+            />
 
             <Navigation/>
 

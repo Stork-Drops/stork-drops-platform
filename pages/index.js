@@ -1,3 +1,4 @@
+import { NextSeo } from 'next-seo';
 import React, { useContext, useState, useEffect } from "react"
 import Head from 'next/head';
 import Navigation from "../components/Navigation"
@@ -26,11 +27,23 @@ const Home = () => {
 
     return (
         <>
-            <Head>
-                <title>Stork Drops - Airdrops. Whitelists. Alpha. One Social Platform.</title>
-                <meta name="description" content="What if we assembled a group of people to buy a futbol club?" />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+            <NextSeo
+                title="Stork Drops Home - Learn more about the Solana ecosystem, dig into crypto news, and more."
+                description="Stork Drops is creating a platfrom to explore the Solana ecosystem, connect with others, and collect unique drops."
+                openGraph={{
+                    title: 'Stork Drops Home - Learn more about the Solana ecosystem, dig into crypto news, and more.',
+                    description: 'Stork Drops is creating a platfrom to explore the Solana ecosystem, connect with others, and collect unique drops.',
+                    images: [
+                    {
+                        url: '/logos/og-banner.png',
+                        width: 800,
+                        height: 400,
+                        alt: 'Stork Drops Banner',
+                        type: 'image/png',
+                    },
+                    ],
+                }}
+            />
 
             <Navigation/>
 

@@ -1,3 +1,4 @@
+import { NextSeo } from 'next-seo';
 import React, { useEffect, useState, useMemo } from 'react'
 import { useConnection } from '@solana/wallet-adapter-react';
 import Link from "next/link"
@@ -58,11 +59,23 @@ const DAOPage = () => {
 
     return(
         <>
-            <Head>
-                <title>Stork Drops - Airdrops. Whitelists. Alpha. One Social Platform.</title>
-                <meta name="description" content="What if we assembled a group of people to buy a futbol club?" />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+            <NextSeo
+                title="Explore DAOs - Learn more about Solana DAOs, view their vault and join a community that interests you."
+                description="Stork Drops is creating a platfrom to explore the Solana ecosystem, connect with others, and collect unique drops."
+                openGraph={{
+                    title: 'Explore DAOs - Learn more about Solana DAOs, view their vault and join a community that interests you.',
+                    description: 'Stork Drops is creating a platfrom to explore the Solana ecosystem, connect with others, and collect unique drops.',
+                    images: [
+                    {
+                        url: '/logos/og-banner.png',
+                        width: 800,
+                        height: 400,
+                        alt: 'Stork Drops Banner',
+                        type: 'image/png',
+                    },
+                    ],
+                }}
+            />
 
             <Navigation/>
 

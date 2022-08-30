@@ -1,3 +1,4 @@
+import { NextSeo } from 'next-seo';
 import React, {Fragment} from 'react'
 import Head from 'next/head'
 import { Container, Grid } from '@nextui-org/react'
@@ -10,11 +11,23 @@ import Footer from '@components/Footer';
 const DefiPage = () => {
     return(
         <>
-            <Head>
-                <title>Stork Drops - Airdrops. Whitelists. Alpha. One Social Platform.</title>
-                <meta name="description" content="What if we assembled a group of people to buy a futbol club?" />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+            <NextSeo
+                title="Explore Solana NFTs - Learn more about Solana NFTs, view the top collections, stay in the money."
+                description="Stork Drops is creating a platfrom to explore the Solana ecosystem, connect with others, and collect unique drops."
+                openGraph={{
+                    title: 'Explore Solana NFTs - Learn more about Solana NFTs, view the top collections, stay in the money.',
+                    description: 'Stork Drops is creating a platfrom to explore the Solana ecosystem, connect with others, and collect unique drops.',
+                    images: [
+                    {
+                        url: '/logos/og-banner.png',
+                        width: 800,
+                        height: 400,
+                        alt: 'Stork Drops Banner',
+                        type: 'image/png',
+                    },
+                    ],
+                }}
+            />
 
             <Navigation/>
 
