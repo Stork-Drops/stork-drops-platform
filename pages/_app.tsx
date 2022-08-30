@@ -23,6 +23,9 @@ import Background from "../components/Background"
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import Welcome from '@components/Welcome'
 import { GoogleAnalytics } from "nextjs-google-analytics";
+import Script from 'next/script'
+import { useRouter } from 'next/router'
+import * as gtag from '../lib/gtag'
 import 'react-loading-skeleton/dist/skeleton.css'
 
 // Use require instead of import since order matters
@@ -51,6 +54,19 @@ const UnauthenticatedView = () => {
 }
 
 const App: FC<AppProps> = ({ Component, pageProps }) => {
+    const router = useRouter()
+    useEffect(() => {
+        const handleRouteChange = (url) => {
+        gtag.pageview(url)
+        }
+        router.events.on('routeChangeComplete', handleRouteChange)
+        router.events.on('hashChangeComplete', handleRouteChange)
+        return () => {
+        router.events.off('routeChangeComplete', handleRouteChange)
+        router.events.off('hashChangeComplete', handleRouteChange)
+        }
+    }, [router.events])
+
     const { connected, wallet } = useWallet();
     
     // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
@@ -94,7 +110,25 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                                 <WalletProvider wallets={wallets} autoConnect>
                                     <ProfileProvider>
                                         <WalletModalProvider>
-                                                <GoogleAnalytics trackPageViews />
+                                                {/* Global Site Tag (gtag.js) - Google Analytics */}
+                                                <Script
+                                                    strategy="afterInteractive"
+                                                    src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
+                                                />
+                                                <Script
+                                                    id="gtag-init"
+                                                    strategy="afterInteractive"
+                                                    dangerouslySetInnerHTML={{
+                                                    __html: `
+                                                        window.dataLayer = window.dataLayer || [];
+                                                        function gtag(){dataLayer.push(arguments);}
+                                                        gtag('js', new Date());
+                                                        gtag('config', '${gtag.GA_TRACKING_ID}', {
+                                                        page_path: window.location.pathname,
+                                                        });
+                                                    `,
+                                                    }}
+                                                />
                                                 <Component {...pageProps} />
                                         </WalletModalProvider>
                                     </ProfileProvider>
