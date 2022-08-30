@@ -111,7 +111,18 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                                 <WalletProvider wallets={wallets} autoConnect>
                                     <ProfileProvider>
                                         <WalletModalProvider>
-                                                <DefaultSeo      
+                                                <DefaultSeo
+                                                    additionalLinkTags={[
+                                                        {
+                                                          rel: 'icon',
+                                                          href: '/favicon.ico',
+                                                        },
+                                                        {
+                                                          rel: 'apple-touch-icon',
+                                                          href: '/sd-package.svg',
+                                                          sizes: '76x76'
+                                                        }
+                                                    ]}      
                                                     openGraph={{
                                                         type: 'website',
                                                         locale: 'en_US',
