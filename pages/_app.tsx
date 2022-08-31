@@ -51,13 +51,15 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
     const router = useRouter()
     useEffect(() => {
         const handleRouteChange = (url) => {
-        gtag.pageview(url)
+            gtag.pageview(url)
         }
+        
         router.events.on('routeChangeComplete', handleRouteChange)
         router.events.on('hashChangeComplete', handleRouteChange)
+
         return () => {
-        router.events.off('routeChangeComplete', handleRouteChange)
-        router.events.off('hashChangeComplete', handleRouteChange)
+            router.events.off('routeChangeComplete', handleRouteChange)
+            router.events.off('hashChangeComplete', handleRouteChange)
         }
     }, [router.events])
     
@@ -101,50 +103,50 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                                 <WalletProvider wallets={wallets} autoConnect>
                                     <ProfileProvider>
                                         <WalletModalProvider>
-                                                <DefaultSeo
-                                                    additionalLinkTags={[
-                                                        {
-                                                          rel: 'icon',
-                                                          href: '/favicon.ico',
-                                                        },
-                                                        {
-                                                          rel: 'apple-touch-icon',
-                                                          href: '/sd-package.svg',
-                                                          sizes: '76x76'
-                                                        }
-                                                    ]}      
-                                                    openGraph={{
-                                                        type: 'website',
-                                                        locale: 'en_US',
-                                                        url: 'https://storkdrops.xyz',
-                                                        site_name: 'Stork Drops',
-                                                    }}
-                                                    twitter={{
-                                                        handle: '@storkdrops_',
-                                                        site: '@storkdrops_',
-                                                        cardType: 'summary_large_image',
-                                                    }}
-                                                />
-                                                {/* Global Site Tag (gtag.js) - Google Analytics */}
-                                                <Script
-                                                    strategy="afterInteractive"
-                                                    src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
-                                                />
-                                                <Script
-                                                    id="gtag-init"
-                                                    strategy="afterInteractive"
-                                                    dangerouslySetInnerHTML={{
-                                                    __html: `
-                                                        window.dataLayer = window.dataLayer || [];
-                                                        function gtag(){dataLayer.push(arguments);}
-                                                        gtag('js', new Date());
-                                                        gtag('config', '${gtag.GA_TRACKING_ID}', {
-                                                        page_path: window.location.pathname,
-                                                        });
-                                                    `,
-                                                    }}
-                                                />
-                                                <Component {...pageProps} />
+                                            <DefaultSeo
+                                                additionalLinkTags={[
+                                                    {
+                                                        rel: 'icon',
+                                                        href: '/favicon.ico',
+                                                    },
+                                                    {
+                                                        rel: 'apple-touch-icon',
+                                                        href: '/sd-package.svg',
+                                                        sizes: '76x76'
+                                                    }
+                                                ]}      
+                                                openGraph={{
+                                                    type: 'website',
+                                                    locale: 'en_US',
+                                                    url: 'https://storkdrops.xyz',
+                                                    site_name: 'Stork Drops',
+                                                }}
+                                                twitter={{
+                                                    handle: '@storkdrops_',
+                                                    site: '@storkdrops_',
+                                                    cardType: 'summary_large_image',
+                                                }}
+                                            />
+                                            {/* Global Site Tag (gtag.js) - Google Analytics */}
+                                            <Script
+                                                strategy="afterInteractive"
+                                                src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
+                                            />
+                                            <Script
+                                                id="gtag-init"
+                                                strategy="afterInteractive"
+                                                dangerouslySetInnerHTML={{
+                                                __html: `
+                                                    window.dataLayer = window.dataLayer || [];
+                                                    function gtag(){dataLayer.push(arguments);}
+                                                    gtag('js', new Date());
+                                                    gtag('config', '${gtag.GA_TRACKING_ID}', {
+                                                    page_path: window.location.pathname,
+                                                    });
+                                                `,
+                                                }}
+                                            />
+                                            <Component {...pageProps} />
                                         </WalletModalProvider>
                                     </ProfileProvider>
                                 </WalletProvider>
