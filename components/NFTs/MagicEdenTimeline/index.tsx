@@ -17,7 +17,7 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 
 // SWR fetcher that can take an array in the body of the request
 const fetcherWithBody = (url, mintAccounts) => {
-    url = `https://api.helius.xyz/v0/tokens/metadata?api-key=ba739f74-3869-40bb-bfd3-3cfc4be8ef7c}`
+    url = `https://api.helius.xyz/v0/tokens/metadata?api-key=ba739f74-3869-40bb-bfd3-3cfc4be8ef7c`
     return axios
         .post(url, {
             mintAccounts: [
