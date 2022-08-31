@@ -17,7 +17,7 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 
 // SWR fetcher that can take an array in the body of the request
 const fetcherWithBody = (url, mintAccounts) => {
-    url = `https://api.helius.xyz/v0/tokens/metadata?api-key=${process.env.HELIUS_API}`
+    url = `https://api.helius.xyz/v0/tokens/metadata?api-key=ba739f74-3869-40bb-bfd3-3cfc4be8ef7c}`
     return axios
         .post(url, {
             mintAccounts: [
@@ -44,14 +44,14 @@ const NFTEvent = (amount) => {
 }
 
 const getMetadata = async (nftAddresses) => {
-    const url = `https://api.helius.xyz/v0/tokens/metadata?api-key=${process.env.HELIUS_API}`
+    const url = `https://api.helius.xyz/v0/tokens/metadata?api-key=ba739f74-3869-40bb-bfd3-3cfc4be8ef7c`
     const { data } = await axios.post(url, { mintAccounts: nftAddresses})
     console.log("metadata: ", data)
   }
 
   const fetchMetadata = async () => {
     const { data } = useSWR(
-        `https://api.helius.xyz/v0/addresses/M2mx93ekt1fmXSVkTrUL9xVFHkmME8HTUi5Cyc5aF7K/nft-events?api-key=${process.env.HELIUS_API}&type=NFT_SALE`,
+        `https://api.helius.xyz/v0/addresses/M2mx93ekt1fmXSVkTrUL9xVFHkmME8HTUi5Cyc5aF7K/nft-events?api-key=ba739f74-3869-40bb-bfd3-3cfc4be8ef7c&type=NFT_SALE`,
         fetcher, {
 
         }
@@ -64,7 +64,7 @@ const MagicEdenTimeLine = () => {
     const connection = new Connection(clusterApiUrl("mainnet-beta"));
     const metaplex = new Metaplex(connection);
     const { data } = useSWR(
-        `https://api.helius.xyz/v0/addresses/M2mx93ekt1fmXSVkTrUL9xVFHkmME8HTUi5Cyc5aF7K/nft-events?api-key=${process.env.HELIUS_API}&type=NFT_SALE`,
+        `https://api.helius.xyz/v0/addresses/M2mx93ekt1fmXSVkTrUL9xVFHkmME8HTUi5Cyc5aF7K/nft-events?api-key=ba739f74-3869-40bb-bfd3-3cfc4be8ef7c&type=NFT_SALE`,
         fetcher, {
             refreshInterval: 5000,
         }

@@ -55,7 +55,7 @@ const Home = () => {
                     <Grid className="h-screen p-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
                             <div className="block md:flex justify-center md:items-center md:justify-between p-4 mb-10 bg-green-200 text-green-600 font-base md:text-center rounded-xl w-full">
                                 <span className="text-normal font-semibold">We entered into the Solana Summer Camp Hackathon. Give us an upvote if you enjoyed the experience. 🙏</span>
-                                <a className="flex items-center justify-center bg-green-600 text-white px-2 py-1 font-semibold mt-2.5 md:mt-0 text-lg rounded-md" href="https://solana.com/summercamp/voting/stork-drops">Go Vote!</a>
+                                <a className="flex items-center justify-center bg-green-600 text-white px-2 py-1 font-semibold mt-2.5 md:mt-0 text-base rounded-md" href="https://solana.com/summercamp/voting/stork-drops">Go Vote!</a>
                             </div>
                             <div className="grid grid-cols-1 auto-rows-auto md:grid-cols-2 md:grid-rows-1 items-center justify-around">
                                 <div> 
@@ -72,7 +72,7 @@ const Home = () => {
                                             hour12: true,
                                         })}.
                                     </p>
-                                    <span className="text-2xl italic font-semibold text-dracula">gm, {bonfidaUsername ? bonfidaUsername + ".sol" : "anon"}</span>
+                                    <span className="text-2xl italic font-semibold text-dracula">gm, {bonfidaUsername ? bonfidaUsername + ".sol" : "anon."}</span>
                                     <p className="text-normal font-semibold text-gray-400">Here's what's new.</p>
                                 </div>
                                 <div className="flex justify-end">

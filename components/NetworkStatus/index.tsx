@@ -68,7 +68,7 @@ const NetworkStatus = () => {
                             fontSize: "0.7rem",
                         }}
                         className={status}>
-                        {slot ? slot : <Loading/>}
+                        {slot ? slot : <Loading size="xs"/>}
                     </div>
                 </div>
             </Tooltip>
