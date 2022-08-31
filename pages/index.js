@@ -28,10 +28,10 @@ const Home = () => {
     return (
         <>
             <NextSeo
-                title="Stork Drops Home - Learn more about the Solana ecosystem, dig into crypto news, and more."
+                title="Stork Drops - Learn more about the Solana ecosystem, dig into crypto news, and more."
                 description="Stork Drops is creating a platfrom to explore the Solana ecosystem, connect with others, and collect unique drops."
                 openGraph={{
-                    title: 'Stork Drops Home - Learn more about the Solana ecosystem, dig into crypto news, and more.',
+                    title: 'Stork Drops - Learn more about the Solana ecosystem, dig into crypto news, and more.',
                     description: 'Stork Drops is creating a platfrom to explore the Solana ecosystem, connect with others, and collect unique drops.',
                     images: [
                     {

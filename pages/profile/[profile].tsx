@@ -70,8 +70,9 @@ const Profile = () => {
     const publicAddress = profile as string;
     const formattedPublicKey = new PublicKey(parseFloat(publicAddress));
 
-    const { data } = useSWR(`https://api.helius.xyz/v0/addresses/${publicAddress}/transactions?api-key=ba739f74-3869-40bb-bfd3-3cfc4be8ef7c`, fetcher);
-    const { data: allSNSAccounts } = useSWR(`https://api.helius.xyz/v0/addresses/${formattedPublicKey}/names?api-key=ba739f74-3869-40bb-bfd3-3cfc4be8ef7c`, fetcher, { refreshInterval: 35000 });
+    const { data } = useSWR(`https://api.helius.xyz/v0/addresses/${profile}/transactions?api-key=ba739f74-3869-40bb-bfd3-3cfc4be8ef7c`, fetcher);
+    const { data: allSNSAccounts } = useSWR(`https://api.helius.xyz/v0/addresses/${profile}/names?api-key=ba739f74-3869-40bb-bfd3-3cfc4be8ef7c`, fetcher);
+    console.log(allSNSAccounts);
 
     const [loading, setLoading] = useState(true);
     const [tokens, setTokens] = useState<TokenAccount[] | null>(null);
@@ -120,7 +121,7 @@ const Profile = () => {
         }
         if (mounted.current) {
           setDomainCollection(_domainCollection)
-          console.log(domainCollection)
+          console.log(`Your sns names are :'`, domainCollection);
           mounted.current = false;
         }
     } catch (error) {
@@ -128,14 +129,14 @@ const Profile = () => {
     }
   }
 
-    const getTwitterName = async () => {
-        try{
-            const registry = await getHandleAndRegistryKey(connection, publicKey);
-            setTwitterNameLookup(registry[0]);
-        } catch (error){
-            console.log(error)
-        }
-    }
+  const getTwitterName = async () => {
+      try{
+          const registry = await getHandleAndRegistryKey(connection, publicKey);
+          setTwitterNameLookup(registry[0]);
+      } catch (error){
+          console.log(error)
+      }
+  }
 
     // Bonfida SNS Username
     const loadSNSUsername = async () => {
@@ -146,42 +147,6 @@ const Profile = () => {
           console.log(error);
       }
     }
-
-    const fetchTokens = async () => {
-        // Get Token Accounts owned by wallet
-        const {
-          data: { tokens: tokenList },
-        } = await axios.get(TOKEN_LIST_API);
-        const response = await connection.getParsedTokenAccountsByOwner(
-          formattedPublicKey,
-          { programId: TOKEN_PROGRAM_ID }
-        );
-  
-        // Parsing Token info
-        let parsedTokens: TokenAccount[] = [];
-        response.value.forEach((tokenAccount) => {
-          const mint = tokenAccount.account.data["parsed"]["info"]["mint"];
-          const amount = Number(
-            tokenAccount.account.data["parsed"]["info"]["tokenAmount"]["amount"]
-          );
-          if (amount) {
-            const tokenMetadata = tokenList.find(
-              (tokenInfo: any) => tokenInfo.address === mint
-            );
-            if (tokenMetadata) {
-              parsedTokens.push({
-                publicKey: tokenAccount.pubkey.toBase58(),
-                mint,
-                amount,
-                decimals: tokenMetadata.decimals,
-                symbol: tokenMetadata.symbol,
-                logo: tokenMetadata.logoURI,
-              });
-            }
-          }
-        });
-        setTokens(parsedTokens);
-    };
 
     const getTokenAccounts = async () => {
       try{
@@ -205,12 +170,8 @@ const Profile = () => {
           (tokenAmount) => tokenAmount.account.data.parsed.info.tokenAmount.uiAmount > 0.001 && acceptedTokens.some(({ name }) => name === tokenAmount.account.data.parsed.info.mint)
         );
 
-        const sortedTokenAccounts = filteredTokenAccounts?.sort((a, b) => {
-          return b.sumAmount - a.sumAmount;
-        });
-
-        setTokenCollection(sortedTokenAccounts);
-        //console.log(sortedTokenAccounts);
+        setTokenCollection(filteredTokenAccounts);
+        console.log(`Old token collection: `, tokenCollection);
       } catch (error) {
         console.log(error);
       }
@@ -305,11 +266,11 @@ const Profile = () => {
                                                     </a>
                                                   </Row>
                                                   <Spacer y={0.5}/>
-                                                  <div className="flex items-center justify-between text-sm">
+                                                  <div className="flex items-center text-sm">
                                                     <div>
                                                       0 Followers
                                                     </div>
-                                                    <div>
+                                                    <div className="ml-2">
                                                       0 Following
                                                     </div>
                                                   </div>
@@ -409,61 +370,55 @@ const Profile = () => {
                                               <div className="grid grid-cols-2 grid-rows-1 gap-4">
                                                 <div className="">
                                                 <Collapse
-                                                        expanded={true}
-                                                        className="w-full h-full"
-                                                        bordered
-                                                        title={<span className="text-normal font-semibold text-dracula">Coins ({tokenCollection.length + 1})</span>}
-                                                        arrowIcon={<FiPlusSquare/>}
-                                                      >
-                                                  <Grid.Container direction="column">
-                                                    {tokenCollection && tokenCollection.length > 0 ? (
-                                                      tokenCollection.map(account => (
-                                                        <>
-                                                      <Grid xs={12}>
-                                                        <div className="rounded-xl hover:bg-gray-50 w-full h-full px-4">
-                                                        <Row align="center">
-                                                          <Col span={3}>
-                                                            <TokenIcon mint={account.mint}/>
-                                                          </Col>
-                                                          <Col>
+                                                  expanded={true}
+                                                  className="w-full h-full"
+                                                  bordered
+                                                  title={<span className="text-normal font-semibold text-dracula">Coins ({tokenCollection.length + 1})</span>}
+                                                  arrowIcon={<FiPlusSquare/>}
+                                                >
+                                                <div className="grid grid-cols-1 auto-rows-auto">
+                                                  {tokenCollection && tokenCollection.length > 0 ? (
+                                                    tokenCollection.map(tokenAccount => (
+                                                    <div className="mb-5 flex items-center justify-between">
+                                                        <div className="flex items-center">
+                                                          <div className="w-8 h-8">
+                                                            <TokenIcon mint={tokenAccount.account.data["parsed"]["info"]["mint"]}/>
+                                                          </div>
+                                                          <div className="ml-2">
                                                             <p className="text-sm font-semibold">
-                                                              {<TokenName mint={account.mint}/> ? <TokenName mint={account.mint}/> : account.mint}
+                                                              {<TokenName mint={tokenAccount.account.data["parsed"]["info"]["mint"]}/> ? <TokenName mint={tokenAccount.account.data["parsed"]["info"]["mint"]}/> : tokenAccount.account.data["parsed"]["info"]["mint"]}
                                                             </p>
                                                             <div className="text-dracula text-sm">
-                                                              {(account.amount) / LAMPORTS_PER_SOL}
-                                                              <span className="ml-1">{<TokenSymbol mint={account.mint}/> ? <TokenSymbol mint={account.mint}/> : account.mint}</span>
+                                                              {(tokenAccount.account.data["parsed"]["info"]["tokenAmount"]["uiAmount"]).toFixed(4)}
+                                                              <span className="ml-1">{<TokenSymbol mint={tokenAccount.account.data["parsed"]["info"]["mint"]}/> ? <TokenSymbol mint={tokenAccount.account.data["parsed"]["info"]["mint"]}/> : tokenAccount.account.data["parsed"]["info"]["mint"]}</span>
                                                             </div>
-                                                          </Col>
-                                                          <Col>
-                                                            <span className="font-semibold text-sm">
-                                                              {/* $<TokenTotalPrice tokenAddress={(account.mint)} sumAmount={(account.amount)}/> */}
-                                                            </span>
-                                                            <div className="text-dracula font-semibold text-sm">
-                                                              {/* <TokenChange tokenAddress={(account.mint)}/> */}
-                                                            </div>
-                                                          </Col>
-                                                        </Row>
+                                                          </div>
                                                         </div>
-                                                      </Grid>
-                                                      </>
-                                                      ))
-                                                      ) : (
-                                                        <Skeleton count={5} />
-                                                      )}
-                                                    </Grid.Container>
-                                                    </Collapse>
+                                                        <div className="flex items-center">
+                                                          <div>
+                                                          <span className="font-semibold text-sm">
+                                                      </span>
+                                                      <div className="text-dracula font-semibold text-sm">
+                                                        <TokenChange tokenAddress={(tokenAccount.account.data["parsed"]["info"]["mint"])}/>
+                                                      </div>
+                                                      </div>
+                                                      <div>
+                                                        
+                                                      </div>
+                                                        </div>
+                                                    </div>
+                                                    ))
+                                                    ) : (
+                                                    <Skeleton count={5} />
+                                                  )}
                                                 </div>
-                                                <div className="">
-                                                <Collapse
-                                                        expanded={true}
-                                                        className="w-full h-full"
-                                                        bordered
-                                                        title={<span className="text-normal font-semibold text-dracula">Domains ()</span>}
-                                                        arrowIcon={<FiPlusSquare/>}
-                                                      >
-                                                        <Grid.Container gap={2} direction="column">
-                                                          {allSNSAccounts && allSNSAccounts.length > 0 ? (
-                                                            allSNSAccounts.map(domains => (
+                                                </Collapse>
+                                                </div>
+                                                <div className="border p-4 rounded-xl">
+                                                        <span className="py-10 text-normal font-semibold text-dracula">Domains ({domainCollection.length ? domainCollection.length : <Loading size='xs'/>})</span>
+                                                        <Grid.Container gap={1} direction="column">
+                                                          {allSNSAccounts && allSNSAccounts.domainNames.length > 0 ? (
+                                                            allSNSAccounts.domainNames.map(domains => (
                                                               <Grid className="hover:bg-gray-50 rounded-xl h-full" xs={12}>
                                                                 <Row align="center">
                                                                   <Col span={1}>
@@ -478,10 +433,9 @@ const Profile = () => {
                                                               </Grid>
                                                               ))
                                                               ) : (
-                                                              <Skeleton count={5} />
+                                                              <Loading/>
                                                           )}
                                                       </Grid.Container>
-                                                      </Collapse>
                                                 </div>
                                               </div>
                                             </Tab.Panel>

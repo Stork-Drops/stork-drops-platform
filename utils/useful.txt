@@ -1,0 +1,36 @@
+const fetchTokens = async () => {
+    // Get Token Accounts owned by wallet
+    const {
+        data: { tokens: tokenList },
+    } = await axios.get(TOKEN_LIST_API);
+    const response = await connection.getParsedTokenAccountsByOwner(
+        formattedPublicKey,
+        { programId: TOKEN_PROGRAM_ID }
+    );
+
+    // Parsing Token info
+    let parsedTokens: TokenAccount[] = [];
+    response.value.forEach((tokenAccount) => {
+        const mint = tokenAccount.account.data["parsed"]["info"]["mint"];
+        const amount = Number(
+        tokenAccount.account.data["parsed"]["info"]["tokenAmount"]["amount"]
+        );
+        if (amount) {
+        const tokenMetadata = tokenList.find(
+            (tokenInfo: any) => tokenInfo.address === mint
+        );
+        if (tokenMetadata) {
+            parsedTokens.push({
+            publicKey: tokenAccount.pubkey.toBase58(),
+            mint,
+            amount,
+            decimals: tokenMetadata.decimals,
+            symbol: tokenMetadata.symbol,
+            logo: tokenMetadata.logoURI,
+            });
+        }
+        }
+    });
+    setTokens(parsedTokens);
+    console.log(`new token collections:`, tokens);
+};

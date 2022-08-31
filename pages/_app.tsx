@@ -46,15 +46,8 @@ require('../styles/wallet-adapter.css');
 //     }
 // })
 
-const UnauthenticatedView = () => {
-    return (
-        <>
-
-        </>
-    )
-}
-
 const App: FC<AppProps> = ({ Component, pageProps }) => {
+    const { connected } = useWallet();
     const router = useRouter()
     useEffect(() => {
         const handleRouteChange = (url) => {
@@ -67,8 +60,6 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
         router.events.off('hashChangeComplete', handleRouteChange)
         }
     }, [router.events])
-
-    const { connected, wallet } = useWallet();
     
     // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
     const network = WalletAdapterNetwork.Mainnet;
@@ -100,8 +91,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
     //     provider: solanaProvider,
     //     chainRef: "", // from jiayi: not needed + can pass empty string instead
     //   });
-
-
+    
     return (
         <>
             <NextUIProvider>
@@ -126,7 +116,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                                                     openGraph={{
                                                         type: 'website',
                                                         locale: 'en_US',
-                                                        url: 'https://beta.storkdrops.xyz',
+                                                        url: 'https://storkdrops.xyz',
                                                         site_name: 'Stork Drops',
                                                     }}
                                                     twitter={{

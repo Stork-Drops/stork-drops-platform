@@ -1,8 +1,9 @@
 import React from 'react';
 import { WalletMultiButton } from '@components/WalletConnect';
-import Navigation from '@components/Navigation';
+import { useWallet } from '@solana/wallet-adapter-react';
 
 const Welcome = () => {
+    const { connected } = useWallet();
     return (
         <>
             <div className="h-screen flex justify-center items-center">

@@ -8,7 +8,7 @@ import { Avatar, Table, Grid } from '@nextui-org/react';
 import { Tab } from '@headlessui/react'
 
 const PopularCollection = () => {
-        const [selectedDayRange, setSelectedDayRange] = useState(1);
+        const [selectedDayRange, setSelectedDayRange] = useState(7);
         const [activeDayRange, setActiveDayRange] = useState(1);
  
         const handleClick = (event) => {
@@ -39,6 +39,9 @@ const PopularCollection = () => {
 
     return(
         <>
+            <div className="p-2 rounded-md text-xl bg-red-200 text-red-600 mt-10">
+                <b>For demo purposes only.</b> Updated UI &amp; accurate data will be available soon. 🙏
+            </div>
             <div className="flex justify-between items-center my-5">
                 <div className="my-5">
                     <h2 className="flex items-center text-2xl font-semibold">Popular Collections</h2>
