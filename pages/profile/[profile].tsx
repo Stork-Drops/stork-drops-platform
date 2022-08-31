@@ -70,8 +70,8 @@ const Profile = () => {
     const publicAddress = profile as string;
     const formattedPublicKey = new PublicKey(parseFloat(publicAddress));
 
-    const { data } = useSWR(`https://api.helius.xyz/v0/addresses/${profile}/transactions?api-key=ba739f74-3869-40bb-bfd3-3cfc4be8ef7c`, fetcher);
-    const { data: allSNSAccounts } = useSWR(`https://api.helius.xyz/v0/addresses/${profile}/names?api-key=ba739f74-3869-40bb-bfd3-3cfc4be8ef7c`, fetcher);
+    const { data } = useSWR(`https://api.helius.xyz/v0/addresses/${profile}/transactions?api-key=${process.env.HELIUS_API}`, fetcher);
+    const { data: allSNSAccounts } = useSWR(`https://api.helius.xyz/v0/addresses/${profile}/names?api-key=${process.env.HELIUS_API}`, fetcher);
     console.log(allSNSAccounts);
 
     const [loading, setLoading] = useState(true);
