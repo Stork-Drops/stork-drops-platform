@@ -204,12 +204,8 @@ const Profile = () => {
       router.push(`/`);
     }
   }, [publicAddress]);
-  
-  // if (!publicKey) return <></>;
-  // if (error === true) return <div>Have some error</div>;
-  // if (isLoading) return <div>Loading...</div>;
 
-    return (
+  return (
         <>
             <NextSeo
                 title="My Solana Profile - Track your Solana NFTs, tokens, and journey across the ecosystem."
@@ -368,18 +364,11 @@ const Profile = () => {
                                           <Tab.Panels>
                                             <Tab.Panel>
                                               <div className="grid grid-cols-2 grid-rows-1 gap-4">
-                                                <div className="">
-                                                <Collapse
-                                                  expanded={true}
-                                                  className="w-full h-full"
-                                                  bordered
-                                                  title={<span className="text-normal font-semibold text-dracula">Coins ({tokenCollection.length + 1})</span>}
-                                                  arrowIcon={<FiPlusSquare/>}
-                                                >
-                                                <div className="grid grid-cols-1 auto-rows-auto">
+                                                <div className="grid grid-cols-1 auto-rows-auto border p-4 rounded-xl">
+                                                <span className="py-2.5 text-normal font-semibold text-dracula">Coins ({tokenCollection.length ? tokenCollection.length : <Loading size='xs'/>})</span>
                                                   {tokenCollection && tokenCollection.length > 0 ? (
                                                     tokenCollection.map(tokenAccount => (
-                                                    <div className="mb-5 flex items-center justify-between">
+                                                    <div className="mb-2.5 flex items-center justify-between">
                                                         <div className="flex items-center">
                                                           <div className="w-8 h-8">
                                                             <TokenIcon mint={tokenAccount.account.data["parsed"]["info"]["mint"]}/>
@@ -412,11 +401,9 @@ const Profile = () => {
                                                     <Skeleton count={5} />
                                                   )}
                                                 </div>
-                                                </Collapse>
-                                                </div>
                                                 <div className="border p-4 rounded-xl">
                                                         <span className="py-10 text-normal font-semibold text-dracula">Domains ({domainCollection.length ? domainCollection.length : <Loading size='xs'/>})</span>
-                                                        <Grid.Container gap={1} direction="column">
+                                                        <Grid.Container gap={2} direction="column">
                                                           {allSNSAccounts && allSNSAccounts.domainNames.length > 0 ? (
                                                             allSNSAccounts.domainNames.map(domains => (
                                                               <Grid className="hover:bg-gray-50 rounded-xl h-full" xs={12}>
@@ -463,12 +450,12 @@ const Profile = () => {
 
                                             {/* Activity Tab Panel */}
                                             <Tab.Panel>
-                                                <div className="grid grid-cols-1 auto-rows-auto gap-4">
+                                                <div className="grid grid-cols-1 auto-rows-auto gap-4 text-xs">
                                                   {data && data.length > 0 ? (
                                                     data
                                                     .map(transactionHistory => (
                                                       <div className="p-3 border rounded-xl">
-                                                          <div className="flex items-center text-xs mb-2.5">
+                                                          <div className="flex items-center mb-2.5">
                                                             <span className="p-1 rounded-full font-semibold bg-gray-200 text-dracula">{transactionHistory.type}</span>
                                                             <span className="ml-2 p-1 rounded-full font-semibold bg-gray-200 text-dracula">{transactionHistory.source}</span>
                                                           </div>
@@ -510,8 +497,7 @@ const Profile = () => {
                           <WalletMultiButton/>
                         </div>
                          </> 
-                      )}
-                            
+                      )}   
                     </Grid>
                 </Grid.Container>
             </Container>
