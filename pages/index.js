@@ -52,7 +52,7 @@ const Home = () => {
                     <Grid xs={0} sm={0} md={1.5} lg={1.5}>
                         <AppBar/>
                     </Grid>
-                    <Grid className="h-screen p-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
+                    <Grid className="h-screen pl-4 py-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
                             <div className="block md:flex justify-center md:items-center md:justify-between p-4 mb-10 bg-green-200 text-green-600 font-base md:text-center rounded-xl w-full">
                                 <span className="text-normal font-semibold">We entered into the Solana Summer Camp Hackathon. Give us an upvote if you enjoyed the experience. 🙏</span>
                                 <a className="flex items-center justify-center bg-green-600 text-white px-2 py-1 font-semibold mt-2.5 md:mt-0 text-base rounded-md" href="https://solana.com/summercamp/voting/stork-drops">Go Vote!</a>

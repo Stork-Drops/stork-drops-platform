@@ -85,7 +85,7 @@ const DAOPage = () => {
                   <AppBar/>
                 </Grid>
 
-                <Grid className="p-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
+                <Grid className="pl-4 py-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
                   <div>
                     <Grid.Container alignItems="center">
                       <Grid xs={12} sm={12} md={6} lg={6}>

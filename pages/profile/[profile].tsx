@@ -3,7 +3,7 @@ import React, { useEffect, useState, useContext, useCallback, useRef, useMemo } 
 import { useRouter } from 'next/router'
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
-import Head from 'next/head';
+import Link from 'next/link';
 import axios from 'axios';
 import Navigation from "../../components/Navigation"
 import { Container, Grid, Spacer, Row, Col, Collapse, Progress, Loading, Table } from '@nextui-org/react';
@@ -282,7 +282,7 @@ const Profile = () => {
                     <Grid xs={0} sm={0} md={1.5} lg={1.5}>
                         <AppBar/>
                     </Grid>
-                    <Grid className="p-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
+                    <Grid className="pl-4 py-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
                       {connected ? (
                         <>
                           <Grid.Container direction="row" justify="space-between">
@@ -418,8 +418,9 @@ const Profile = () => {
                                                 <span className="py-2.5 text-normal font-semibold text-dracula">Coins ({tokenCollection.length ? tokenCollection.length : <Loading size='xs'/>})</span>
                                                   {tokenCollection && tokenCollection.length > 0 ? (
                                                     tokenCollection.map(tokenAccount => (
+
                                                       <>
-                                                    <div className="mb-2.5 flex items-center justify-between">
+                                                    <div className="mb-2.5 flex items-center justify-between rounded-xl p-2 bg-gray-50 hover:bg-gray-200">
                                                         <div className="flex items-center">
                                                           <div className="w-8 h-8">
                                                             <TokenIcon mint={tokenAccount.account.data["parsed"]["info"]["mint"]}/>

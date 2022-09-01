@@ -53,7 +53,7 @@ const DefiDetailPage = () => {
                   <AppBar/>
                 </Grid>
 
-                <Grid className="p-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
+                <Grid className="pl-4 py-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
                     <div className="my-5 grid grid-cols-1 grid-rows-auto md:grid-cols-2 md:grid-rows-1 gap-4 items-start">
                         <div>
                             <div className="flex items-center w-full">

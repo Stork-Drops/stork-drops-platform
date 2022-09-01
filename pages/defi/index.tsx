@@ -40,7 +40,7 @@ const DefiPage = () => {
                   <AppBar/>
                 </Grid>
 
-                <Grid className="p-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
+                <Grid className="pl-4 py-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
                     <div className="">
                         <h1 className=" text-4xl md:text-7xl font-semibold">
                           Explore DeFi
