@@ -54,6 +54,53 @@ const acceptedTokens = [
   { name: "So11111111111111111111111111111111111111112" } // SOL
 ]
 
+const whitelistedTokens = [
+  {
+    name: "DUST",
+    mintAddress: "DUSTawucrTsGU8hcqRdHDCbuYhCPADMLM2VcCb8VnFnQ"
+  },
+  {
+    name: "FIDA",
+    mintAddress: "DUSTawucrTsGU8hcqRdHDCbuYhCPADMLM2VcCb8VnFnQ"
+  },
+  {
+    name: "BOP",
+    mintAddress: "DUSTawucrTsGU8hcqRdHDCbuYhCPADMLM2VcCb8VnFnQ"
+  },
+  {
+    name: "USDC",
+    mintAddress: "DUSTawucrTsGU8hcqRdHDCbuYhCPADMLM2VcCb8VnFnQ"
+  },
+  {
+    name: "UST",
+    mintAddress: "9vMJfxuKxXBoEa7rM12mYLMwTacLMLDJqHozw96WQL8i"
+  },
+  {
+    name: "AURY",
+    mintAddress: "AURYydfxJib1ZkTir1Jn1J9ECYUtjb6rKQVmtYaixWPP"
+  },
+  {
+    name: "SONAR",
+    mintAddress: "sonarX4VtVkQemriJeLm6CKeW3GDMyiBnnAEMw1MRAE"
+  },
+  {
+    name: "PRT",
+    mintAddress: "PRT88RkA4Kg5z7pKnezeNH4mafTvtQdfFgpQTGRjz44"
+  },
+  {
+    name: "RAY",
+    mintAddress: "4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R"
+  },
+  {
+    name: "SAMO",
+    mintAddress: "7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU"
+  },
+  {
+    name: "ATLAS",
+    mintAddress: "ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx"
+  },
+]
+
 const NonVerifiedTwitter = () => {
   return (
     <a className="flex items-center w-max bg-twitter-blue text-white text-xs font-semibold hover:opacity-75 hover:cursor-pointer" href="https://naming.bonfida.org/twitter" target="_blank" rel="noopener">
@@ -166,9 +213,12 @@ const Profile = () => {
           ],
         })
 
+        // filter out tokenAccounts that have a uiAmount less than 0.001 and are in the whitelistedTokens array
         const filteredTokenAccounts = tokenAccounts?.filter(
-          (tokenAmount) => tokenAmount.account.data.parsed.info.tokenAmount.uiAmount > 0.001 && acceptedTokens.some(({ name }) => name === tokenAmount.account.data.parsed.info.mint)
+          (tokenAmount) => tokenAmount.account.data.parsed.info.tokenAmount.uiAmount > 0.001 && whitelistedTokens.some(({ mintAddress }) => mintAddress === tokenAmount.account.data.parsed.info.mint)
         );
+
+
 
         setTokenCollection(filteredTokenAccounts);
         console.log(`Old token collection: `, tokenCollection);
@@ -368,6 +418,7 @@ const Profile = () => {
                                                 <span className="py-2.5 text-normal font-semibold text-dracula">Coins ({tokenCollection.length ? tokenCollection.length : <Loading size='xs'/>})</span>
                                                   {tokenCollection && tokenCollection.length > 0 ? (
                                                     tokenCollection.map(tokenAccount => (
+                                                      <>
                                                     <div className="mb-2.5 flex items-center justify-between">
                                                         <div className="flex items-center">
                                                           <div className="w-8 h-8">
@@ -387,19 +438,24 @@ const Profile = () => {
                                                           <div>
                                                           <span className="font-semibold text-sm">
                                                       </span>
-                                                      <div className="text-dracula font-semibold text-sm">
+                                                      {/* <div className="text-dracula font-semibold text-sm">
                                                         <TokenChange tokenAddress={(tokenAccount.account.data["parsed"]["info"]["mint"])}/>
-                                                      </div>
+                                                      </div> */}
                                                       </div>
                                                       <div>
                                                         
                                                       </div>
                                                         </div>
                                                     </div>
+                                                    </>
                                                     ))
                                                     ) : (
                                                     <Skeleton count={5} />
                                                   )}
+
+                                                    <a target="_blank" href="https://twitter.com/@storkdrops_" className="mb-2.5 p-2 text-center border rounded-xl text-sm font-semibold">
+                                                      Missing your favorite token? Let us know!
+                                                    </a>
                                                 </div>
                                                 <div className="border p-4 rounded-xl">
                                                         <span className="py-10 text-normal font-semibold text-dracula">Domains ({domainCollection.length ? domainCollection.length : <Loading size='xs'/>})</span>

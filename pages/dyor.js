@@ -132,7 +132,7 @@ const Dropzone = ({ cryptoProjects }) => {
                             </Grid>
                             <Grid xs={12} sm={12} md={2.5} lg={2.5}>
                                 <Grid.Container direction="column">
-                                    TF AM I PUTTING HERE
+                                    Solana Job Board
                                 </Grid.Container>  
                             </Grid>
                         </Grid.Container>       

@@ -40,7 +40,7 @@ const DefiPage = () => {
                   <Grid className="p-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
                     <div className="grid grid-cols-1 grid-rows-auto md:grid-cols-2 md:grid-rows-1 gap-4 items-center">
                       <div>
-                        <h1 className="flex items-center text-6xl font-semibold">NFTs</h1>
+                        <h1 className="flex items-center text-6xl font-semibold">Explore NFTs</h1>
                         <p className="text-sm my-5">
                           The Solana NFT ecosystem is bustling with new collections each and every day.
                           Explore top collections and find a community that aligns with your interests.
