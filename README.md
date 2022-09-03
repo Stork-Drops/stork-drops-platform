@@ -3,13 +3,12 @@
 ## @storkdrops_
 
 ## TODO
-* Fix Profile Wallet + Domains 
-* Defi Detail Pages [x]
-* ENV Variables & Security Combthrough
-* DAOs Detail Pages
-* SQUADS Multisig Integration
-* NFT Discovery powered by Hyperspace
-* Send/Receive Crypto w/ QR
+* Write more NFT API routes
+* Define UX for NFT explore experience
+* Fix Profile Net Worth 
+* DAOs Detail Pages - Treasury, NFTs, recent votes, members, etc.
+* SQUADS Multisig Integration?
+* Send/Receive Crypto. QR?
 * xNFT!
 
 ## Getting Started
