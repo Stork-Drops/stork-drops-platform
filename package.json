@@ -47,6 +47,7 @@
     "framer-motion": "^6.3.0",
     "gridjs": "^5.0.2",
     "gridjs-react": "^5.0.2",
+    "hyperspace-client-js": "^1.4.1",
     "immutable-tuple": "^0.4.10",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",

@@ -117,9 +117,9 @@ const Profile = () => {
     const publicAddress = profile as string;
     const formattedPublicKey = new PublicKey(parseFloat(publicAddress));
 
-    const { data } = useSWR(`https://api.helius.xyz/v0/addresses/${profile}/transactions?api-key=ba739f74-3869-40bb-bfd3-3cfc4be8ef7c`, fetcher);
-    const { data: allSNSAccounts } = useSWR(`https://api.helius.xyz/v0/addresses/${profile}/names?api-key=ba739f74-3869-40bb-bfd3-3cfc4be8ef7c`, fetcher);
-    console.log(allSNSAccounts);
+    const { data: publicKeyTransactions } = useSWR(`/api/v1/transactions/${publicAddress}`, fetcher);
+    console.log(publicKeyTransactions);
+    const { data: allSNSAccounts } = useSWR(`/api/v1/nameService/${publicAddress}`, fetcher);
 
     const [loading, setLoading] = useState(true);
     const [tokens, setTokens] = useState<TokenAccount[] | null>(null);
@@ -217,8 +217,6 @@ const Profile = () => {
         const filteredTokenAccounts = tokenAccounts?.filter(
           (tokenAmount) => tokenAmount.account.data.parsed.info.tokenAmount.uiAmount > 0.001 && whitelistedTokens.some(({ mintAddress }) => mintAddress === tokenAmount.account.data.parsed.info.mint)
         );
-
-
 
         setTokenCollection(filteredTokenAccounts);
         console.log(`Old token collection: `, tokenCollection);
@@ -401,7 +399,7 @@ const Profile = () => {
                                                     </Grid>
                                                     <Grid>
                                                       <div className="text-xs bg-gray-200 text-dracula px-1.5 py-0.5 rounded-md">
-                                                        {data ? data.length : 0}
+                                                        {publicKeyTransactions ? publicKeyTransactions.data.length : 0}
                                                       </div>
                                                     </Grid>
                                                   </Grid.Container>
@@ -460,10 +458,10 @@ const Profile = () => {
                                                 </div>
                                                 <div className="border p-4 rounded-xl">
                                                         <span className="py-10 text-normal font-semibold text-dracula">Domains ({domainCollection.length ? domainCollection.length : <Loading size='xs'/>})</span>
-                                                        <Grid.Container gap={2} direction="column">
-                                                          {allSNSAccounts && allSNSAccounts.domainNames.length > 0 ? (
-                                                            allSNSAccounts.domainNames.map(domains => (
-                                                              <Grid className="hover:bg-gray-50 rounded-xl h-full" xs={12}>
+                                                        <Grid.Container gap={1} direction="column">
+                                                          {allSNSAccounts && allSNSAccounts.data.domainNames.length > 0 ? (
+                                                            allSNSAccounts.data.domainNames.map(domains => (
+                                                              <Grid className="p-2 bg-gray-50 hover:bg-gray-100 rounded-xl h-full my-2.5" xs={12}>
                                                                 <Row align="center">
                                                                   <Col span={1}>
                                                                     <TokenIcon mint="EchesyfXePKdLtoiZSL8pBe8Myagyy8ZRqsACNCFGnvp"/>
@@ -508,8 +506,8 @@ const Profile = () => {
                                             {/* Activity Tab Panel */}
                                             <Tab.Panel>
                                                 <div className="grid grid-cols-1 auto-rows-auto gap-4 text-xs">
-                                                  {data && data.length > 0 ? (
-                                                    data
+                                                  {publicKeyTransactions && publicKeyTransactions.data.length > 0 ? (
+                                                    publicKeyTransactions.data
                                                     .map(transactionHistory => (
                                                       <div className="p-3 border rounded-xl">
                                                           <div className="flex items-center mb-2.5">
