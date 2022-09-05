@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import { NextSeo } from 'next-seo';
 import { TokenPrice, TokenName, TokenIcon, TokenSymbol } from '@utils/tokenList'
 import React, { Fragment, useEffect, useCallback} from 'react'
 import Head from 'next/head'
@@ -17,8 +18,7 @@ export async function getServerSideProps(context) {
     const { defi } = context.query;
     const res = await fetch(`https://api.coingecko.com/api/v3/coins/solana/contract/${defi}`);
     const data = await res.json();
-  
-    console.log(`Fetched place: ${data.name}`);
+
     return { 
         props: { 
             data 
@@ -39,11 +39,23 @@ const DefiDetailPage = () => {
 
     return(
         <>
-            <Head>
-                <title>Stork Drops - Airdrops. Whitelists. Alpha. One Social Platform.</title>
-                <meta name="description" content="What if we assembled a group of people to buy a futbol club?" />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+            <NextSeo
+                title="Explore Defi - Swap SPL Tokens, earn yield, and more."
+                description="Stork Drops is creating a platfrom to explore the Solana ecosystem, connect with others, and collect unique drops."
+                openGraph={{
+                    title: 'Explore Defi - Swap SPL Tokens, earn yield, and more.',
+                    description: 'Stork Drops is creating a platfrom to explore the Solana ecosystem, connect with others, and collect unique drops.',
+                    images: [
+                    {
+                        url: '/logos/og-banner.png',
+                        width: 800,
+                        height: 400,
+                        alt: 'Stork Drops Banner',
+                        type: 'image/png',
+                    },
+                    ],
+                }}
+            />
 
             <Navigation/>
 

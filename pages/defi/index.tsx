@@ -43,7 +43,7 @@ const DefiPage = () => {
                 <Grid className="pl-4 py-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
                     <div className="">
                         <h1 className=" text-4xl md:text-7xl font-semibold">
-                          Explore DeFi
+                          DeFi
                         </h1>
                         <p className="mt-5 text-sm">Decentralized Finance.</p>
                     </div>

@@ -23,6 +23,13 @@ export function formatDollar(num) {
     }, "."), p[1]].join("");
 }
 
+export function formatNumber(num) {
+  var p = num.toFixed(2).split(".");
+  return [p[0].split("").reverse().reduce(function(acc, num, i) {
+      return num + (i && !(i % 3) ? "," : "") + acc;
+  }, "."), p[1]].join("");
+}
+
 export function lamportsToSol(lamports: number | BN): number {
   if (typeof lamports === "number") {
     return Math.abs(lamports) / LAMPORTS_PER_SOL;

@@ -52,7 +52,7 @@ const Home = () => {
                     <Grid xs={0} sm={0} md={1.5} lg={1.5}>
                         <AppBar/>
                     </Grid>
-                    <Grid className="h-screen pl-4 py-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
+                    <Grid className="h-screen py-4 p-0 md:pl-4 md:py-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
                             <div className="grid grid-cols-1 auto-rows-auto md:grid-cols-2 md:grid-rows-1 items-center justify-around">
                                 <div> 
                                     <p className="text-sm">

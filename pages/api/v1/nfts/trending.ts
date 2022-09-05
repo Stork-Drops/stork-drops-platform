@@ -5,7 +5,7 @@ export default async function handler(req, res){
         'https://beta.api.solanalysis.com/rest/get-project-stats',
         {
             'order_by': {
-                'field_name': 'market_cap',
+                'field_name': 'volume_1day',
                 'sort_order': 'DESC'
             }
         },
@@ -18,6 +18,3 @@ export default async function handler(req, res){
     );
     res.status(200).json(response.data);
 }
-
-// write an axios get request that accepts headers and body
-

@@ -33,6 +33,16 @@ import 'react-loading-skeleton/dist/skeleton.css'
 require('../styles/globals.css');
 require('../styles/wallet-adapter.css');
 
+const theme = createTheme({
+    type: "regular",
+    theme: {
+        fonts: {
+            p: "Inter, sans-serif",
+            h1: "DM Sans, sans-serif",
+        }
+    }
+})
+
 // // Call `createTheme` and pass your custom values
 // const lightTheme = createTheme({
 //     type: 'light',
@@ -96,7 +106,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
     
     return (
         <>
-            <NextUIProvider>
+            <NextUIProvider theme={theme}>
                 <MusicProvider>
                     <AudioPlayerProvider>
                             <ConnectionProvider endpoint={endpoint}>

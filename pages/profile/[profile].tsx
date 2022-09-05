@@ -118,7 +118,6 @@ const Profile = () => {
     const formattedPublicKey = new PublicKey(parseFloat(publicAddress));
 
     const { data: publicKeyTransactions } = useSWR(`/api/v1/transactions/${publicAddress}`, fetcher);
-    console.log(publicKeyTransactions);
     const { data: allSNSAccounts } = useSWR(`/api/v1/nameService/${publicAddress}`, fetcher);
 
     const [loading, setLoading] = useState(true);
@@ -168,7 +167,6 @@ const Profile = () => {
         }
         if (mounted.current) {
           setDomainCollection(_domainCollection)
-          console.log(`Your sns names are :'`, domainCollection);
           mounted.current = false;
         }
     } catch (error) {
