@@ -3,8 +3,6 @@ import React, { useEffect, useState, useContext, useCallback, useRef, useMemo } 
 import { useRouter } from 'next/router'
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
-import Link from 'next/link';
-import axios from 'axios';
 import Navigation from "../../components/Navigation"
 import { Container, Grid, Spacer, Row, Col, Collapse, Progress, Loading, Table } from '@nextui-org/react';
 import { ProfileContext } from "../../context/ProfileContext"

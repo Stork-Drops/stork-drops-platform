@@ -66,6 +66,7 @@ const PopularCollection = () => {
                     hoverable
                     sticked
                     aria-label="Popular NFT Collections"
+                    className="mb-10"
                     css={{
                         margin: -10,
                         padding: 0,
@@ -176,7 +177,7 @@ const PopularCollection = () => {
                                         </Link>
                                     </Table.Cell>
                                 </Table.Row>
-                            )).slice(0, 10)
+                            )).slice(0, 25)
                     ) : (
                         <Table.Row>
                             <Table.Cell>
