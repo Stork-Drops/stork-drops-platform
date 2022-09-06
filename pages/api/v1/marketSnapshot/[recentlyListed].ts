@@ -16,7 +16,7 @@ export default async function handler(req, res){
             },
             'order_by': {
                 'field_name': 'lowest_listing_price',
-                'sort_order': 'DESC'
+                'sort_order': 'ASC'
             },
             'pagination_info': {
                 'page_number': 1

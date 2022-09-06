@@ -114,9 +114,11 @@ const NFTCollectionPage = () => {
                                 <div className="grid grid-cols-4 auto-rows-auto gap-4">
                                     {recentlyListed && recentlyListed.market_place_snapshots.length > 0 ? (
                                         recentlyListed.market_place_snapshots.map((listing, index) => (
-                                            <>
-                                                <img src={listing.meta_data_img} className="rounded-xl"/>
-                                            </>
+                                            <div className="grid grid-cols-1 auto-rows-auto gap-2">
+                                                <img src={listing?.meta_data_img} className="rounded-xl"/>
+                                                <p>{listing?.name}</p>
+                                                <p>{listing?.lowest_listing_mpa?.price} SOL</p>
+                                            </div>
                                             ))
                                             ) : (
                                             <div className="flex justify-center">
