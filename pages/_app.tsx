@@ -157,7 +157,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                                                 }}
                                             />
                                             <div className="bg-green-200 block md:flex justify-center md:items-center md:justify-between px-5 py-2.5 text-green-600 font-base md:text-center w-full">
-                                                <span className="text-xs font-semibold">We entered into the Solana Summer Camp Hackathon. Give us an upvote if you enjoyed the experience. 🙏</span>
+                                                <span className="text-xs font-semibold">REMINDER: This is a beta - things can/will break and UI will change frequently. ❤️ We also entered into the Solana Summer Camp Hackathon. Give us an upvote if you enjoyed the experience. 🙏</span>
                                                 <a className="flex items-center justify-center bg-green-600 text-white px-2 py-1 font-semibold mt-2.5 md:mt-0 text-xs rounded-md" target="_blank" href="https://solana.com/summercamp/voting/stork-drops">Go Vote!</a>
                                             </div>
                                             <Component {...pageProps} />

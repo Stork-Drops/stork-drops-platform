@@ -87,7 +87,8 @@ const Dropzone = ({ cryptoProjects }) => {
                                       </span>
                                     </Grid>
                                   </Grid.Container>
-                                  <Grid.Container direction="row" gap={2}>
+                                  <img src="http://bestanimations.com/Site/Construction/under-construction-animated-gif-16.gif" alt="Under Construction" className="w-full"/>
+                                  {/* <Grid.Container direction="row" gap={2}>
                                     <Grid xs={12} sm={12} md={3} lg={3}>
                                       <div className="w-full">
                                           <label className="block text-normal font-semibold text-dracula">Filter by category</label>
@@ -127,12 +128,12 @@ const Dropzone = ({ cryptoProjects }) => {
                                     ) : (
                                       <h1>No results found!</h1>
                                     )}
-                                  </Grid.Container>
+                                  </Grid.Container> */}
                               </div>
                             </Grid>
                             <Grid xs={12} sm={12} md={2.5} lg={2.5}>
                                 <Grid.Container direction="column">
-                                    Solana Job Board
+                                    <p className="text-xs">Something something fun time</p>
                                 </Grid.Container>  
                             </Grid>
                         </Grid.Container>       

@@ -43,7 +43,7 @@ const DefiPage = () => {
                         <h1 className="flex items-center text-2xl md:text-7xl font-semibold">NFTs</h1>
                         <p className="text-lg my-5">
                           The Solana NFT ecosystem is bustling with new collections each and every day.
-                          Track NFTs across marketplaces using on-chain data to make informed decisions.
+                          Track NFTs across marketplaces using on-chain data to make those informed decisions.
                         </p>
                       </div>
                       

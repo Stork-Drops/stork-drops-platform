@@ -173,7 +173,7 @@ const PopularCollection = () => {
                                     </Table.Cell>
                                     <Table.Cell>
                                         <Link href={`/nfts/collection/${collections?.project_id}`}>
-                                            View collection
+                                            <span className="bg-gray-100 text-dracula px-2 py-1 rounded-xl">View collection</span>
                                         </Link>
                                     </Table.Cell>
                                 </Table.Row>
