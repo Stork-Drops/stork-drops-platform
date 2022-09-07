@@ -91,7 +91,7 @@ const DAOPage = () => {
                       <Grid xs={12} sm={12} md={6} lg={6}>
                         <Col>
                           <div className="mb-5 text-dracula">
-                          <h1 className="my-5 flex items-center text-7xl font-semibold">DAOs <span className="ml-2 text-2xl bg-gray-200 py-1 px-2 w-fit rounded-xl tracking-tighter">{certifiedRealms.length + uncharteredDaoList.length ? certifiedRealms.length + uncharteredDaoList.length : <Loading/>}</span></h1>
+                          <h1 className="my-5 flex items-center text-2xl md:text-6xl font-semibold">Explore DAOs <span className="ml-2 text-2xl bg-gray-200 py-1 px-2 w-fit rounded-xl tracking-tighter">{certifiedRealms.length + uncharteredDaoList.length ? certifiedRealms.length + uncharteredDaoList.length : <Loading/>}</span></h1>
                           <p className="text-sm">Decentralized Autonomous Organizations.</p>
                           <div className="p-2">
                             <Avatar.Group count={allRealms.length - 6}>

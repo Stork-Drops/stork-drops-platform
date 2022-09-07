@@ -8,11 +8,20 @@ import PopularCollection from '@components/NFTs/PopularCollections';
 import Navigation from '@components/Navigation';
 import MagicEdenTimeLine from '@components/NFTs/MagicEdenTimeline';
 import Footer from '@components/Footer';
-import { formatWalletAddress, formatDollar, formatAbbreviationNumber }  from '@utils/formatters';
+import { timeAgo, formatWalletAddress, formatDollar, formatAbbreviationNumber }  from '@utils/formatters';
 import axios from 'axios'
 import useSWR from 'swr'
 import { AiOutlineLink, AiOutlineTwitter } from "react-icons/ai";
 import { FaDiscord } from "react-icons/fa";
+import { Tab } from '@headlessui/react'
+import moment from 'moment';
+
+
+const dateTimeFormat = new Intl.DateTimeFormat('en', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+});
 
 //Set up fetcher for SWR
 const fetcher = url => axios.get(url).then(res => res.data) 
@@ -45,7 +54,7 @@ const NFTCollectionPage = () => {
                                         </div>
                                         <div className="flex items-center">
                                             <Col>
-                                                <p className="text-6xl">
+                                                <p className="text-3xl md:text-6xl">
                                                     {data?.project_stats?.[0].project?.display_name}
                                                 </p>
                                                 <Spacer/>
@@ -60,19 +69,19 @@ const NFTCollectionPage = () => {
                                                             </Col>
                                                             <Col>
                                                                 <span className="text-lg font-semibold">
+                                                                    {data?.project_stats?.[0].market_cap ? formatDollar(data?.project_stats?.[0].market_cap) : <Loading/> }
+                                                                </span>
+                                                                <p>Market Cap</p>
+                                                            </Col>
+                                                            <Col>
+                                                                <span className="text-lg font-semibold">
                                                                     {data?.project_stats?.[0].num_of_token_listed} / {data?.project_stats?.[0].project?.supply}
                                                                 </span>
                                                                 <p>Listed</p>
                                                             </Col>
                                                             <Col>
                                                                 <span className="text-lg font-semibold">
-                                                                    {data?.project_stats?.[0].market_cap}
-                                                                </span>
-                                                                <p>Market Cap</p>
-                                                            </Col>
-                                                            <Col>
-                                                                <span className="text-lg font-semibold">
-                                                                    {data?.project_stats?.[0].volume_1day}
+                                                                    {data?.project_stats?.[0].volume_1day ? formatDollar(data?.project_stats?.[0].volume_1day) : <Loading/>}
                                                                 </span>
                                                                 <p>24H Volume</p>
                                                             </Col>
@@ -111,21 +120,87 @@ const NFTCollectionPage = () => {
                                     </div>
                                 </div>
                                 <Spacer y={0.5}/>
-                                <div className="grid grid-cols-4 auto-rows-auto gap-4">
-                                    {recentlyListed && recentlyListed.market_place_snapshots.length > 0 ? (
-                                        recentlyListed.market_place_snapshots.map((listing, index) => (
-                                            <div className="grid grid-cols-1 auto-rows-auto gap-2">
-                                                <img src={listing?.meta_data_img} className="rounded-xl"/>
-                                                <p>{listing?.name}</p>
-                                                <p>{listing?.lowest_listing_mpa?.price} SOL</p>
+
+                                <Tab.Group>
+                                    <Tab.List>
+                                            <div className="grid grid-cols-3 grid-rows-1 gap-4 my-2.5 p-2 border border-gray-200 rounded-xl">
+                                                <Tab className={({ selected }) =>
+                                                  selected ? 'font-semibold text-white text-sm bg_sunrise rounded-xl px-2 p-2' : 'font-semibold text-dracula text-sm rounded-xl p-2'}>
+                                                    Trader View
+                                                </Tab>
+                                                <Tab className={({ selected }) =>
+                                                  selected ? 'font-semibold text-white text-sm bg_sunrise rounded-xl p-2' : 'font-semibold text-dracula text-sm rounded-xl p-2'}>
+                                                    Market View
+                                                </Tab>
+                                                <Tab className={({ selected }) =>
+                                                  selected ? 'font-semibold text-white text-sm bg_sunrise rounded-xl p-2' : 'font-semibold text-dracula text-sm rounded-xl p-2'}>
+                                                    Activity
+                                                </Tab>
                                             </div>
-                                            ))
-                                            ) : (
-                                            <div className="flex justify-center">
-                                                No listings.
+                                          </Tab.List>
+
+                                          {/* Trader View */}
+                                          <Tab.Panels>
+                                            <Tab.Panel>
+                                              <div className="grid grid-cols-2 grid-rows-1 gap-4">
+                                                <div className="grid grid-cols-1 auto-rows-auto border p-4 rounded-xl">
+                                                  
+                                                </div>
+                                              </div>
+                                            </Tab.Panel>
+                                            
+                                            {/* Market View */}
+                                            <Tab.Panel>
+                                                <div className="mb-5">
+                                                    <div className="w-fit">
+                                                        <label className="block text-normal font-semibold text-dracula">Sort by</label>
+                                                        <select
+                                                            className="block w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                                            <option value="">For Sale: Low to High</option>
+                                                            <option value="">For Sale: High to Low</option>
+                                                            <option value="">Recently Listed</option>
+                                                            <option value="">Rank: Low to High</option>
+                                                            <option value="">Rank: High to Low</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            <div className="grid grid-cols-2 auto-rows-auto md:grid-cols-5 md:auto-rows-auto gap-2">
+                                                {recentlyListed && recentlyListed.market_place_snapshots.length > 0 ? (
+                                                    recentlyListed.market_place_snapshots.map((listing, index) => (
+                                                        <div className="grid grid-cols-1 auto-rows-auto">
+                                                            <img src={listing?.meta_data_img} className="rounded-t-xl"/>
+                                                                <div className="border-t-none border p-2 rounded-b-xl">
+                                                                    <p className="text-sm font-extrabold">{listing?.name}</p>
+                                                                    <div className="grid grid-cols-2 grid-rows-1 gap-2">
+                                                                        <div>
+                                                                            <p className="text-xs font-semibold">Price</p>
+                                                                            <p className="text-xs">{listing?.lowest_listing_mpa?.price} SOL</p>
+                                                                        </div>
+                                                                        <div>
+                                                                            <p className="text-xs font-semibold">Rank</p>
+                                                                            <p className="text-xs">{listing?.rank_est} / {data?.project_stats?.[0].project?.supply}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <p className="text-xs"></p>
+                                                                </div>
+                                                        </div>
+                                                    ))
+                                                    ) : (
+                                                    <div className="flex justify-center">
+                                                        No listings.
+                                                    </div>
+                                                )}
                                             </div>
-                                    )}
-                                </div>
+                                            </Tab.Panel>
+
+                                            {/* Activity View */}
+                                            <Tab.Panel>
+                                                
+                                            </Tab.Panel>
+
+                                          </Tab.Panels>
+                                        </Tab.Group>
+
                     </div>
                 </Grid>
             </Grid.Container>

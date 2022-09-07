@@ -15,7 +15,9 @@ const ProfileContext = React.createContext({
 	nftCollection: [],
 	setNFTCollection: (nftCollection: any) => {},
 	tokenCollection: [],
-	setTokenCollection: (tokenCollection: any) => {}
+	setTokenCollection: (tokenCollection: any) => {},
+	networkStatus: null,
+	setNetworkStatus: (networkStatus: number) => {}
 });
 
 function ProfileProvider({ children }){
@@ -28,6 +30,7 @@ function ProfileProvider({ children }){
 	const [domainCollection, setDomainCollection] = useState([]);
 	const [nftCollection, setNFTCollection] = useState<any>([]);
 	const [tokenCollection, setTokenCollection] = useState<any>([]);
+	const [networkStatus, setNetworkStatus] = useState(null);
 
 	return(
 		<ProfileContext.Provider 
@@ -38,7 +41,8 @@ function ProfileProvider({ children }){
 				twitterUsername, setTwitterUsername,
 				domainCollection, setDomainCollection,
 				nftCollection, setNFTCollection,
-				tokenCollection, setTokenCollection
+				tokenCollection, setTokenCollection,
+				networkStatus, setNetworkStatus
 			}}>
 				{children}
 		</ProfileContext.Provider>

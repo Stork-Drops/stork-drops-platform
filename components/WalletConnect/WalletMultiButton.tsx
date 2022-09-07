@@ -110,9 +110,6 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
     return (
         <>
             <div className="flex justify-between items-center">
-                <div className="hidden sm:block mr-5">
-                    <MusicPlayer/>
-                </div>
                 <div>
                 <Dropdown placement="bottom-right">
                     <Dropdown.Trigger>

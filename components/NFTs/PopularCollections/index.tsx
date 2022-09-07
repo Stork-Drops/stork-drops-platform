@@ -5,8 +5,10 @@ import useSWR from 'swr'
 import { LAMPORTS_PER_SOL } from '@solana/web3.js'
 import { formatNumber, formatDollar, lamportsToSol, lamportsToSolString } from '@utils/formatters'
 import Link from 'next/link'
-import { Avatar, Table, Grid } from '@nextui-org/react';
+import { Avatar, Table, Grid, Loading } from '@nextui-org/react';
 import { Tab } from '@headlessui/react'
+import { BsCircleFill } from "react-icons/bs";
+import { formatPrettyNumber } from '@utils/formatters';
 
 const PopularCollection = () => {
         const [selectedDayRange, setSelectedDayRange] = useState(7);
@@ -37,8 +39,16 @@ const PopularCollection = () => {
         <>
             <div className="flex justify-between items-center my-5">
                 <div className="my-2.5">
-                    <h2 className="flex items-center text-3xl font-semibold">Top NFT Collections by Volume</h2>
-                    <p className="text-lg">NFT Market Overview. Prices updated in real time.</p>
+                    <div>
+                        <h2 className="flex items-center text-3xl font-semibold">Top NFT Collections by Volume</h2>
+                    </div>
+                    <div className="flex items-center">
+                        <p className="text-sm">NFT Market Overview.</p>
+                        <span className="text-xs font-extrabold flex items-center animate-pulse bg-green-200 px-2 py-1 rounded-xl text-green-500 ml-2">
+                            <BsCircleFill className="w-1.5 h-1.5 mr-1.5"/>
+                            LIVE
+                        </span>
+                    </div>
                 </div>
                 <div className="bg-gray-200 border border-gray-200 rounded-xl text-sm">
                     <Tab.Group>
@@ -66,7 +76,7 @@ const PopularCollection = () => {
                     hoverable
                     sticked
                     aria-label="Popular NFT Collections"
-                    className="mb-10"
+                    className="mb-10 text-sm"
                     css={{
                         margin: -10,
                         padding: 0,
@@ -80,7 +90,7 @@ const PopularCollection = () => {
                                 background: "transparent", 
                                 fontSize: '1.5rem', 
                                 fontWeight: '600' }}>
-                                🔥
+                                #
                         </Table.Column>
                         <Table.Column 
                             css={{ 
@@ -163,21 +173,21 @@ const PopularCollection = () => {
                                     </Table.Cell>
                                     <Table.Cell>
                                         <span className="text-sm text-dracula font-medium">
-                                            ${collections?.volume_1day}
+                                            ${collections?.volume_1day ? formatPrettyNumber(collections?.volume_1day) : <Loading/>}
                                         </span>
                                     </Table.Cell>
                                     <Table.Cell>
                                         <span className="text-sm text-dracula font-medium">
-                                            {collections?.volume_1day} SOL
+                                            {collections?.market_cap ? formatPrettyNumber(collections?.market_cap) : <Loading/>} SOL
                                         </span>
                                     </Table.Cell>
                                     <Table.Cell>
                                         <Link href={`/nfts/collection/${collections?.project_id}`}>
-                                            <span className="bg-gray-100 text-dracula px-2 py-1 rounded-xl">View collection</span>
+                                            <span className="bg_sunrise text-white px-2 py-1 text-sm font-semibold rounded-xl">View collection</span>
                                         </Link>
                                     </Table.Cell>
                                 </Table.Row>
-                            )).slice(0, 25)
+                            ))
                     ) : (
                         <Table.Row>
                             <Table.Cell>

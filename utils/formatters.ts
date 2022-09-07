@@ -2,6 +2,13 @@ import BN from "bn.js";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import moment from 'moment'
 
+// function that takes an ISO 8601 date and returns time ago in words
+export function timeAgo(date: string) {
+  return moment(date).fromNow();
+}
+
+
+
 export function formatUSD(number) {
   return number.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 }
@@ -21,6 +28,13 @@ export function formatDollar(num) {
     return ["$", p[0].split("").reverse().reduce(function(acc, num, i) {
         return num + (i && !(i % 3) ? "," : "") + acc;
     }, "."), p[1]].join("");
+}
+
+export function formatPrettyNumber(num) {
+  var p = num.toFixed(2).split(".");
+  return [p[0].split("").reverse().reduce(function(acc, num, i) {
+      return num + (i && !(i % 3) ? "," : "") + acc;
+  }, "."), p[1]].join("");
 }
 
 export function formatNumber(num) {
@@ -61,9 +75,14 @@ export function formatWalletAddress(address: any): any {
     return address.slice(0, 4) + "..." + address.slice(-4);
 }
 
-export const formatTimeAgo = (tickFormat) => {
+export const formatTimeAgo = (tickFormat: any) => {
   return moment.unix(tickFormat).fromNow();
 };
+
+export const formatTimeAgoISO = (tickFormat: any) => {
+  return moment.unix(tickFormat).fromNow();
+};
+
 
 
 
