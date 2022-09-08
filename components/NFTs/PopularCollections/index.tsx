@@ -118,14 +118,14 @@ const PopularCollection = () => {
                                 background: "transparent", 
                                 fontSize: '1rem', 
                                 fontWeight: '600' }}>
-                                Volume (USD)
+                                24HR Volume (USD)
                         </Table.Column>
                         <Table.Column 
                             css={{ 
                                 background: "transparent", 
                                 fontSize: '1rem', 
                                 fontWeight: '600' }}>
-                                Mkt Cap
+                                Market Cap (USD)
                         </Table.Column>
                         <Table.Column 
                             css={{ 
@@ -178,7 +178,7 @@ const PopularCollection = () => {
                                     </Table.Cell>
                                     <Table.Cell>
                                         <span className="text-sm text-dracula font-medium">
-                                            {collections?.market_cap ? formatPrettyNumber(collections?.market_cap) : <Loading/>} SOL
+                                            ${collections?.market_cap ? formatPrettyNumber(collections?.market_cap) : <Loading/>}
                                         </span>
                                     </Table.Cell>
                                     <Table.Cell>
