@@ -9,7 +9,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 const Footer = () => {
     const { connected } = useWallet();
     return(
-        <div className="z-50 hidden fixed bg-white bottom-0 w-full md:block border-t border-gray-200 py-1.5">
+        <div className="z-50 fixed bg-white bottom-0 w-full md:block border-t border-gray-200 py-1">
             <Container fluid>
                 <div className="flex items-center justify-between">
                     <div>

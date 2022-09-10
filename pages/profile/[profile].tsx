@@ -22,6 +22,8 @@ import Footer from '@components/Footer';
 import { getHandleAndRegistryKey } from "@bonfida/spl-name-service";
 import { fetchSolanaNameServiceName } from "@utils/name-service"
 import { WalletMultiButton } from '@components/WalletConnect';
+import { Connection } from "@solana/web3.js";
+
 
 interface Result {
   pubkey: PublicKey;
@@ -53,6 +55,10 @@ const acceptedTokens = [
 ]
 
 const whitelistedTokens = [
+  {
+    name: "SOL",
+    mintAddress: "So11111111111111111111111111111111111111111"
+  },
   {
     name: "DUST",
     mintAddress: "DUSTawucrTsGU8hcqRdHDCbuYhCPADMLM2VcCb8VnFnQ"
@@ -117,14 +123,11 @@ const Profile = () => {
 
     const { data: publicKeyTransactions } = useSWR(`/api/v1/transactions/${publicAddress}`, fetcher);
     const { data: allSNSAccounts } = useSWR(`/api/v1/nameService/${publicAddress}`, fetcher);
-
-    const [loading, setLoading] = useState(true);
-    const [tokens, setTokens] = useState<TokenAccount[] | null>(null);
     
     const { publicKey, wallet, disconnect, connected } = useWallet();
     const base58PubKey = useMemo(() => publicKey?.toBase58(), [publicKey]);
     const { connection } = useConnection();
-    const [transactionHistory, setTransactionHistory] = React.useState(null);
+    const [SOLBalance, setSOLBalance] = useState(0);
     const [twitterNameLookup, setTwitterNameLookup] = useState("");
     const [bonfidaNameLookup, setBonfidaNameLookup] = useState("");
     const [domainCollection, setDomainCollection] = useState<Result[] | any>([]);
@@ -145,6 +148,15 @@ const Profile = () => {
           setTimeout(() => setCopied(false), 400);
       }
   }, [publicAddress]);
+
+  const getSOLBalance = async () => {
+    try {
+        const walletBalance = await connection.getBalance(publicKey)
+        setSOLBalance(walletBalance / LAMPORTS_PER_SOL)
+    }catch (error){
+        console.log(error)
+    }
+  }
 
   const getSNSAccounts = async () => {
     try{
@@ -237,6 +249,7 @@ const Profile = () => {
   const portfolioItemTotal = (tokenCollection.length + 1) + nfts.length;
 
   useEffect(() => {
+    getSOLBalance();
     loadSNSUsername();
     getSNSAccounts();
     getTwitterName();
@@ -336,10 +349,10 @@ const Profile = () => {
                                               <Row align="center">
                                                 <Col className="text-xs">Wallet</Col>
                                                 <Col>
-                                                  <Progress size="sm" color="secondary" value={((tokenCollection.length /portfolioItemTotal) * 100)} />
+                                                  <Progress size="sm" color="secondary" value={(((tokenCollection.length + 1) /portfolioItemTotal) * 100)} />
                                                 </Col>
                                                 <Col className="text-xs ml-2 text-right">
-                                                  {((tokenCollection.length /portfolioItemTotal) * 100).toFixed(2)}%
+                                                  {(((tokenCollection.length + 1) / portfolioItemTotal) * 100).toFixed(2)}%
                                                 </Col>
                                               </Row>
                                               <Row align="center">
@@ -369,7 +382,7 @@ const Profile = () => {
                                                     </Grid>
                                                     <Grid>
                                                       <div className="text-xs bg-gray-200 text-dracula px-1.5 py-0.5 rounded-md">
-                                                        {tokenCollection ? tokenCollection.length + domainCollection.length : 0}
+                                                        {SOLBalance ? tokenCollection.length + 1 + domainCollection.length : 0}
                                                       </div>
                                                     </Grid>
                                                   </Grid.Container>
@@ -409,11 +422,37 @@ const Profile = () => {
                                             <Tab.Panel>
                                               <div className="grid grid-cols-2 grid-rows-1 gap-4">
                                                 <div className="grid grid-cols-1 auto-rows-auto border p-4 rounded-xl">
-                                                <span className="py-2.5 text-normal font-semibold text-dracula">Coins ({tokenCollection.length ? tokenCollection.length : <Loading size='xs'/>})</span>
+                                                <span className="py-2.5 text-normal font-semibold text-dracula">Coins ({SOLBalance ? tokenCollection.length + 1 : <Loading size='xs'/>})</span>
+                                                <div className="mb-2.5 flex items-center justify-between rounded-xl p-2 bg-gray-50 hover:bg-gray-200">
+                                                        <div className="flex items-center">
+                                                          <div className="w-8 h-8">
+                                                            <TokenIcon mint="So11111111111111111111111111111111111111112"/>
+                                                          </div>
+                                                          <div className="ml-2">
+                                                            <p className="text-sm font-semibold">
+                                                              Solana
+                                                            </p>
+                                                            <div className="text-dracula text-sm">
+                                                              {SOLBalance}
+                                                              <span className="ml-1"><TokenSymbol mint="So11111111111111111111111111111111111111112"/></span>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                        <div className="flex items-center">
+                                                          <div>
+                                                          <span className="font-semibold text-sm">
+                                                      </span>
+                                                      {/* <div className="text-dracula font-semibold text-sm">
+                                                        <TokenChange tokenAddress={(tokenAccount.account.data["parsed"]["info"]["mint"])}/>
+                                                      </div> */}
+                                                      </div>
+                                                      <div>
+                                                        
+                                                      </div>
+                                                        </div>
+                                                    </div>
                                                   {tokenCollection && tokenCollection.length > 0 ? (
                                                     tokenCollection.map(tokenAccount => (
-
-                                                      <>
                                                     <div className="mb-2.5 flex items-center justify-between rounded-xl p-2 bg-gray-50 hover:bg-gray-200">
                                                         <div className="flex items-center">
                                                           <div className="w-8 h-8">
@@ -442,7 +481,6 @@ const Profile = () => {
                                                       </div>
                                                         </div>
                                                     </div>
-                                                    </>
                                                     ))
                                                     ) : (
                                                     <Skeleton count={5} />

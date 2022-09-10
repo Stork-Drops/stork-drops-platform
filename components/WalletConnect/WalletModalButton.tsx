@@ -14,7 +14,7 @@ export const WalletModalButton: FC<ButtonProps> = ({ children = 'Connect Wallet'
     );
 
     return (
-        <button className="bg_sunrise text-white text-normal font-semibold px-4 py-2 rounded-xl" onClick={handleClick} {...props}>
+        <button className="bg_sunrise text-white text-sm font-semibold px-4 py-2 rounded-xl" onClick={handleClick} {...props}>
             {children}
         </button>
     );
