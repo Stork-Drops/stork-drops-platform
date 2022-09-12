@@ -80,12 +80,8 @@ const DAOPage = () => {
             <Navigation/>
 
             <Container xl>
-              <Grid.Container justify="center"> 
-                <Grid xs={0} sm={0} md={1.5} lg={1.5}>
-                  <AppBar/>
-                </Grid>
-
-                <Grid className="pl-4 py-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
+              <Grid.Container justify="center">
+                <Grid xs={12} sm={12} md={12} lg={12} direction="column">
                   <div>
                     <Grid.Container alignItems="center">
                       <Grid xs={12} sm={12} md={6} lg={6}>
@@ -172,7 +168,7 @@ const DAOPage = () => {
                                     </Grid.Container>
                                     <Row>
                                       <a target="_blank" href={`https://realms.today/dao/${verifiedRealms.symbol}`} className="flex items-center justify-center bg-gray-200 text-dracula p-2 text-xs rounded-xl w-full">
-                                        Explore {verifiedRealms.displayName} on realms.today<HiOutlineExternalLink className="text-dracula ml-1 w-3 h-3" />
+                                        Explore {verifiedRealms.displayName} on realms.today<div className="text-dracula ml-1 w-3 h-3"><HiOutlineExternalLink/></div>
                                       </a>
                                     </Row>
                                   </div>
@@ -223,7 +219,7 @@ const DAOPage = () => {
                                   </Grid.Container>
                                   <div>
                                     <a target="_blank" href={`https://realms.today/dao/${verifiedRealms.symbol}`} className="flex items-center justify-center bg-gray-200 text-dracula p-2 text-xs rounded-xl w-full">
-                                      Explore {verifiedRealms.displayName} on realms.today<HiOutlineExternalLink className="text-dracula ml-1 w-3 h-3" />
+                                      Explore {verifiedRealms.displayName} on realms.today<div className="text-dracula ml-1 w-3 h-3"><HiOutlineExternalLink /></div>
                                     </a>
                                   </div>
                                 </div>

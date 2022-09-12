@@ -18,6 +18,3 @@ export default async function handler(req, res){
     );
     res.status(200).json(response.data);
 }
-
-// write an axios get request that accepts headers and body
-

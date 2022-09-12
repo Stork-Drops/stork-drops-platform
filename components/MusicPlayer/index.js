@@ -31,7 +31,6 @@ const MusicPlayerControls = () => {
         src: songs[songIndex].src,
         html5: true,
         format: "mp3",
-        autoplay: true,
         onend: () => {
             if(songIndex < songs.length - 1){
                 setSongIndex(songIndex + 1)
@@ -39,7 +38,6 @@ const MusicPlayerControls = () => {
                 setSongIndex(0)
             }
         },
-        autoSuspend: false,
     })
 
     //if (!ready && !loading) return <div>No audio to play</div>

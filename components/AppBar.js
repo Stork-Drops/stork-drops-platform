@@ -1,9 +1,7 @@
 import React, { Fragment, useMemo } from 'react'
-import Link from 'next/link';
-import { Grid, Tooltip, Collapse, Text } from '@nextui-org/react';
+import { Grid, Navbar, Dropdown, Button, Text, Link } from '@nextui-org/react';
 import { useRouter } from 'next/router';
-import { FiHome, FiCompass, FiDroplet, FiCodesandbox, FiMessageSquare, FiUser, FiCalendar } from "react-icons/fi";
-import { HiOutlineLogout } from "react-icons/hi";
+import { FiHome, FiCompass, FiDroplet, FiUser } from "react-icons/fi";
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import { Disclosure } from '@headlessui/react'
 import { HiChevronDown } from "react-icons/hi";
@@ -19,9 +17,46 @@ const AppBar = () => {
 
     return(
         <>
-            <Grid.Container className="h-full border-r border-gray-200" direction='column' justify='space-between'>
-                <div className="fixed w-fit">
-                    <div className="my-2.5 grid grid-cols-1 gap-2 auto-rows-auto">
+        <Navbar className="border-b" isCompact disableShadow disableBlur variant="sticky">
+        <Navbar.Brand>
+            <div className="flex items-center justify-between">
+                <Link href="/">
+                    <img
+                        className='w-32 sm:w-36 cursor-pointer hover:opacity-80' 
+                        src="/sd-full.svg"/>
+                </Link>
+                <div 
+                    style={{
+                        fontSize: '0.6rem',
+                    }}
+                    className="ml-1 w-min bg_sunrise text-white px-1 py-0.5 sm:px-2.5 sm:py-1 rounded-full font-semibold hover:opacity-80">
+                    beta
+                </div>  
+            </div>
+        </Navbar.Brand>
+        <Navbar.Content hideIn="xs" variant="sticky">
+          <Navbar.Link href="#">Features</Navbar.Link>
+          <Navbar.Link isActive href="#">Customers</Navbar.Link>
+          <Navbar.Link href="#">Pricing</Navbar.Link>
+          <Navbar.Link href="#">Company</Navbar.Link>
+        </Navbar.Content>
+        <Navbar.Content>
+          <Navbar.Link color="inherit" href="#">
+            Login
+          </Navbar.Link>
+          <Navbar.Item>
+            <Button auto flat as={Link} color="primary" href="#">
+              Sign Up
+            </Button>
+          </Navbar.Item>
+        </Navbar.Content>
+      </Navbar>
+        
+
+
+
+
+            {/* <Grid.Container className="hidden" direction='row' alignItems='center' alignContent='center' justify='space-between'>
                         <Link href="/">
                             <a className={router.pathname == "/" ? "w-full bg_sunrise flex items-center space-between text-white p-2 rounded-xl" : "flex items-center space-between text-gray-500 w-full p-2"}>
                                 <React.Fragment>
@@ -95,9 +130,7 @@ const AppBar = () => {
                                     </React.Fragment>
                                 </a>
                             </Link>
-                    </div>
-                </div>
-            </Grid.Container>
+            </Grid.Container> */}
         </>
     )
 }

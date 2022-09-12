@@ -29,7 +29,6 @@ const PopularCollection = () => {
             "/api/v1/nfts/trending7D", 
             fetcher
         );
-        console.log("data: ", trending1DVolume)
         
         const lamportsToSol = (lamports) => {
             return lamports / 1000000000
@@ -44,7 +43,7 @@ const PopularCollection = () => {
                     </div>
                     <div className="flex items-center">
                         <p className="text-sm">NFT Market Overview.</p>
-                        <span className="text-xs font-extrabold flex items-center animate-pulse bg-green-200 px-2 py-1 rounded-xl text-green-500 ml-2">
+                        <span className="text-xs font-semibold flex items-center animate-pulse bg-green-200 px-2 py-1 rounded-xl text-green-500 ml-2">
                             <BsCircleFill className="w-1.5 h-1.5 mr-1.5"/>
                             LIVE
                         </span>

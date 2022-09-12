@@ -22,8 +22,6 @@ import Footer from '@components/Footer';
 import { getHandleAndRegistryKey } from "@bonfida/spl-name-service";
 import { fetchSolanaNameServiceName } from "@utils/name-service"
 import { WalletMultiButton } from '@components/WalletConnect';
-import { Connection } from "@solana/web3.js";
-
 
 interface Result {
   pubkey: PublicKey;
@@ -108,7 +106,10 @@ const whitelistedTokens = [
 const NonVerifiedTwitter = () => {
   return (
     <a className="flex items-center w-max bg-twitter-blue text-white text-xs font-semibold hover:opacity-75 hover:cursor-pointer" href="https://naming.bonfida.org/twitter" target="_blank" rel="noopener">
-      <BsTwitter className="mr-2 text-white"/>Link Twitter Handle
+      <div className="mr-2">
+        <BsTwitter />
+      </div>
+      Link Twitter Handle
     </a>
   )
 }
@@ -284,19 +285,16 @@ const Profile = () => {
 
             <Navigation/>
 
-            <Container xl>
+            <Container fluid>
             <Grid.Container justify="center">
-                    <Grid xs={0} sm={0} md={1.5} lg={1.5}>
-                        <AppBar/>
-                    </Grid>
-                    <Grid className="pl-4 py-4" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
+                    <Grid xs={12} sm={12} md={12} lg={12} direction="column">
                       {connected ? (
                         <>
                           <Grid.Container direction="row" justify="space-between">
                             <Grid xs={12} sm={12} md={9.5} lg={9.5}>
                                 <Grid.Container direction='column'>
                                     <Grid>
-                                    <Grid.Container gap={1} direction="column">
+                                    <Grid.Container direction="column">
                                       {/* Profile Intro */}
                                       <Grid>
                                         <div className="grid grid-cols-2 grid-rows-1 items-center space-between">
@@ -523,7 +521,7 @@ const Profile = () => {
                                                 nfts.map(nft => (
                                                   <Grid xs={6} sm={6} md={3} lg={4} alignContent="flex-start" alignItems="flex-start">
                                                     <div className="rounded-xl w-full">
-                                                        <NftCard key={nft.mint} details={nft} />
+                                                        <NftCard details={nft} />
                                                       <p className="mt-5 text-sm text-dracula font-semibold">{nft.data.symbol}</p>
                                                       <p className="text-sm text-dracula font-normal">{nft.data.name}</p>
                                                     </div>
@@ -572,9 +570,7 @@ const Profile = () => {
                             <Grid xs={12} sm={12} md={2.5} lg={2.5}>
                                 <Grid.Container direction="column">
                                     <Grid>
-                                    <div>
-                                        <span className="px-2 py-2 text-xs font-semibold shadow-md text-white bg_sunrise rounded-xl">People to follow</span>
-                                    </div>
+                                      <span className="px-2 py-2 text-xs font-semibold shadow-md text-white bg_sunrise rounded-xl">People to follow</span>
                                     </Grid>
                                 </Grid.Container>  
                             </Grid>

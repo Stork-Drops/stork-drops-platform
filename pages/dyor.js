@@ -70,10 +70,7 @@ const Dropzone = ({ cryptoProjects }) => {
 
             <Container fluid>
             <Grid.Container>
-                    <Grid xs={0} sm={0} md={1.5} lg={1.5}>
-                        <AppBar/>
-                    </Grid>
-                    <Grid xs={12} sm={12} md={10.5} lg={10.5} direction="column">
+                    <Grid xs={12} sm={12} md={12} lg={12} direction="column">
                         <Grid.Container gap={1} direction="row" justify="space-between">
                             <Grid xs={12} sm={12} md={9.5} lg={9.5}>
                             <div>

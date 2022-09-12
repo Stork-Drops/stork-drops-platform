@@ -34,9 +34,10 @@ const NFTCollectionPage = () => {
 
     const { data } = useSWR(`/api/v1/nfts/collection/${collection}`, fetcher)
     const { data: recentlyListed } = useSWR(`/api/v1/marketSnapshot/${collection}`, fetcher)
+    const { data: collectionActivity } = useSWR(`/api/v1/nfts/getCollectionActivity/${collection}`, fetcher)
     const [traderView, setTraderView] = React.useState(false);
 
-    console.log(recentlyListed)
+    console.log('Your collection data is:', collectionActivity)
 
     return(
         <>
@@ -44,11 +45,8 @@ const NFTCollectionPage = () => {
 
             <Container xl>
             <Grid.Container justify="center"> 
-                <Grid xs={0} sm={0} md={1.5} lg={1.5}>
-                  <AppBar/>
-                </Grid>
 
-                <Grid className="md:pl-4 mb-20" xs={12} sm={12} md={10.5} lg={10.5} direction="column">
+                <Grid className="md:pl-4 mb-20" xs={12} sm={12} md={12} lg={12} direction="column">
                     <div className="my-2.5 grid grid-cols-1 grid-rows-auto gap-2 items-start">
                                 <div className="flex items-center w-full">
                                     <div className="flex items-start">
@@ -96,7 +94,7 @@ const NFTCollectionPage = () => {
                                                     {data?.project_stats?.[0].project?.twitter 
                                                     ?
                                                         <a target="_blank" href={data?.project_stats?.[0].website} className="flex items-center justify-center bg-gray-100 text-dracula rounded-xl p-2 w-fit">
-                                                            <AiOutlineLink className="w-4 h-4"/>
+                                                            <AiOutlineLink/>
                                                         </a>
                                                     :
                                                         null
@@ -104,7 +102,7 @@ const NFTCollectionPage = () => {
                                                     {data?.project_stats?.[0].project?.twitter 
                                                     ?
                                                         <a target="_blank" href={data?.project_stats?.[0].twitter} className="flex items-center justify-center bg-gray-100 text-dracula rounded-xl p-2 w-fit">
-                                                            <AiOutlineTwitter className="w-4 h-4"/>
+                                                            <AiOutlineTwitter/>
                                                         </a>
                                                     :
                                                         null
@@ -112,7 +110,7 @@ const NFTCollectionPage = () => {
                                                     {data?.project_stats?.[0].project?.discord 
                                                     ?
                                                         <a target="_blank"  href={data?.project_stats?.[0].discord} className="flex items-center justify-center bg-gray-100 text-dracula rounded-xl p-2 w-fit">
-                                                            <FaDiscord className="w-4 h-4"/>
+                                                            <FaDiscord />
                                                         </a>
                                                     :
                                                         null
@@ -242,9 +240,18 @@ const NFTCollectionPage = () => {
 
                                             {/* Activity View */}
                                             <Tab.Panel>
-                                                
-                                            </Tab.Panel>
+                                                {collectionActivity ? (
+                                                   collectionActivity.getProjectHistory.market_place_snapshots.map((activity, index) => (
+                                                    <div className="grid grid-cols-1 auto-rows-auto gap-4 border p-4 rounded-xl">
+                                                        {activity.name}
+                                                    </div>
+                                                ))
+                                                ) : (
+                                                    <>
 
+                                                    </>
+                                                )}
+                                            </Tab.Panel>
                                           </Tab.Panels>
                                         </Tab.Group>
 
