@@ -10,17 +10,7 @@ import { FiCopy, FiXCircle } from "react-icons/fi";
 const Settings = ({ children, ...props }) => {
     // wallet details
     const { publicKey, wallet } = useWallet();
-    const [collectibles, setCollectibles] = useState(null)
     const [copied, setCopied] = useState(false);
-    // Initialize fetch client
-    const fetchClient = new FetchNFTClient()
-
-    // Fetching all collectibles for the given wallets
-    async function LoadNFTs() {
-        fetchClient
-        .getCollectibles({ solWallets: ['4ZF1wtHKAnxmEZGACgbgphHvuo5aK4wC4MCNJzLYVkMX'] })
-        .then(res => setCollectibles(res))
-    }
 
     const base58 = useMemo(() => publicKey?.toBase58(), [publicKey]);
     const walletAddress = useMemo(() => {
@@ -58,19 +48,7 @@ const Settings = ({ children, ...props }) => {
                                 <Grid>
                                     <h2 className="text-3xl font-extrabold text-dracula">Settings</h2>
                                     <Grid.Container gap={2}>
-                                        {
-                                            collectibles?.solCollectibles['4ZF1wtHKAnxmEZGACgbgphHvuo5aK4wC4MCNJzLYVkMX']
-                                            .map(collectible => (
-                                                <div>
-                                                    <Grid direction='column' xs={4}>
-                                                        <div className="w-64">
-                                                            <img className="w-full rounded-md" src={collectible.frameUrl || collectible.gifUrl} alt={collectible.name} />
-                                                        </div>
-                                                        <span className="text-xs">{collectible.name}</span>
-                                                    </Grid>
-                                                </div>
-                                            ))
-                                        }
+                                        
                                     </Grid.Container>
                                 </Grid>
                                 <Grid>
