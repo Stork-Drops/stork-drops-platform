@@ -3,7 +3,6 @@ import Head from 'next/head'
 import { Grid, Container, Avatar } from '@nextui-org/react'
 import Navigation from "../components/Navigation"
 import AppBar from '../components/AppBar'
-import { FetchNFTClient } from '@audius/fetch-nft'
 import ProfilePictureModal from '../components/ProfilePictureModal'
 import { useWallet } from '@solana/wallet-adapter-react';
 import { FiCopy, FiXCircle } from "react-icons/fi";

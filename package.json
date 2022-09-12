@@ -15,7 +15,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@audius/sdk": "^0.0.19",
     "@bonfida/name-offers": "^0.0.1",
     "@bonfida/spl-name-service": "^0.1.41",
     "@cyberlab/cyberconnect": "^4.4.1",
