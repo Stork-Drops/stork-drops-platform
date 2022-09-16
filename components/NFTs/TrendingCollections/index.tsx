@@ -90,13 +90,15 @@ const TrendingCollections = () => {
 
     // FOR SWR
     const fetcher = url => axios.get(url).then(res => res.data); 
-    //const data = useSWR('/api/v1/nfts/trending', fetcher)
-    const data = useSWR('/api/v1/nfts/trending').data?.project_stats || [];                                                                                                                                
-    console.log("your data here:", data);
+    //const data = useSWR('/api/v1/nfts/trending').data?.data?.project_stats || [];    
+    const { data } = useSWR('/api/v1/nfts/trending', fetcher);                                                                                                                           
+
+    const collectionData = useMemo(() => (data ? data.project_stats : []), [data])
+    console.log("Your collection data here:", collectionData);
 
     return (
         <>
-            <Table columns={columns} data={data}/>
+            <Table columns={columns} data={collectionData}/>
         </>
     )
 }
