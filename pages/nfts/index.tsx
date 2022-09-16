@@ -3,10 +3,11 @@ import React, {Fragment} from 'react'
 import Head from 'next/head'
 import { Container, Grid } from '@nextui-org/react'
 import AppBar from "../../components/AppBar";
-import PopularCollection from '@components/NFTs/PopularCollections';
+import TrendingCollections from '@components/NFTs/TrendingCollections';
 import Navigation from '@components/Navigation';
 import MagicEdenTimeLine from '@components/NFTs/MagicEdenTimeline';
 import Footer from '@components/Footer';
+import { BsCircleFill } from "react-icons/bs";
 
 const DefiPage = () => {
     return(
@@ -46,14 +47,25 @@ const DefiPage = () => {
                       
                     </div>
 
-                    <div>
+                    {/* <div>
                       <h2 className="mb-2.5 flex items-center font-semibold text-2xl">Magic Feed - <span className="ml-2 text-sm font-base">Recent NFT sales on MagicEden.</span></h2>
                       <MagicEdenTimeLine/>
+                    </div> */}
+
+                    <div className="my-5 flex items-center">
+                      <h2 className="text-3xl font-semibold">Top NFT Collections by Volume</h2>
+                      <div className="ml-2 flex items-center">
+                          <span className="text-xs font-semibold flex items-center animate-pulse bg-green-200 px-2 py-1 rounded-xl text-green-500">
+                              <BsCircleFill className="w-1.5 h-1.5 mr-1.5"/>
+                              LIVE
+                          </span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <TrendingCollections/>
                     </div>
                     
-                    <div>
-                        <PopularCollection/>
-                    </div>
                   </Grid>
                 </Grid.Container>
             </Container>

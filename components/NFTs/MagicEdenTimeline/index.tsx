@@ -21,8 +21,6 @@ const MagicEdenTimeLine = () => {
         }
     );
 
-    console.log(data);
-
     return (
         <div className="grid grid-cols-1 auto-rows-auto md:grid-cols-6 md:grid-rows-1 gap-2">
             {data ? data.data.map((event) => (

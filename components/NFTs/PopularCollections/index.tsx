@@ -25,6 +25,7 @@ const PopularCollection = () => {
             "/api/v1/nfts/trending", 
             fetcher
         );
+        console.log(trending1DVolume)
         const { data: trending7DVolume } = useSWR(
             "/api/v1/nfts/trending7D", 
             fetcher
