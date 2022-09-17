@@ -69,7 +69,7 @@ const Navigation = () => {
             </Navbar.Brand>
                 <Navbar.Content hideIn="xs" variant="sticky">
                 <Link href="/">
-                    <a className={router.pathname == "/" ? "w-full bg_sunrise flex items-center space-between text-white px-2 py-1 rounded-xl" : "flex items-center space-between text-gray-500 w-full px-2 py-1"}>
+                    <a className={router.pathname == "/" ? "w-full bg_sunrise flex items-center space-between text-white px-2 py-1 rounded-xl" : "flex items-center space-between text-gray-500 w-full px-2 py-1 hover:bg-gray-100 rounded-xl"}>
                         <React.Fragment>
                             <span className="font-semibold text-sm">Home</span>
                         </React.Fragment>
@@ -155,7 +155,7 @@ const Navigation = () => {
 
                 {connected ? 
                     <Link href={`/profile/` + base58PubKey}>
-                        <a className={router.pathname.includes("profile") ? "w-full bg_sunrise flex items-center space-between text-white px-2 py-1 rounded-xl" : "flex items-center space-between text-gray-500 w-full px-2 py-1"}>
+                        <a className={router.pathname.includes("profile") ? "w-full bg_sunrise flex items-center space-between text-white px-2 py-1 rounded-xl" : "flex items-center space-between text-gray-500 w-full px-2 py-1 hover:bg-gray-100 rounded-xl"}>
                             <React.Fragment>
                                 <span className="font-semibold text-sm">Profile</span>
                             </React.Fragment>
@@ -165,7 +165,7 @@ const Navigation = () => {
                     null 
                 }
                 <Link href="/dyor">
-                    <a className={router.pathname == "/dyor" ? "w-full bg_sunrise flex items-center space-between text-white px-2 py-1 rounded-xl" : "flex items-center space-between text-gray-500 w-full px-2 py-1"}>
+                    <a className={router.pathname == "/dyor" ? "w-full bg_sunrise flex items-center space-between text-white px-2 py-1 rounded-xl" : "flex items-center space-between text-gray-500 w-full px-2 py-1 hover:bg-gray-100 rounded-xl"}>
                         <React.Fragment>
                             <span className="font-semibold text-sm">DYOR</span>
                         </React.Fragment>

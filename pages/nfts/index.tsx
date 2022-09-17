@@ -4,10 +4,12 @@ import Head from 'next/head'
 import { Container, Grid } from '@nextui-org/react'
 import AppBar from "../../components/AppBar";
 import TrendingCollections from '@components/NFTs/TrendingCollections';
+import TopCollections from '@components/NFTs/TopCollections';
 import Navigation from '@components/Navigation';
 import MagicEdenTimeLine from '@components/NFTs/MagicEdenTimeline';
 import Footer from '@components/Footer';
 import { BsCircleFill } from "react-icons/bs";
+import Highlights from '@components/NFTs/Highlights';
 
 const DefiPage = () => {
     return(
@@ -41,7 +43,7 @@ const DefiPage = () => {
                         <h1 className="flex items-center text-2xl md:text-6xl font-semibold">Explore NFTs</h1>
                         <p className="text-sm my-5">
                           The Solana NFT ecosystem is bustling with new collections each and every day.
-                          Track NFTs across marketplaces using on-chain data to make those informed decisions.
+                          Stay up to date on different NFTs across marketplaces various marketplaces to make more informed decisions.
                         </p>
                       </div>
                       
@@ -52,17 +54,43 @@ const DefiPage = () => {
                       <MagicEdenTimeLine/>
                     </div> */}
 
-                    <div className="my-5 flex items-center">
-                      <h2 className="text-3xl font-semibold">Top NFT Collections by Volume</h2>
-                      <div className="ml-2 flex items-center">
-                          <span className="text-xs font-semibold flex items-center animate-pulse bg-green-200 px-2 py-1 rounded-xl text-green-500">
-                              <BsCircleFill className="w-1.5 h-1.5 mr-1.5"/>
-                              LIVE
-                          </span>
-                      </div>
+                    <div>
+                      <Highlights/>
                     </div>
 
+                    {/* <div>
+                      <div className="my-5 flex items-center justify-between">
+                        <div className="flex items-center">
+                          <h2 className="text-3xl font-semibold">Top 10 Collections</h2>
+                          <div className="ml-2 flex items-center">
+                              <span className="text-xs font-semibold flex items-center animate-pulse bg-green-200 px-2 py-1 rounded-xl text-green-500">
+                                  <BsCircleFill className="w-1.5 h-1.5 mr-1.5"/>
+                                  LIVE
+                              </span>
+                          </div>
+                        </div>
+                        <div>
+
+                        </div>
+                      </div>
+                      <TopCollections/>
+                    </div> */}
+
                     <div>
+                    <div className="my-5 flex items-center justify-between">
+                      <div className="flex items-center">
+                        <h2 className="text-3xl font-semibold">Top NFT Collections by Volume</h2>
+                        <div className="ml-2 flex items-center">
+                            <span className="text-xs font-semibold flex items-center animate-pulse bg-green-200 px-2 py-1 rounded-xl text-green-500">
+                                <BsCircleFill className="w-1.5 h-1.5 mr-1.5"/>
+                                LIVE
+                            </span>
+                        </div>
+                      </div>
+                      <div>
+                        {/* SOMETHING CAN GO HERE */}
+                      </div>
+                    </div>
                       <TrendingCollections/>
                     </div>
                     

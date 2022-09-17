@@ -5,7 +5,7 @@ import React, { Fragment, useEffect, useCallback} from 'react'
 import Head from 'next/head'
 import { Container, Grid, Spacer, Loading, Text } from '@nextui-org/react'
 import AppBar from "../../components/AppBar";
-import PopularCollection from '@components/NFTs/PopularCollections';
+import PopularCollection from '@components/NFTs/OldPopularCollections';
 import Navigation from '@components/Navigation';
 import MagicEdenTimeLine from '@components/NFTs/MagicEdenTimeline';
 import Footer from '@components/Footer';

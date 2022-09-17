@@ -1,10 +1,45 @@
 import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import useSWR from 'swr'
-import Table from '@components/Table'
-import { useTable } from 'react-table'
+import { useTable, useSortBy } from 'react-table'
 import { Loading, Avatar } from "@nextui-org/react"
 import { formatPrettyNumber } from "@utils/formatters";
+import SolanaLogo from "@components/SolanaLogo";
+
+function Table({columns, data}) { 
+    const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow
+  } = useTable({ columns, data }, useSortBy);
+  return(
+    <table className="text-left w-full" {...getTableProps()}>
+      <thead>
+        {headerGroups.map((headerGroup) => (
+          <tr {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map((column) => (
+              <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+            ))}
+          </tr>
+        ))}
+      </thead>
+      <tbody {...getTableBodyProps()}>
+        {rows.map((row, i) => {
+          prepareRow(row);
+          return (
+            <tr className="cursor-pointer hover:bg-gray-100 rounded-xl" {...row.getRowProps()}>
+              {row.cells.map((cell) => {
+                return <td className="p-2" {...cell.getCellProps()}>{cell.render("Cell")}</td>;
+              })}
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  )
+}
 
 const TrendingCollections = () => {
     const columns = [
@@ -15,19 +50,11 @@ const TrendingCollections = () => {
                 return(
                     <div className="flex items-center">
                     <div>
-                        <Avatar
-                            css={{
-                                border: "0"
-                            }}
-                            bordered={false}
-                            className="mr-2"
-                            size="lg" 
-                            squared 
-                            src={row?.row?.original?.project?.img_url} />
+                        <img className="mr-2 w-12 h-12 rounded-xl" src={row?.row?.original?.project?.img_url}/>
                     </div>
                     <div>
                         <p className="text-normal text-dracula font-semibold">{row?.row?.original?.project?.display_name}</p>
-                        <p className="text-sm text-gray-400 font-semibold">{row?.supply} NFTs</p>
+                        <p className="text-sm text-gray-400 font-semibold">{row?.row?.original?.supply} NFTs</p>
                     </div>
                 </div>
                 )
@@ -39,7 +66,7 @@ const TrendingCollections = () => {
                 return(
                     <span className="flex items-center text-sm text-dracula">
                         {row?.floor_price}
-                        <img className="ml-2 w-3 h-3" src="/solana-logo.svg"/>
+                        <SolanaLogo/>
                     </span>
                 )
             }
@@ -77,24 +104,13 @@ const TrendingCollections = () => {
         }
     ]
 
-    //useEffect axios get request to get trending collections api and set data state
-    // useEffect(() => {
-    //     axios.get('/api/v1/nfts/trending')
-    //     .then((res) => {
-    //         setData(res.data)
-    //     })
-    //     .catch((err) => {
-    //         console.log(err)
-    //     })
-    // }, [])
-
     // FOR SWR
     const fetcher = url => axios.get(url).then(res => res.data); 
     //const data = useSWR('/api/v1/nfts/trending').data?.data?.project_stats || [];    
     const { data } = useSWR('/api/v1/nfts/trending', fetcher);                                                                                                                           
 
     const collectionData = useMemo(() => (data ? data.project_stats : []), [data])
-    console.log("Your collection data here:", collectionData);
+    console.log(collectionData)
 
     return (
         <>

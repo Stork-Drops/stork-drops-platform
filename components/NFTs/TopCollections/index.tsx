@@ -1,11 +1,24 @@
+import React, { useState, useEffect, useMemo } from "react";
 import '@splidejs/react-splide/css/core';
-import React, { useContext, useState, useEffect } from "react"
 import Link from 'next/link'
 //import certifiedRealms from "../../realms/certifiedRealms.json"
 import { Splide, SplideSlide, SplideTrack } from '@splidejs/react-splide';
 import { HiArrowRight, HiArrowLeft, HiLink } from "react-icons/hi";
+import { Loading } from '@nextui-org/react'
+import axios from "axios";
+import useSWR from 'swr'
 
-<div>
+
+const TopCollections = () => {
+    // FOR SWR
+    const fetcher = url => axios.get(url).then(res => res.data); 
+    const { data } = useSWR('/api/v1/nfts/topCollections', fetcher);
+    // remove collections whose display name is equal to STEPN
+    //const filteredData = data?.filter((collection) => collection.project.display_name !== "STEPN");
+    console.log('Collections by marketcap:', data)  
+
+    return(
+        <div>
     <Splide 
         hasTrack={false}
         options={{
@@ -25,14 +38,14 @@ import { HiArrowRight, HiArrowLeft, HiLink } from "react-icons/hi";
         <div className="flex items-center justify-between my-10">
             <div>
                 <div className="flex items-center">
-                    <h2 className="text-4xl font-semibold">DAOs</h2>
+                    <h2 className="text-4xl font-semibold">Top 10 Collections</h2>
                     <Link href="/daos">
                         <span className="cursor-pointer ml-2.5 flex items-center p-2 bg_sunrise rounded-xl text-white font-semibold text-xs">
                             View all <HiArrowRight className="ml-1"/>
                         </span>
                     </Link>
                 </div>
-                <p className="text-sm bg-sunrise">Decentralized Autonomous Organizations</p>
+                <p className="text-sm bg-sunrise">Top 10 Collections leading by marketcap </p>
             </div>
         
             <div className="splide__arrows">
@@ -91,7 +104,28 @@ import { HiArrowRight, HiArrowLeft, HiLink } from "react-icons/hi";
         : (
             <Loading/>
         )} */}
+
+
+        {data && data.project_stats.length > 0 ? (
+            data.project_stats.map((collection) => (
+            <SplideSlide>
+                <Link key={collection?.project_id} href={`/nfts/collection/${collection.symbol}`}>
+                    <div className="grid grid-cols-2 grid-rows-2">
+                        <div className="">
+                            {collection?.project?.display_name}
+                        </div>
+                    </div>
+                </Link>
+            </SplideSlide>
+        )).slice(1, 9)
+        ) : (
+            <Loading/>
+        )}
         </SplideTrack>
         </div>
     </Splide>
 </div>   
+    )
+}
+
+export default TopCollections

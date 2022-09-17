@@ -23,9 +23,9 @@ function Table({columns, data}) {
         {rows.map((row, i) => {
           prepareRow(row);
           return (
-            <tr className="hover:bg-gray-100" {...row.getRowProps()}>
+            <tr className="hover:bg-gray-100 rounded-xl" {...row.getRowProps()}>
               {row.cells.map((cell) => {
-                return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
+                return <td className="p-2" {...cell.getCellProps()}>{cell.render("Cell")}</td>;
               })}
             </tr>
           );
