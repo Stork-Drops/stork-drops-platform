@@ -37,67 +37,35 @@ const DefiPage = () => {
             <Container xl>
               <Grid.Container justify="center"> 
 
-                  <Grid className="pl-4 py-4" xs={12} sm={12} md={12} lg={12} direction="column">
-                    <div className="grid grid-cols-1 grid-rows-auto md:grid-cols-2 md:grid-rows-1 gap-4 items-center">
+                  <Grid xs={12} sm={12} md={12} lg={12} direction="column">
+                    <div className="grid grid-cols-1 grid-rows-auto md:grid-cols-2 md:grid-rows-1 gap-4 items-center my-10">
                       <div>
-                        <h1 className="flex items-center text-2xl md:text-6xl font-semibold">Explore NFTs</h1>
-                        <p className="text-sm my-5">
+                        <span className="bg_sunrise text-white rounded-full px-2 py-1 text-sm font-extrabold">NFTs</span>
+                        <h1 className="flex items-center my-2.5 md:my-0 text-5xl md:text-8xl font-semibold">Explore Collections</h1>
+                        <p className="text-lg my-5">
                           The Solana NFT ecosystem is bustling with new collections each and every day.
                           Stay up to date on different NFTs across marketplaces various marketplaces to make more informed decisions.
                         </p>
                       </div>
-                      
+                      <div>
+                        <Highlights/>
+                      </div>
                     </div>
 
                     {/* <div>
                       <h2 className="mb-2.5 flex items-center font-semibold text-2xl">Magic Feed - <span className="ml-2 text-sm font-base">Recent NFT sales on MagicEden.</span></h2>
                       <MagicEdenTimeLine/>
-                    </div> */}
+                      </div> */}
 
-                    <div>
-                      <Highlights/>
-                    </div>
-
-                    {/* <div>
-                      <div className="my-5 flex items-center justify-between">
-                        <div className="flex items-center">
-                          <h2 className="text-3xl font-semibold">Top 10 Collections</h2>
-                          <div className="ml-2 flex items-center">
-                              <span className="text-xs font-semibold flex items-center animate-pulse bg-green-200 px-2 py-1 rounded-xl text-green-500">
-                                  <BsCircleFill className="w-1.5 h-1.5 mr-1.5"/>
-                                  LIVE
-                              </span>
-                          </div>
-                        </div>
-                        <div>
-
-                        </div>
-                      </div>
-                      <TopCollections/>
-                    </div> */}
-
-                    <div>
-                    <div className="my-5 flex items-center justify-between">
-                      <div className="flex items-center">
-                        <h2 className="text-3xl font-semibold">Top NFT Collections by Volume</h2>
-                        <div className="ml-2 flex items-center">
-                            <span className="text-xs font-semibold flex items-center animate-pulse bg-green-200 px-2 py-1 rounded-xl text-green-500">
-                                <BsCircleFill className="w-1.5 h-1.5 mr-1.5"/>
-                                LIVE
-                            </span>
-                        </div>
-                      </div>
-                      <div>
-                        {/* SOMETHING CAN GO HERE */}
-                      </div>
-                    </div>
+                    <div className="mt-20">
+                      <h2 className="text-4xl font-extrabold">Trending NFT Collections <span className="text-green-500">by Volume</span></h2>
+                      <p className="text-lg mb-5">See what's hot. Prices updated in real time.</p>
                       <TrendingCollections/>
                     </div>
                     
                   </Grid>
                 </Grid.Container>
             </Container>
-            <Footer/>
         </>
     )
 }

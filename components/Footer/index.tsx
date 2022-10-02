@@ -9,8 +9,8 @@ import { useWallet } from '@solana/wallet-adapter-react';
 const Footer = () => {
     const { connected } = useWallet();
     return(
-        <div className="z-50 fixed bg-white bottom-0 w-full md:block border-t border-gray-200 py-1">
-            <Container fluid>
+        <div className="z-50 fixed bg-white bottom-0 left-0 w-full md:block border-t border-gray-200 py-1">
+                    <Container xl>
                 <div className="flex items-center justify-between">
                     <div>
                     {connected ? <MusicPlayer/> : null}
@@ -19,7 +19,7 @@ const Footer = () => {
                     <NetworkStatus/>
                     </div>
                 </div>
-            </Container>
+                </Container>
         </div>
     )
 }

@@ -34,8 +34,7 @@ const Navigation = () => {
     }
 
     return(
-        <>
-        <Navbar className="border-b" maxWidth="fluid" shouldHideOnScroll isCompact disableShadow disableBlur variant="sticky">
+        <Navbar className="border-b" maxWidth="xl" shouldHideOnScroll isCompact disableShadow disableBlur variant="sticky">
         <Navbar.Collapse>
           {collapseItems.map((item, index) => (
             <Navbar.CollapseItem key={item}>
@@ -147,7 +146,7 @@ const Navigation = () => {
                   <div className="flex items-center">
                     <span className="text-sm font-semibold text-gray-500">Explore</span>
                     <HiChevronDown
-                      className="ml-1 h-3 w-3 text-gray-500 transition duration-150 ease-in-out group-hover:text-opacity-80"
+                      className="ml-0.5 h-3 w-3 text-gray-500 transition duration-150 ease-in-out group-hover:text-opacity-80"
                       aria-hidden="true"
                     />
                   </div>
@@ -176,7 +175,6 @@ const Navigation = () => {
                     <WalletMultiButton/>
                 </Navbar.Content>
             </Navbar>
-        </>
     )
 }
 

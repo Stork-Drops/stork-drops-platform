@@ -24,7 +24,7 @@ export async function getServerSideProps(context) {
             data 
         } 
     };
-  }
+}
 
 //Set up fetcher for SWR
 const fetcher = url => axios.get(url).then(res => res.data) 

@@ -3,10 +3,10 @@ import { MarketPlaceActionEnum } from "hyperspace-client-js/dist/sdk";
 const hsClient = new HyperspaceClient(process.env.HYPERSPACE_API);
 
 export default async function handler(req, res){
-    const { getTokenHistory } = req.query
+    const { getTokenState } = req.query
     const response = await hsClient.getTokenState({
         condition: {
-            tokenAddresses: [`${getTokenHistory}`]
+            tokenAddresses: [`${getTokenState}`]
         },
     }) 
     res.status(200).json(response);

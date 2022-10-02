@@ -46,11 +46,12 @@ const Home = () => {
             />
 
             <Navigation/>
-
-            <Container fluid>
-                <Grid.Container>
-                    <Grid className="my-5" xs={12} sm={12} md={12} lg={12} direction="column">
-                            <div className="grid grid-cols-1 auto-rows-auto md:grid-cols-2 md:grid-rows-1 items-center justify-around">
+            
+            <section className="">
+            <Container xl>
+                <Grid.Container gap={1}>
+                    <Grid xs={12} sm={12} md={9.5} lg={9.5} direction="column">
+                        <div className="grid grid-cols-1 auto-rows-auto md:grid-cols-2 md:grid-rows-1 items-center justify-around mb-2.5">
                                 <div> 
                                     <p className="text-sm">
                                         {dateState.toLocaleDateString('en-US', {
@@ -65,21 +66,22 @@ const Home = () => {
                                             hour12: true,
                                         })}.
                                     </p>
-                                    <span className="text-2xl italic font-semibold text-dracula">gm, {bonfidaUsername ? bonfidaUsername + ".sol" : "anon."}</span>
+                                    <span className="text-2xl font-semibold text-dracula">gm, {bonfidaUsername ? bonfidaUsername + ".sol" : "anon."}</span>
                                     <p className="text-normal font-semibold text-gray-400">Here's what's new.</p>
                                 </div>
                                 <div className="flex justify-end">
-                                    <MarketCapFeed/>  
+                                    
                                 </div>
-                            </div>
-                            <div className="my-5">
-                                <NewsFeed/>
                             </div>
                         <Discovery/>
                     </Grid>
+                    <Grid className="" xs={12} sm={12} md={2.5} lg={2.5} direction="column">
+                        <MarketCapFeed/>  
+                        <NewsFeed/>
+                    </Grid>
                 </Grid.Container>
             </Container>
-            <Footer/>
+            </section>
         </>
     );
 };

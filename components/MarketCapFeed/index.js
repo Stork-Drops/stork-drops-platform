@@ -11,7 +11,7 @@ const MarketCapFeed = () => {
     
     return(
         <>
-            <div className="grid grid-rows-1 grid-cols-2 p-4 border border-gray-200 rounded-xl w-full md:w-fit">
+            <div className="mb-2.5 grid grid-rows-1 grid-cols-2 p-4 border border-gray-200 rounded-xl w-full">
                 <div className="text-dracula flex items-center">
                     <img className="mr-2 w-8 h-8 rounded-full" src={data.image.thumb}/>
                     <Col>

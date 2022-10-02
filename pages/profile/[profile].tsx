@@ -586,7 +586,6 @@ const Profile = () => {
                     </Grid>
                 </Grid.Container>
             </Container>
-            <Footer/>
         </>
     );
 };

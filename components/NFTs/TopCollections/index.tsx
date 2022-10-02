@@ -13,8 +13,6 @@ const TopCollections = () => {
     // FOR SWR
     const fetcher = url => axios.get(url).then(res => res.data); 
     const { data } = useSWR('/api/v1/nfts/topCollections', fetcher);
-    // remove collections whose display name is equal to STEPN
-    //const filteredData = data?.filter((collection) => collection.project.display_name !== "STEPN");
     console.log('Collections by marketcap:', data)  
 
     return(
@@ -26,6 +24,8 @@ const TopCollections = () => {
             perPage: 3,
             rewind: true,
             gap   : '1rem',
+            autoplay: true,
+            type: 'loop',
         }}
         onMoved={ ( splide, newIndex ) => {
             // eslint-disable-next-line
@@ -38,14 +38,14 @@ const TopCollections = () => {
         <div className="flex items-center justify-between my-10">
             <div>
                 <div className="flex items-center">
-                    <h2 className="text-4xl font-semibold">Top 10 Collections</h2>
+                    <h2 className="text-2xl font-semibold">Today's Solana NFT Prices by Market Cap</h2>
                     <Link href="/daos">
                         <span className="cursor-pointer ml-2.5 flex items-center p-2 bg_sunrise rounded-xl text-white font-semibold text-xs">
                             View all <HiArrowRight className="ml-1"/>
                         </span>
                     </Link>
                 </div>
-                <p className="text-sm bg-sunrise">Top 10 Collections leading by marketcap </p>
+                <p className="text-sm bg-sunrise">Highest NFT collections by marketcap </p>
             </div>
         
             <div className="splide__arrows">

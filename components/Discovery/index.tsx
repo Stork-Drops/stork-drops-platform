@@ -24,34 +24,29 @@ const discoveryItems = [
 
 const Discovery = () => {
     return(
-        <>
-            <div>
-                <span className="px-2 py-2 text-xs font-semibold text-white bg_sunrise rounded-xl">Explore Solana</span>
-            </div>
-            <div className="my-5 grid grid-cols-1 grid-rows-1 md:grid-cols-3 md:grid-rows-1 items-center gap-4">
-                {discoveryItems.map((item, index) => (
-                    <Link key={index} href={item.discoverySlug}>
-                        <div className="cursor-pointer h-40 rounded-xl w-full p-4 border hover:border-gray-300 relative overflow-hidden">
-                            <div className="absolute -right-16 -bottom-16 h-52 w-52 rounded-full border border-gray-200">
-                                <img 
-                                    alt={item.discoveryTitle} 
-                                    src="/daos-banner.png" 
-                                    className="object-fill"
-                                />
-                            </div>
-                            <div className="w-4/6">
-                                <p className="text-4xl font-medium">
-                                    {item.discoveryTitle}
-                                </p>
-                                <p className="text-gray-400 text-sm">
-                                    {item.discoveryDescription}
-                                </p>
-                            </div>
+        <div className="my-5 grid grid-cols-1 grid-rows-1 md:grid-cols-3 md:grid-rows-1 items-center gap-4">
+            {discoveryItems.map((item, index) => (
+                <Link key={index} href={item.discoverySlug}>
+                    <div className="cursor-pointer h-40 rounded-xl w-full p-4 border hover:border-gray-300 relative overflow-hidden">
+                        <div className="absolute -right-16 -bottom-16 h-52 w-52 rounded-full border border-gray-200">
+                            <img 
+                                alt={item.discoveryTitle} 
+                                src="/daos-banner.png" 
+                                className="object-fill"
+                            />
                         </div>
-                    </Link>
-                ))}
-            </div>
-        </>
+                        <div className="w-4/6">
+                            <p className="text-4xl font-medium">
+                                {item.discoveryTitle}
+                            </p>
+                            <p className="text-gray-400 text-sm">
+                                {item.discoveryDescription}
+                            </p>
+                        </div>
+                    </div>
+                </Link>
+            ))}
+        </div>
     )
 }
 

@@ -5,80 +5,90 @@ import { useTable, useSortBy } from 'react-table'
 import { Loading, Avatar } from "@nextui-org/react"
 import { formatPrettyNumber } from "@utils/formatters";
 import SolanaLogo from "@components/SolanaLogo";
+import Link from 'next/link'
+import Table from '@components/Table'
 
-function Table({columns, data}) { 
-    const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow
-  } = useTable({ columns, data }, useSortBy);
-  return(
-    <table className="text-left w-full" {...getTableProps()}>
-      <thead>
-        {headerGroups.map((headerGroup) => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column) => (
-              <th {...column.getHeaderProps()}>{column.render("Header")}</th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map((row, i) => {
-          prepareRow(row);
-          return (
-            <tr className="cursor-pointer hover:bg-gray-100 rounded-xl" {...row.getRowProps()}>
-              {row.cells.map((cell) => {
-                return <td className="p-2" {...cell.getCellProps()}>{cell.render("Cell")}</td>;
-              })}
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
-  )
-}
+// function Table({columns, data}) { 
+//     const {
+//     getTableProps,
+//     getTableBodyProps,
+//     headerGroups,
+//     rows,
+//     prepareRow
+//   } = useTable({ columns, data }, useSortBy);
+//   return(
+//     <table className="text-left w-full" {...getTableProps()}>
+//       <thead>
+//         {headerGroups.map((headerGroup) => (
+//           <tr {...headerGroup.getHeaderGroupProps()}>
+//             {headerGroup.headers.map((column) => (
+//               <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+//             ))}
+//           </tr>
+//         ))}
+//       </thead>
+//       <tbody {...getTableBodyProps()}>
+//         {rows.map((row, i) => {
+//           prepareRow(row);
+//           return (
+//             <tr className="flex items-center cursor-pointer hover:bg-gray-100 rounded-xl p-2" {...row.getRowProps()}>
+//               {row.cells.map((cell) => {
+//                 return <td className="p-2" {...cell.getCellProps()}>{cell.render("Cell")}</td>;
+//               })}
+//             </tr>
+//           );
+//         })}
+//       </tbody>
+//     </table>
+//   )
+// }
 
 const TrendingCollections = () => {
     const columns = [
         {
-            Header: 'Collection Name',
-            accessor: 'project.display_name',
+            Header: ()=> <span className="text-base">Collection</span>,
+            id: 'projectName',
             Cell: (row) => {
                 return(
-                    <div className="flex items-center">
-                    <div>
-                        <img className="mr-2 w-12 h-12 rounded-xl" src={row?.row?.original?.project?.img_url}/>
-                    </div>
-                    <div>
-                        <p className="text-normal text-dracula font-semibold">{row?.row?.original?.project?.display_name}</p>
-                        <p className="text-sm text-gray-400 font-semibold">{row?.row?.original?.supply} NFTs</p>
-                    </div>
-                </div>
+                    <Link href={`/nfts/collection/${row?.row?.original?.project_id}`}>
+                        <div className="flex items-center">
+                            <div>
+                                <img className="mr-2 w-12 h-12 rounded-xl" src={row?.row?.original?.project?.img_url}/>
+                            </div>
+                            <div>
+                                <p className="text-normal text-dracula font-semibold">{row?.row?.original?.project?.display_name}</p>
+                                <p className="text-sm text-gray-400 font-semibold">{row?.row?.original?.supply} NFTs</p>
+                            </div>
+                        </div>
+                    </Link>
                 )
             }
         },
         {
-            Header: 'Floor Price',
+            Header: ()=> <span className="text-base">Floor Price</span>,
+            id: 'floorPrice',
             accessor: (row) => {
                 return(
-                    <span className="flex items-center text-sm text-dracula">
-                        {row?.floor_price}
-                        <SolanaLogo/>
-                    </span>
+                    <Link href={`/nfts/collection/${row?.project?.project_id}`}>
+                        <span className="flex items-center text-sm text-dracula">
+                            <SolanaLogo height={16} width={16}/>
+                            {row?.floor_price}
+                        </span>
+                    </Link>
                 )
             }
         },
         {
-            Header: 'Average Price',
+            Header: ()=> <span className="text-base">Average Price</span>,
+            id: 'averagePrice',
             accessor: (row) => {
                 return(
-                    <span className="flex items-center text-sm text-dracula">
-                        {row?.average_price}
-                        <img className="ml-2 w-3 h-3" src="/solana-logo.svg"/>
-                    </span>
+                    <Link href={`/nfts/collection/${row?.project?.project_id}`}>
+                        <span className="flex items-center text-sm text-dracula">
+                            <SolanaLogo height={16} width={16}/>
+                            {row?.average_price}
+                        </span>
+                    </Link>
                 )
             },
         },
@@ -86,9 +96,11 @@ const TrendingCollections = () => {
             Header: '24HR Volume (USD)',
             accessor: (row) => {
                 return(
-                    <span className="flex items-center text-sm text-dracula">
-                        ${formatPrettyNumber(row?.volume_1day)}
-                    </span>
+                    <Link href={`/nfts/collection/${row?.project?.project_id}`}>
+                        <span className="flex items-center text-sm text-dracula">
+                            ${formatPrettyNumber(row?.volume_1day)}
+                        </span>
+                    </Link>
                 )
             },
         },
@@ -96,11 +108,25 @@ const TrendingCollections = () => {
             Header: 'Market Cap (USD)',
             accessor: (row) => {
                 return(
-                    <span className="flex items-center text-sm text-dracula">
-                        ${formatPrettyNumber(row?.market_cap)}
-                    </span>
+                    <Link href={`/nfts/collection/${row?.project?.project_id}`}>
+                        <span className="flex items-center text-sm text-dracula">
+                            ${formatPrettyNumber(row?.market_cap)}
+                        </span>
+                    </Link>
                 )
             },
+        },
+        {
+            Header: 'Listed',
+            accessor: (row) => {
+                return(
+                    <Link href={`/nfts/collection/${row?.num_of_token_holders}`}>
+                        <span className="flex items-center text-sm text-dracula">
+                            {row?.num_of_token_holders}
+                        </span>
+                    </Link>
+                )
+            }
         }
     ]
 
