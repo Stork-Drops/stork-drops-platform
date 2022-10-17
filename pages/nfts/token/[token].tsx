@@ -56,7 +56,7 @@ const NFTItemPage = () => {
                         <MarketplaceID marketplace={row?.row?.original?.name}/>
                         <img className="ml-2 w-12 h-12 rounded-xl" src={nftMetadata?.image} />
                         <div className="ml-2 grid grid-cols-1 grid-auto-2">
-                            <div className="flex items-center">
+                            <div className="flex flex-col">
                                 <p className="text-xs font-semibold">{nftMetadata?.collection?.name}</p>
                                 <h1 className="flex items-center text-sm font-semibold">
                                     {nftMetadata?.name}

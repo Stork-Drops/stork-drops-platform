@@ -2,6 +2,7 @@ import { FC, useState, useEffect } from "react";
 import useSWR from "swr";
 import { fetcher } from "../../../utils/fetcher";
 import { HiEyeOff } from "react-icons/hi";
+import { BsCardImage } from "react-icons/bs";
 
 type Props = {
   details: any;
@@ -37,18 +38,18 @@ export const NftCard: FC<Props> = ({
   const { image } = data ?? {};
 
   return (
-    <figure className="animation-pulse-color">
+    <figure className="animation-pulse-color w-full h-full flex items-center justify-center">
       {fallbackImage || error ? (
-        <div className="w-full h-full flex items-center justify-center">     
-          <HiEyeOff className="h-12 w-12" />
-        </div>
+          <div className="">
+            <BsCardImage className="w-full h-full"/>
+          </div>
       ) : (
         // Fallback when preview isn't available
         // This could be broken image, video, or audio
         <img
           src={image}
           onError={onImageError}
-          className="rounded-xl shadow-xl object-contain"
+          className="object-cover w-full h-full"
         />
       )}
     </figure>

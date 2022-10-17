@@ -109,13 +109,8 @@ export const TokenPrice = (props: { mintAddress: any }) => {
   if (error) return <p>An error has occurred.</p>;
   if (!data) return <Loading type="points" />;
   
-  return(
-    <>
-      {parseFloat(data.market_data.current_price.usd).toFixed(4)}
-    </>
-  )
+  return data.market_data.current_price.usd;
 }
-
 
 
 export const TokenChange = (props: { tokenAddress: any }) => {
@@ -139,6 +134,10 @@ export const TokenChange = (props: { tokenAddress: any }) => {
     </>
   )
 }
+
+
+
+
 
 
 
