@@ -15,10 +15,10 @@ const DefiPage = () => {
     return(
         <>
             <NextSeo
-                title="Stork Drops - NFT Tracking, Discovery, and Market Insights "
+                title="Stork Drops | NFT Tracking, Discovery, and Market Insights"
                 description="Stork Drops is creating a platfrom to explore the Solana ecosystem, connect with others, and collect unique drops."
                 openGraph={{
-                    title: 'Stork Drops - NFT Tracking, Discovery, and Market Insights.',
+                    title: 'Stork Drops | NFT Tracking, Discovery, and Market Insights',
                     description: 'Stork Drops is creating a platfrom to explore the Solana ecosystem, connect with others, and collect unique drops.',
                     images: [
                     {
@@ -47,7 +47,7 @@ const DefiPage = () => {
                           Stay up to date on different NFTs across marketplaces various marketplaces to make more informed decisions.
                         </p>
                       </div>
-                      <div>
+                      <div className="flex items-center justify-center">
                         <Highlights/>
                       </div>
                     </div>

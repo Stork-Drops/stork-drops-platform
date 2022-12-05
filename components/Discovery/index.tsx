@@ -27,7 +27,7 @@ const Discovery = () => {
         <div className="my-5 grid grid-cols-1 grid-rows-1 md:grid-cols-3 md:grid-rows-1 items-center gap-4">
             {discoveryItems.map((item, index) => (
                 <Link key={index} href={item.discoverySlug}>
-                    <div className="cursor-pointer h-40 rounded-xl w-full p-4 border hover:border-gray-300 relative overflow-hidden">
+                    <div className="cursor-pointer h-48 rounded-xl w-full p-4 border hover:border-gray-300 relative overflow-hidden">
                         <div className="absolute -right-16 -bottom-16 h-52 w-52 rounded-full border border-gray-200">
                             <img 
                                 alt={item.discoveryTitle} 

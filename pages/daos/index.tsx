@@ -5,7 +5,7 @@ import Link from "next/link"
 import Navigation from "../../components/Navigation"
 import Head from 'next/head'
 import { Container, Grid, Row, Avatar, Col, Spacer, Tooltip, Input, Loading } from '@nextui-org/react'
-import { getRealms } from '@solana/spl-governance';
+import { getRealm, getRealms } from '@solana/spl-governance';
 import { Connection, PublicKey } from '@solana/web3.js';
 import AppBar from "../../components/AppBar";
 import { HiOutlineExternalLink } from "react-icons/hi";
@@ -16,7 +16,8 @@ const DAOPage = () => {
     const [cerifiedDaoList, setCerifiedDaoList] = useState([]);
     const [uncharteredDaoList, setUncharteredDaoList] = useState([]);
     //const connection = useConnection();
-    const connection = new Connection("https://ssc-dao.genesysgo.net/", 'recent');
+    const connection = new Connection(process.env.NEXT_PUBLIC_QUICKNODE_URL, 'recent');
+    // SPL GOVERNANCE PROGRAMID
     const programId = new PublicKey('GovER5Lthms3bLBqWub97yVrMmEogzX7xNjdXpPPCVZw');
 
     const certifiedRealms = require("/public/realms/mainnet-beta.json");
@@ -45,6 +46,7 @@ const DAOPage = () => {
         const filteredRealms = daosFromRealmsSDK?.filter(
           (realm) => !certifiedRealms.find(certifiedRealm => certifiedRealm.displayName === realm.account.name)
         );
+
         setUncharteredDaoList(filteredRealms);
       } catch (error) {
         console.log(error);
@@ -60,10 +62,10 @@ const DAOPage = () => {
     return(
         <>
             <NextSeo
-                title="Explore DAOs - Learn more about Solana DAOs, view their vault and join a community that interests you."
+                title="Explore DAOs - Discover awesome crypto communities, view community proposals, and make a difference."
                 description="Stork Drops is creating a platfrom to explore the Solana ecosystem, connect with others, and collect unique drops."
                 openGraph={{
-                    title: 'Explore DAOs - Learn more about Solana DAOs, view their vault and join a community that interests you.',
+                    title: 'Explore DAOs - Discover awesome crypto communities, view community proposals, and make a difference.',
                     description: 'Stork Drops is creating a platfrom to explore the Solana ecosystem, connect with others, and collect unique drops.',
                     images: [
                     {
@@ -79,7 +81,7 @@ const DAOPage = () => {
 
             <Navigation/>
 
-            <Container xl>
+            <Container fluid>
               <Grid.Container justify="center">
                 <Grid xs={12} sm={12} md={12} lg={12} direction="column">
                   <div>
@@ -101,9 +103,9 @@ const DAOPage = () => {
                                   color="gradient"
                                   stacked
                                 />
-                                )).slice(0,6)}
+                                )).slice(0,10)}
                               </Avatar.Group>
-                            </div>
+                          </div>
                           </div>
                         </Col>
                       </Grid>
@@ -124,7 +126,7 @@ const DAOPage = () => {
                   <Grid.Container direction="column">
                       <Grid>
                         <Grid.Container gap={1}>
-                        {searchInput.length > 1 ? (
+                          {searchInput.length > 1 ? (
                             filteredResults.map((verifiedRealms) => (
                                 <Grid alignContent='flex-end' id={verifiedRealms.symbol} key={verifiedRealms.displayName} xs={12} sm={12} md={4} lg={4}>
                                   <div className="w-full border border-gray-200 rounded-xl p-1 shadow-md">
@@ -177,7 +179,7 @@ const DAOPage = () => {
                           ) : (
                             <>
                               {certifiedRealms.map((verifiedRealms) => (
-                                <Grid alignContent='flex-end' id={verifiedRealms.symbol} key={verifiedRealms.displayName} xs={4}>
+                                <Grid alignContent='flex-end' id={verifiedRealms.symbol} key={verifiedRealms.displayName} xs={12} sm={12} md={4} lg={4}>
                                 <div className="w-full border border-gray-200 rounded-xl p-1 shadow-md">
                                   <Grid.Container gap={1} justify="flex-end" alignItems="center" alignContent='space-around'>
                                     <Grid xs={2}>
@@ -186,7 +188,7 @@ const DAOPage = () => {
                                         src={
                                           verifiedRealms.ogImage ? verifiedRealms.ogImage : "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.n_qNHbNptQi-kGTQRFnmoAAAAA%26pid%3DApi&f=1"
                                         } 
-                                        alt="DAO-banner" 
+                                        alt="DAO-banner"
                                       />
                                     </Grid>
                                     <Grid xs={5}>
@@ -224,8 +226,7 @@ const DAOPage = () => {
                                   </div>
                                 </div>
                               </Grid>
-                              ))
-                              }
+                              ))}
                             </>
                           )}
                         </Grid.Container>
@@ -249,23 +250,25 @@ const DAOPage = () => {
                           {uncharteredDaoList && uncharteredDaoList.length > 0 ? (
                             uncharteredDaoList.map((uncharteredRealmList) => (
                               <Grid xs={3}>
-                              <div className="w-full border border-gray-200 rounded-xl shadow-md">
-                                <Grid.Container gap={2} alignItems="center">
-                                  <Grid xs={3}>
-                                    <img
-                                      className="p-1 rounded-full border border-gray-200" 
-                                      src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.n_qNHbNptQi-kGTQRFnmoAAAAA%26pid%3DApi&f=1"
-                                      alt="DAO-banner" 
-                                    />
-                                  </Grid>
-                                  <Grid xs={9}>
-                                    <Col>
-                                      <p className="my-1 text-normal text-sm text-dracula">{uncharteredRealmList.account.name}</p>
-                                    </Col>
-                                  </Grid>
-                                </Grid.Container>
-                              </div>
-                            </Grid>
+                                <Link href={`/daos/${(uncharteredRealmList.pubkey).toBase58()}`}>
+                                  <div className="w-full border border-gray-200 rounded-xl shadow-md">
+                                    <Grid.Container gap={2} alignItems="center">
+                                      <Grid xs={3}>
+                                        <img
+                                          className="p-1 rounded-full border border-gray-200" 
+                                          src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.n_qNHbNptQi-kGTQRFnmoAAAAA%26pid%3DApi&f=1"
+                                          alt="DAO-banner" 
+                                        />
+                                      </Grid>
+                                      <Grid xs={9}>
+                                        <Col>
+                                          <p className="my-1 text-normal text-sm text-dracula">{uncharteredRealmList.account.name}</p>
+                                        </Col>
+                                      </Grid>
+                                    </Grid.Container>
+                                  </div>
+                                </Link>
+                              </Grid>
                             ))
                           ) : (
                             <Loading/>
@@ -276,7 +279,6 @@ const DAOPage = () => {
                   </Grid>
                 </Grid.Container>
             </Container>
-            <Footer/>
         </>
     )
 }

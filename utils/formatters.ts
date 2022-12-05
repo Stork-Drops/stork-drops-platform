@@ -7,8 +7,6 @@ export function timeAgo(date: string) {
   return moment(date).fromNow();
 }
 
-
-
 export function formatUSD(number) {
   return number.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 }

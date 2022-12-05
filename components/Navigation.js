@@ -67,17 +67,9 @@ const Navigation = () => {
                 </div>  
             </div>
             </Navbar.Brand>
-                <Link href="/">
-                    <a className={router.pathname == "/" ? "text-dracula font-semibold" : "text-gray-400 hover:text-dracula"}>
-                        <React.Fragment>
-                            <span className="text-base font-semibold">Home</span>
-                        </React.Fragment>
-                    </a>
-                </Link>
-
                 <Tooltip
                   content={
-                    <div className="absolute left-0 z-50 bg-white mt-10 w-96 -translate-x-1/2 transform px-4 sm:px-0 rounded-md">
+                    <div className="absolute left-0 z-50 bg-white mt-10 w-96 -translate-x-1/3 transform px-4 sm:px-0 rounded-md">
                       <div className="overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5 rounded-md">
                         <Link href="/nfts">
                             <a className="flex items-center rounded-lg p-4 transition duration-150 ease-in-out hover:bg-gray-50">
@@ -104,7 +96,7 @@ const Navigation = () => {
                                   Explore DAOs
                                 </p>
                                 <p className="text-sm text-gray-500">
-                                  Discover awesome communities, view proposals, and make a difference.
+                                  Discover awesome crypto communities, view proposals, and make a difference.
                                 </p>
                               </div>
                             </a>
@@ -141,15 +133,19 @@ const Navigation = () => {
                           </div>
                         </div>
                     </div>
-                  }
-                  >
-                  <div className="flex items-center">
-                    <span className="hover:text-dracula text-base font-semibold text-gray-400">Explore</span>
-                    <HiChevronDown
-                      className="ml-0.5 h-4 w-4 text-gray-500 transition duration-150 ease-in-out group-hover:text-opacity-80"
-                      aria-hidden="true"
-                    />
-                  </div>
+                  }>
+
+                  <Link href="/">
+                    <a className={router.pathname == "/" ? "text-dracula font-semibold" : "text-gray-400 hover:text-dracula"}>
+                        <div className="flex items-center">
+                          <span className="font-semibold">Explore</span>
+                          <HiChevronDown
+                            className="ml-0.5 h-4 w-4 text-gray-500 transition duration-150 ease-in-out group-hover:text-opacity-80"
+                            aria-hidden="true"
+                          />
+                        </div>
+                    </a>
+                  </Link>
                 </Tooltip>
 
                 {connected ? 
@@ -163,13 +159,31 @@ const Navigation = () => {
                     : 
                     null 
                 }
-                <Link href="/dyor">
-                    <a className={router.pathname == "/dyor" ? "text-dracula font-semibold" : "text-gray-400 hover:text-dracula"}>
+
+                <Link href="/stake">
+                    <a className={router.pathname == "/stake" ? "text-dracula font-semibold" : "text-gray-400 hover:text-dracula"}>
                         <React.Fragment>
-                            <span className="font-semibold text-base">DYOR</span>
+                            <span className="font-semibold text-base">Stake</span>
                         </React.Fragment>
                     </a>
                 </Link>
+
+                <Link href="/swap">
+                    <a className={router.pathname == "/swap" ? "text-dracula font-semibold" : "text-gray-400 hover:text-dracula"}>
+                        <React.Fragment>
+                            <span className="font-semibold text-base">Swap</span>
+                        </React.Fragment>
+                    </a>
+                </Link>
+
+                <Link href="/earn">
+                    <a className={router.pathname == "/" ? "text-dracula font-semibold" : "text-gray-400 hover:text-dracula"}>
+                        <React.Fragment>
+                            <span className="font-semibold text-base">Earn</span>
+                        </React.Fragment>
+                    </a>
+                </Link>
+
                 </Navbar.Content>
 
                 <Navbar.Content>

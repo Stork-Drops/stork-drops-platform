@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export default async function handler(req, res){
-    const { recentlyListed } = req.query
-    const listings = recentlyListed as string;
+export default async function marketSnapshothandler(req, res){
+    const { marketSnapshot, page } = req.query
+    const listings = marketSnapshot as string;
 
     const response = await axios.post(
         'https://beta.api.solanalysis.com/rest/get-market-place-snapshots',
@@ -10,7 +10,7 @@ export default async function handler(req, res){
             'condition': {
                 'project_ids': [
                     {
-                        'project_id': `${recentlyListed}`
+                        'project_id': `${marketSnapshot}`
                     }
                 ]
             },
@@ -19,7 +19,8 @@ export default async function handler(req, res){
                 'sort_order': 'ASC'
             },
             'pagination_info': {
-                'page_number': 1
+                'page_number': 1,
+                'page_size': 32
             }
         },
         {

@@ -26,6 +26,9 @@ import { GoogleAnalytics } from "nextjs-google-analytics";
 import Script from 'next/script'
 import { useRouter } from 'next/router'
 import * as gtag from '../lib/gtag'
+import { JupiterProvider } from "@jup-ag/react-hook";
+import { Connection } from '@solana/web3.js';
+import { Toaster } from 'react-hot-toast';
 import 'react-loading-skeleton/dist/skeleton.css'
 
 // Use require instead of import since order matters
@@ -41,6 +44,8 @@ const theme = createTheme({
         }
     }
 })
+
+export const SECOND_TO_REFRESH = 30 * 1000;
 
 // // Call `createTheme` and pass your custom values
 // const lightTheme = createTheme({
@@ -77,7 +82,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
 
     // You can also provide a custom RPC endpoint
     //const endpoint = useMemo(() => clusterApiUrl(network), [network]);
-    const endpoint = "https://ssc-dao.genesysgo.net/"
+    const endpoint = useMemo(() => process.env.NEXT_PUBLIC_QUICKNODE_URL, [network]);
 
     // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking and lazy loading --
     // Only the wallets you configure here will be compiled into your application, and only the dependencies
@@ -94,14 +99,6 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
         ],
         [network]
     );
-
-    // const cyberConnect = new CyberConnect({
-    //     namespace: 'CyberConnect',
-    //     env: Env.PRODUCTION,
-    //     chain: Blockchain.SOLANA,
-    //     provider: solanaProvider,
-    //     chainRef: "", // from jiayi: not needed + can pass empty string instead
-    //   });
     
     return (
         <>
@@ -153,6 +150,12 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                                                     page_path: window.location.pathname,
                                                     });
                                                 `,
+                                                }}
+                                            />
+                                            <Toaster 
+                                                position="bottom-left"
+                                                toastOptions={{
+                                                    duration: 5000,
                                                 }}
                                             />
                                             <Component {...pageProps} />

@@ -12,6 +12,7 @@ import Discovery from "../components/Discovery"
 import Footer from "@components/Footer"
 import { useWallet } from '@solana/wallet-adapter-react';
 import Welcome from '@components/Welcome';
+import toast from 'react-hot-toast';
 
 const Home = () => {
     const { bonfidaUsername } = useContext(ProfileContext);
@@ -24,14 +25,15 @@ const Home = () => {
     useEffect(() => {
         setInterval(() => setDateState(new Date()), 30000);
     }, []);
+    
 
     return (
         <>
             <NextSeo
-                title="Stork Drops - Learn more about the Solana ecosystem, dig into crypto news, and more."
+                title="Stork Drops | Explore and interact with the Solana ecosystem, dig into crypto news, and more."
                 description="Stork Drops is creating a platfrom to explore the Solana ecosystem, connect with others, and collect unique drops."
                 openGraph={{
-                    title: 'Stork Drops - Learn more about the Solana ecosystem, dig into crypto news, and more.',
+                    title: 'Stork Drops | Explore and interact with the Solana ecosystem, dig into crypto news, and more.',
                     description: 'Stork Drops is creating a platfrom to explore the Solana ecosystem, connect with others, and collect unique drops.',
                     images: [
                     {
@@ -75,7 +77,7 @@ const Home = () => {
                             </div>
                         <Discovery/>
                     </Grid>
-                    <Grid className="" xs={12} sm={12} md={2.5} lg={2.5} direction="column">
+                    <Grid className="mt-2.5" xs={12} sm={12} md={2.5} lg={2.5} direction="column">
                         <MarketCapFeed/>  
                         <NewsFeed/>
                     </Grid>

@@ -5,6 +5,7 @@ import { Connection } from '@solana/web3.js';
 import { BsCircleFill } from "react-icons/bs";
 import { Tooltip, Loading } from '@nextui-org/react'
 import { ProfileContext } from '@context/ProfileContext';
+import { useConnection } from '@solana/wallet-adapter-react';
 
 const tpsAlertThreshold = 1000
 const tpsWarningThreshold = 1300
@@ -13,8 +14,7 @@ const NetworkStatus = () => {
     const { networkStatus, setNetworkStatus } = React.useContext(ProfileContext);
     const [status, setStatus] = useState("")
     const [slot, setSlot] = useState("" || null)
-    //const connection = useConnection();
-    const connection = new Connection("https://ssc-dao.genesysgo.net/", 'confirmed');
+    const { connection } = useConnection();
 
     const getRecentPerformance = async () => {
     try {

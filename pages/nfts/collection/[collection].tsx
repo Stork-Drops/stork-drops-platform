@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { TokenPrice, TokenName, TokenIcon, TokenSymbol } from '@utils/tokenList'
-import React, { Fragment, useEffect, useCallback} from 'react'
+import React, { Fragment, useEffect, useCallback, useState } from 'react'
 import { Container, Grid, Spacer, Loading, Text, Col, Tooltip } from '@nextui-org/react'
 import AppBar from "@components/AppBar";
 import Navigation from '@components/Navigation';
@@ -38,19 +38,24 @@ const NFTCollectionPage = () => {
     const router = useRouter();
     const { collection  } = router.query;
     const projectId = collection as string;
+    const [pageNum, setPageNum] = useState(1);
+
+    function handleClick() {
+        setPageNum(pageNum => pageNum + 1)
+    }
 
     const { data } = useSWR(`/api/v1/nfts/collection/${collection}`, fetcher)
-    const { data: recentlyListed } = useSWR(`/api/v1/marketSnapshot/${collection}`, fetcher)
+    const { data: marketSnapshot } = useSWR(`/api/v1/nfts/marketSnapshot/${collection}`, fetcher)
+    const { data: getMoreSnapshots } = useSWR(`/api/v1/nfts/marketSnapshot/${collection}?page=${pageNum}`, fetcher)
     const { data: collectionActivity } = useSWR(`/api/v1/nfts/getCollectionActivity/${collection}`, fetcher)
     const { data: collectionHistoricalStats } = useSWR(`/api/v1/nfts/getHistoricalStats/${collection}`, fetcher)
     const [traderView, setTraderView] = React.useState(false);
 
-    console.log('Your collection historical data is:', recentlyListed)
+    console.log('This is your additional snapshot', getMoreSnapshots);
 
     return(
         <>
             <Navigation/>
-
             <section className="fixed">
                         <div className="">
                             <div className="mb-5 hidden">
@@ -143,44 +148,49 @@ const NFTCollectionPage = () => {
                                         </div>    
                                     </div>
 
-                                    <div className="p-2 grid grid-cols-2 auto-rows-auto md:grid-cols-4 md:auto-rows-auto gap-2">
-                                        {recentlyListed && recentlyListed.market_place_snapshots.length > 0 ? (
-                                            recentlyListed.market_place_snapshots.map((listing, index) => (
-                                                // NFT MARKETPLCE GRID
-                                                <div className="grid grid-cols-1 auto-rows-auto">
-                                                    {/* NFT CARD */}
-                                                    <Link href={`/nfts/token/${listing.token_address}`}>
-                                                        <div className="cursor-pointer relative hover:opacity-75">
-                                                            <div className="flex items-center justify-center absolute m-2 left-0 top-0 bg-gray-100 shadow-md border-dracula h-6 w-6 rounded-full">
-                                                                <MarketplaceID marketplace={listing?.lowest_listing_mpa?.marketplace_program_id}/>
-                                                            </div>
-                                                            <img src={listing?.meta_data_img} className="rounded-t-xl"/>
-                                                            <div className="border-t-none border p-2 rounded-b-xl">
-                                                                <p className="text-sm font-semibold">{listing?.name}</p>
-                                                                <div className="grid grid-cols-2 grid-rows-1 gap-2">
-                                                                    <div>
-                                                                        <p className="text-xs font-semibold">Price</p>
-                                                                        <p className="text-xs">{listing?.lowest_listing_mpa?.price} SOL</p>
-                                                                    </div>
-                                                                    <div>
-                                                                        <p className="text-xs font-semibold">Rank</p>
-                                                                        <p className="text-xs">{listing?.rank_est} / {data?.project_stats?.[0].project?.supply}</p>
-                                                                    </div>
+                                    <div className="grid grid-cols-1 auto-rows-auto gap-2 mb-24">
+                                        {/* Current market listings with ascending filters as default */}
+                                        <div className="mb-2.5 p-4 grid grid-cols-2 auto-rows-auto md:grid-cols-4 md:auto-rows-auto gap-2">
+                                            {marketSnapshot && marketSnapshot.market_place_snapshots.length > 0 ? (
+                                                marketSnapshot.market_place_snapshots.map((listing, index) => (
+                                                    // NFT MARKETPLCE GRID
+                                                    <div className="grid grid-cols-1 auto-rows-auto">
+                                                        {/* NFT CARD */}
+                                                        <Link href={`/nfts/token/${listing.token_address}`}>
+                                                            <div className="cursor-pointer relative hover:opacity-75">
+                                                                <div className="flex items-center justify-center absolute m-2 left-0 top-0 bg-gray-100 shadow-md border-dracula h-6 w-6 rounded-full">
+                                                                    <MarketplaceID marketplace={listing?.lowest_listing_mpa?.marketplace_program_id}/>
                                                                 </div>
-                                                                <p className="text-xs"></p>
+                                                                <img src={listing?.meta_data_img} className="rounded-t-xl"/>
+                                                                <div className="border-t-none border p-2 rounded-b-xl">
+                                                                    <p className="text-sm font-semibold">{listing?.name}</p>
+                                                                    <div className="grid grid-cols-2 grid-rows-1 gap-2">
+                                                                        <div>
+                                                                            <p className="text-xs font-semibold">Price</p>
+                                                                            <p className="text-xs">{listing?.lowest_listing_mpa?.price} SOL</p>
+                                                                        </div>
+                                                                        <div>
+                                                                            <p className="text-xs font-semibold">Rank</p>
+                                                                            <p className="text-xs">{listing?.rank_est} / {data?.project_stats?.[0].project?.supply}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <p className="text-xs"></p>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </Link>
+                                                        </Link>
+                                                    </div>
+                                                ))
+                                                ) : (
+                                                <div className="flex justify-center">
+                                                    No listings.
                                                 </div>
-                                            ))
-                                            ) : (
-                                            <div className="flex justify-center">
-                                                No listings.
-                                            </div>
-                                        )}
-                                            <button className="my-5 w-fit rounded-xl font-semibold bg_sunrise text-white">
+                                            )}
+                                        </div>
+                                        <div className="p-4 flex items-center justify-center">
+                                            <button className="sm:w-full md:w-48 p-2 text-center rounded-xl font-semibold bg_sunrise text-white">
                                                 Load More
                                             </button>
+                                        </div>
                                     </div>
                                 </Grid>
                                 <Grid className="border-l" xs={2.5} direction="column">

@@ -6,7 +6,6 @@ import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import Navigation from "../../components/Navigation"
 import { Container, Grid, Spacer, Row, Col, Collapse, Progress, Loading } from '@nextui-org/react';
 import { TokenIcon, TokenName, TokenSymbol, TokenPrice, TokenTotalPrice, TokenChange } from "../../utils/tokenList";
-import AppBar from "../../components/AppBar";
 import { Tab } from '@headlessui/react'
 import { useWalletNfts, NftTokenAccount } from "@nfteyez/sol-rayz-react";
 import { BsTwitter } from "react-icons/bs";
@@ -20,6 +19,11 @@ import { WalletMultiButton } from '@components/WalletConnect';
 import Table from '@components/Table';
 import usePriceFeed from '@hooks/usePriceFeed'
 import { useTable, useSortBy } from 'react-table'
+import { formatDollar, formatTimeAgo } from '@utils/formatters'
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Legend } from 'recharts';
+import { Disclosure } from '@headlessui/react'
+import { AiOutlinePlusSquare } from "react-icons/ai";
+import toast from 'react-hot-toast';
 
 interface Result {
   pubkey: PublicKey;
@@ -104,8 +108,6 @@ const Profile = () => {
     const { data: publicKeyTransactions } = useSWR(`/api/v1/transactions/${publicAddress}`, fetcher);
     const { data: allSNSAccounts } = useSWR(`/api/v1/nameService/${publicAddress}`, fetcher);
     const { data: solanaMarketPrice } = useSWR(`https://price.jup.ag/v1/price?id=SOL`, fetcher);
-
-    console.log('Your sns accounts :', allSNSAccounts)
     
     const { publicKey, wallet, disconnect, connected } = useWallet();
     const base58PubKey = useMemo(() => publicKey?.toBase58(), [publicKey]);
@@ -121,6 +123,15 @@ const Profile = () => {
 
     const mounted = useRef(true);
 
+    // memoize and remove transactions from publicKeyTransactions that have a type of UNKNOWN
+    const filteredTransactions = useMemo(() => {
+      if (publicKeyTransactions) {
+        return publicKeyTransactions?.data?.filter((transaction: any) => transaction.type !== "UNKNOWN")
+      }
+    }, [publicKeyTransactions])
+
+    console.log('Your wallet activity :', filteredTransactions)
+
     const shortenedWalletAddress = useMemo(() => {
       if (!publicAddress) return null;
       return publicAddress.slice(0, 4) + '..' + publicAddress.slice(-4);
@@ -131,6 +142,7 @@ const Profile = () => {
           await navigator.clipboard.writeText(publicAddress);
           setCopied(true);
           setTimeout(() => setCopied(false), 400);
+          toast.success('Wallet address copied.')
       }
   }, [publicAddress]);
 
@@ -243,31 +255,31 @@ const Profile = () => {
       )
   }
 
-    // const getSNSAccounts = async () => {
-    //   try{
-    //       const domains = await getAllDomains(connection, publicKey);
-    //       const registries = await NameRegistryState.retrieveBatch(connection, [
-    //         ...domains,
-    //       ]);
-    //       const reverses = await performReverseLookupBatch(connection, [
-    //         ...domains,
-    //       ]);
-    //       const _domainCollection: Result[] = [];
-    //       for (let i = 0; i < domains.length; i++) {
-    //         _domainCollection.push({
-    //           pubkey: domains[i],
-    //           registry: registries[i]!,
-    //           reverse: reverses[i]!,
-    //         });
-    //       }
-    //       if (mounted.current) {
-    //         setDomainCollection(_domainCollection)
-    //         mounted.current = false;
-    //       }
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
+  const getSNSAccounts = async () => {
+    try{
+        const domains = await getAllDomains(connection, publicKey);
+        const registries = await NameRegistryState.retrieveBatch(connection, [
+          ...domains,
+        ]);
+        const reverses = await performReverseLookupBatch(connection, [
+          ...domains,
+        ]);
+        const _domainCollection: Result[] = [];
+        for (let i = 0; i < domains.length; i++) {
+          _domainCollection.push({
+            pubkey: domains[i],
+            registry: registries[i]!,
+            reverse: reverses[i]!,
+          });
+        }
+        if (mounted.current) {
+          setDomainCollection(_domainCollection)
+          mounted.current = false;
+        }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
     const getTwitterName = async () => {
         try{
@@ -288,7 +300,7 @@ const Profile = () => {
       }
     }
 
-    const getTokenAccounts = async () => {
+  const getTokenAccounts = async () => {
       try{
         //TODO get the wallet key dynamically
        const tokenAccounts:{[index: string]:any} = await connection.getParsedProgramAccounts(
@@ -341,7 +353,12 @@ const Profile = () => {
       } catch (error) {
         console.log(error);
       }
-    }
+  }
+
+  // const getStakeAccounts = async () => {
+  //   try{
+
+  // }
 
   const tokenListColumns = [
     {
@@ -426,12 +443,26 @@ const Profile = () => {
     )
   }
 
-  const portfolioItemTotal = (tokenCollection.length + 1) + nfts.length;
+  const portfolioItemTotal = (userTokens.length) + (SOLBalance ? 1 : 0) + (tokenCollection.length) + nfts.length;
+
+  // Sample data
+  const data = [
+    { 
+      name: 'Net Worth', 
+      x: 8 
+    },
+    { 
+      name: 'Paperhandness', 
+      x: 4 
+    },
+    { name: 'Trader', x: 3 },
+    { name: 'NFT Enjoyer', x: 9 },
+];
 
   useEffect(() => {
     getSOLBalance();
     loadSNSUsername();
-    //getSNSAccounts();
+    getSNSAccounts();
     getTwitterName();
     getTokenAccounts();
 
@@ -484,28 +515,28 @@ const Profile = () => {
                                               src="https://i.pravatar.cc/150?u=a042581f4e29026024d"/>
                                             <div>
                                             <Col>
-                                                  <Row align="center">
-                                                    <span className="mr-2.5 text-xl md:text-3xl font-normal text-dracula">{bonfidaNameLookup ? bonfidaNameLookup + ".sol" : shortenedWalletAddress}</span>
-                                                    <span onClick={copyAddress} className="flex items-center w-min bg-gray-200 text-dracula px-2.5 py-1 rounded-full text-xs font-semibold hover:opacity-80 hover:cursor-pointer">
-                                                      {shortenedWalletAddress}
-                                                    </span>
-                                                  </Row>
-                                                  <Spacer y={0.5}/>
-                                                  <Row>
-                                                    <a className="flex items-center w-min bg-twitter-blue text-white px-2.5 py-1 rounded-xl text-xs font-semibold hover:opacity-80 hover:cursor-pointer" href={`https://twitter.com/${twitterNameLookup}`} target="_blank" rel="noopener">
-                                                      {twitterNameLookup ? <VerifiedTwitter/> : <NonVerifiedTwitter/>}
-                                                    </a>
-                                                  </Row>
-                                                  <Spacer y={0.5}/>
-                                                  <div className="flex items-center text-sm">
-                                                    <div>
-                                                      0 Followers
-                                                    </div>
-                                                    <div className="ml-2">
-                                                      0 Following
-                                                    </div>
-                                                  </div>
-                                                </Col>
+                                              <Row align="center">
+                                                <span className="mr-2.5 text-xl md:text-3xl font-normal text-dracula">{bonfidaNameLookup ? bonfidaNameLookup + ".sol" : shortenedWalletAddress}</span>
+                                                <span onClick={copyAddress} className="flex items-center w-min bg-gray-200 text-dracula px-2.5 py-1 rounded-full text-xs font-semibold hover:opacity-80 hover:cursor-pointer">
+                                                  {shortenedWalletAddress}
+                                                </span>
+                                              </Row>
+                                              <Spacer y={0.5}/>
+                                              <Row>
+                                                <a className="flex items-center w-min bg-twitter-blue text-white px-2.5 py-1 rounded-xl text-xs font-semibold hover:opacity-80 hover:cursor-pointer" href={`https://twitter.com/${twitterNameLookup}`} target="_blank" rel="noopener">
+                                                  {twitterNameLookup ? <VerifiedTwitter/> : <NonVerifiedTwitter/>}
+                                                </a>
+                                              </Row>
+                                              <Spacer y={0.5}/>
+                                              <div className="flex items-center text-sm">
+                                                <div>
+                                                  0 Followers
+                                                </div>
+                                                <div className="ml-2">
+                                                  0 Following
+                                                </div>
+                                              </div>
+                                            </Col>
                                             </div>
                                           </div>
 
@@ -526,7 +557,7 @@ const Profile = () => {
                                                     </Grid>
                                                     <Grid>
                                                       <div className="text-xs bg-gray-200 text-dracula px-1.5 py-0.5 rounded-md">
-                                                        {SOLBalance ? userTokens.length + 1 + allSNSAccounts.data.domainNames.length : 0}
+                                                        {SOLBalance ? userTokens.length + 1 + domainCollection.length : 0}
                                                       </div>
                                                     </Grid>
                                                   </Grid.Container>
@@ -552,7 +583,7 @@ const Profile = () => {
                                                     </Grid>
                                                     <Grid>
                                                       <div className="text-xs bg-gray-200 text-dracula px-1.5 py-0.5 rounded-md">
-                                                        {publicKeyTransactions ? publicKeyTransactions.data.length : 0}
+                                                        {publicKeyTransactions ? filteredTransactions.length : 0}
                                                       </div>
                                                     </Grid>
                                                   </Grid.Container>
@@ -566,60 +597,94 @@ const Profile = () => {
                                             <Tab.Panel>
                                               <div className="grid grid-cols-1 grid-rows-1 gap-4">
                                                 <div className="grid grid-cols-1 auto-rows-auto rounded-xl">
-                                                  <div className="grid grid-cols-1 md:grid-cols-3 auto-rows-auto gap-4">
-                                                  <div className="">
-                                                      <Col className="bg-gray-100 border border-gray-200 rounded-xl p-4">
-                                                        <Row>
-                                                          <span className="text-sm font-semibold">Net Worth</span>
-                                                        </Row>
-                                                        <Spacer y={0.5}/>
-                                                        <span className="text-2xl font-base">${((SOLBalance * solanaMarketPrice?.data?.price) + (fullTokenAccountsValue)).toFixed(4)}</span>
-                                                      </Col>
+                                                  <div className="grid grid-cols-1 md:grid-cols-2 auto-rows-auto gap-4 h-full">
+
+                                                    {/* NET WORTH PANEL */}
+                                                    <div className="bg-gray-50 border rounded-xl p-4">
+                                                      <div className="flex flex-col bg-white p-2 border rounded-xl">
+                                                        <span className="text-sm font-semibold">Net Worth</span>
+                                                        <span className="text-2xl font-extrabold">{formatDollar((SOLBalance * solanaMarketPrice?.data?.price) + fullTokenAccountsValue) ? formatDollar((SOLBalance * solanaMarketPrice?.data?.price) + fullTokenAccountsValue) : "$0" }</span>
+                                                      </div>
+                                                      <Spacer y={0.25}/>
+                                                        <div className="">
+                                                          <Col className="bg-white border rounded-xl p-4">
+                                                            <Row>
+                                                              <span className="text-sm font-semibold">Allocation</span>
+                                                            </Row>
+                                                            <Spacer y={0.25}/>
+                                                            <Row align="center">
+                                                              <Col className="text-xs">Collectibles</Col>
+                                                              <Col>
+                                                                <Progress size="sm" color="success" value={((nfts.length /portfolioItemTotal) * 100)} />
+                                                              </Col>
+                                                              <Col className="text-xs ml-2 text-right">
+                                                                {((nfts.length /portfolioItemTotal) * 100).toFixed(2)}%
+                                                              </Col>
+                                                            </Row>
+                                                            <Row align="center">
+                                                              <Col className="text-xs">Wallet</Col>
+                                                              <Col>
+                                                                <Progress size="sm" color="secondary" value={(((userTokens.length + 1 + domainCollection.length) /portfolioItemTotal) * 100)} />
+                                                              </Col>
+                                                              <Col className="text-xs ml-2 text-right">
+                                                                {(((userTokens.length + 1 + domainCollection.length) / portfolioItemTotal) * 100).toFixed(2)}%
+                                                              </Col>
+                                                            </Row>
+                                                            <Row align="center">
+                                                              <Col className="text-xs">Domains</Col>
+                                                              <Col className="w-full">
+                                                                <Progress className="w-full" size="sm" color="primary" value={((domainCollection.length /portfolioItemTotal) * 100)} />
+                                                              </Col>
+                                                              <Col className="text-xs ml-2 text-right">
+                                                                {((domainCollection.length / portfolioItemTotal) * 100).toFixed(2)}%
+                                                              </Col>
+                                                            </Row>
+                                                          </Col>
+                                                        </div>
                                                     </div>
-                                                  <div className="">
-                                                    <Col className="bg-gray-100 border border-gray-200 rounded-xl p-4">
-                                                        <Row>
-                                                          <span className="text-sm font-semibold">Allocation</span>
-                                                        </Row>
-                                                        <Spacer y={0.5}/>
-                                                        <Row align="center">
-                                                          <Col className="text-xs">NFTs</Col>
-                                                          <Col>
-                                                            <Progress size="sm" color="success" value={((nfts.length /portfolioItemTotal) * 100)} />
-                                                          </Col>
-                                                          <Col className="text-xs ml-2 text-right">
-                                                            {((nfts.length /portfolioItemTotal) * 100).toFixed(2)}%
-                                                          </Col>
-                                                        </Row>
-                                                        <Row align="center">
-                                                          <Col className="text-xs">Wallet</Col>
-                                                          <Col>
-                                                            <Progress size="sm" color="secondary" value={(((tokenCollection.length + 1) /portfolioItemTotal) * 100)} />
-                                                          </Col>
-                                                          <Col className="text-xs ml-2 text-right">
-                                                            {(((tokenCollection.length + 1) / portfolioItemTotal) * 100).toFixed(2)}%
-                                                          </Col>
-                                                        </Row>
-                                                        <Row align="center">
-                                                          <Col className="text-xs">Domains</Col>
-                                                          <Col className="w-full">
-                                                            <Progress className="w-full" size="sm" color="primary" value={((domainCollection.length /portfolioItemTotal) * 100)} />
-                                                          </Col>
-                                                          <Col className="text-xs ml-2 text-right">
-                                                            {((allSNSAccounts.data.domainNames.length / portfolioItemTotal) * 100).toFixed(2)}%
-                                                          </Col>
-                                                        </Row>
-                                                      </Col>
+
+                                                    {/* DEGENSCORE PANEL */}
+                                                    <div className="bg-gray-50 border rounded-xl p-4">
+                                                      <span className="text-sm font-semibold">User Type:</span>
+                                                      <ResponsiveContainer className="text-xs" width="100%" height={300}>
+                                                          <RadarChart outerRadius="80%" data={data}>
+                                                            <PolarGrid />
+                                                            <PolarAngleAxis dataKey="name" />
+                                                            <PolarRadiusAxis orientation="middle" tick={false} axisLine={false} domain={[0, 10]} />
+                                                            <Radar dataKey="x" stroke="green" fill="green" fillOpacity={0.25} />
+                                                          </RadarChart>
+                                                      </ResponsiveContainer>
                                                     </div>
+                                                
                                                   
                                                   </div>
-                                                  <UserTokenTable columns={tokenListColumns} data={userTokens} />
-                                                  <div className="flex items-center justify-center">
-                                                    <a target="_blank" href="https://twitter.com/@storkdrops_" className="w-64 flex justify-center my-2.5 p-2 text-center bg-gray-50 hover:bg-gray-200 text-dracula rounded-full text-xs font-semibold">
-                                                      Missing your favorite token? Let us know!
-                                                    </a>
+                                                  <div className="my-2.5">
+                                                    <UserTokenTable columns={tokenListColumns} data={userTokens} />
+                                                    <Table columns={domainListColumns} data={domainTableData} />
+                                                    <div className="flex items-center justify-center">
+                                                      <a target="_blank" href="https://twitter.com/@storkdrops_" className="w-64 flex justify-center my-2.5 p-2 text-center bg-gray-50 hover:bg-gray-200 text-dracula rounded-full text-xs font-semibold">
+                                                        Missing your favorite token? Let us know!
+                                                      </a>
+                                                    </div>
                                                   </div>
-                                                  <Table columns={domainListColumns} data={domainTableData} />
+
+                                                  <div className="my-2.5">
+                                                    <Disclosure defaultOpen>
+                                                      {({ open }) => (
+                                                        <>
+                                                          <Disclosure.Button className="flex items-center justify-between border hover:bg-gray-50 rounded-xl text-dracula w-full p-2">
+                                                            <span className="text-xl font-semibold">Apps</span>
+                                                            <AiOutlinePlusSquare/>
+                                                          </Disclosure.Button>
+                                                          <Disclosure.Panel className="p-2 text-sm text-gray-500">
+                                                              Coming Soon..
+                                                          </Disclosure.Panel>
+                                                        </>
+                                                      )}
+                                                    </Disclosure>
+                                                  </div>
+
+
                                                 </div>
                                               </div>
                                             </Tab.Panel>
@@ -645,26 +710,30 @@ const Profile = () => {
 
                                             {/* Activity Tab Panel */}
                                             <Tab.Panel>
-                                                <div className="grid grid-cols-1 auto-rows-auto gap-4 text-xs">
-                                                  {publicKeyTransactions && publicKeyTransactions.data.length > 0 ? (
-                                                    publicKeyTransactions.data
-                                                    .map(transactionHistory => (
-                                                      <div className="p-3 border rounded-xl">
-                                                          <div className="flex items-center mb-2.5">
-                                                            <span className="p-1 rounded-full font-semibold bg-gray-200 text-dracula">{transactionHistory.type}</span>
-                                                            <span className="ml-2 p-1 rounded-full font-semibold bg-gray-200 text-dracula">{transactionHistory.source}</span>
-                                                          </div>
-                                                          <div>
-                                                            {transactionHistory.description}
-                                                          </div>
-                                                      </div>
-                                                      ))
-                                                      ) : (
-                                                    <div className="flex justify-center border rounded-xl p-2">
-                                                      No transactions found.
+                                              <div className="grid grid-cols-1 auto-rows-auto gap-4 text-xs">
+                                                {filteredTransactions && filteredTransactions.length > 0 ? (
+                                                  filteredTransactions.map(transactionHistory => (
+                                                    <div className="p-3 border rounded-xl">
+                                                        <div className="flex items-center">
+                                                          <span className="p-1 rounded-full font-semibold bg-gray-200 text-dracula">{transactionHistory.type}</span>
+                                                          <span className="ml-2 p-1 rounded-full font-semibold bg-gray-200 text-dracula">{transactionHistory.source}</span>
+                                                        </div>
+                                                        <Spacer y={0.5}/>
+                                                        <div>
+                                                          {transactionHistory.description}
+                                                        </div>
+                                                        <Spacer y={0.5}/>
+                                                        <div className="text-sm font-semibold">
+                                                          {formatTimeAgo(transactionHistory.timestamp)}
+                                                        </div>
                                                     </div>
-                                                  )}
-                                                </div>
+                                                    ))
+                                                    ) : (
+                                                  <div className="flex justify-center border rounded-xl p-2">
+                                                    No transactions found.
+                                                  </div>
+                                                )}
+                                              </div>
                                             </Tab.Panel>
 
                                           </Tab.Panels>

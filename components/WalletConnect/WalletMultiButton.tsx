@@ -10,11 +10,12 @@ import { fetchSolanaNameServiceName } from "../../utils/name-service"
 import { ProfileContext } from "../../context/ProfileContext"
 import { getHandleAndRegistryKey } from "@bonfida/spl-name-service";
 import MusicPlayer from '@components/MusicPlayer';
+import toast from 'react-hot-toast';
 
 export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
     const { bonfidaUsername, setBonfidaUsername, setWalletAddress, setCompactWalletAddress, twitterUsername, setTwitterUsername, setDomainCollection } = useContext(ProfileContext);
     const { connection } = useConnection();
-    const { publicKey, wallet, disconnect, connected } = useWallet();
+    const { publicKey, wallet, disconnect, connecting, connected, disconnecting } = useWallet();
     const { setVisible } = useWalletModal();
     const [copied, setCopied] = useState(false);
     const [active, setActive] = useState(false);
@@ -106,29 +107,23 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
 
     if (!wallet) return <WalletModalButton {...props}>{children}</WalletModalButton>;
     if (!base58) return <WalletConnectButton {...props}>{children}</WalletConnectButton>;
+    if (connecting){
+        toast.success('Wallet connected. Have fun!', {
+            id: 'walletConnecting',
+        })
+    }
+    if (disconnecting){
+        toast.error('Wallet disconnected. See you next time!', {
+            id: 'walletDisconnecting',
+        })
+    }
 
     return (
         <>
             <div className="flex justify-between items-center">
                 <div>
-                <Dropdown placement="bottom-right">
-                    <Dropdown.Trigger>
-                        <User
-                            css={{
-                                textTransform: 'lowercase',
-                            }}
-                            className="lowercase"
-                            squared
-                            bordered
-                            as="button"
-                            size="md"
-                            name={bonfidaUsername ? bonfidaUsername  : shortenedWalletAddress}
-                            description={twitterUsername ? "@" + twitterUsername : ''}
-                            src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
-                        />
-                    </Dropdown.Trigger>
-                    <Dropdown.Menu color="primary" aria-label="User Actions">
-                        <Dropdown.Item key="compactProfile" css={{ height: "$18" }}>
+                    <Dropdown placement="bottom-right">
+                        <Dropdown.Trigger>
                             <User
                                 css={{
                                     textTransform: 'lowercase',
@@ -137,44 +132,60 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
                                 squared
                                 bordered
                                 as="button"
-                                size="lg"
-                                color="primary"
+                                size="md"
                                 name={bonfidaUsername ? bonfidaUsername  : shortenedWalletAddress}
                                 description={twitterUsername ? "@" + twitterUsername : ''}
                                 src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
                             />
-                        </Dropdown.Item>
-                        <Dropdown.Item key="copyAddress" withDivider>
-                            <Button onClick={copyAddress}>
-                                <div className="flex items-center">
-                                    <FiCopy className="mr-1"/>
-                                    {copied ? 'Copied' : 'Copy Address'}
-                                </div>
-                            </Button>
-                        </Dropdown.Item>
-                        <Dropdown.Item key="helpCenter">
-                            <Button onClick={copyAddress}>
-                                <div className="flex items-center">
-                                    <FiHelpCircle className="mr-1"/>
-                                    Help Center
-                                </div>
-                            </Button>
-                        </Dropdown.Item>
-                        <Dropdown.Item key="help_and_feedback" withDivider>
-                            <Button onClick={openModal}>
-                                <div className="flex items-center">
-                                    <FiLayers className="mr-1"/> Change wallet
-                                </div>
-                            </Button>
-                        </Dropdown.Item>
-                        <Dropdown.Item key="logout" color="error" withDivider>
-                            <Button onClick={disconnect}>
-                                <div className="flex items-center">
-                                    <FiPower className="mr-1"/> Logout
-                                </div>
-                            </Button>
-                        </Dropdown.Item>
-                    </Dropdown.Menu>
+                        </Dropdown.Trigger>
+                        <Dropdown.Menu color="primary" aria-label="User Actions">
+                            <Dropdown.Item key="compactProfile" css={{ height: "$18" }}>
+                                <User
+                                    css={{
+                                        textTransform: 'lowercase',
+                                    }}
+                                    className="lowercase"
+                                    squared
+                                    bordered
+                                    as="button"
+                                    size="lg"
+                                    color="primary"
+                                    name={bonfidaUsername ? bonfidaUsername  : shortenedWalletAddress}
+                                    description={twitterUsername ? "@" + twitterUsername : ''}
+                                    src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
+                                />
+                            </Dropdown.Item>
+                            <Dropdown.Item key="copyAddress" withDivider>
+                                <Button onClick={copyAddress}>
+                                    <div className="flex items-center">
+                                        <FiCopy className="mr-1"/>
+                                        {copied ? 'Copied' : 'Copy Address'}
+                                    </div>
+                                </Button>
+                            </Dropdown.Item>
+                            <Dropdown.Item key="helpCenter">
+                                <Button onClick={copyAddress}>
+                                    <div className="flex items-center">
+                                        <FiHelpCircle className="mr-1"/>
+                                        Help Center
+                                    </div>
+                                </Button>
+                            </Dropdown.Item>
+                            <Dropdown.Item key="help_and_feedback" withDivider>
+                                <Button onClick={openModal}>
+                                    <div className="flex items-center">
+                                        <FiLayers className="mr-1"/> Change wallet
+                                    </div>
+                                </Button>
+                            </Dropdown.Item>
+                            <Dropdown.Item key="logout" color="error" withDivider>
+                                <Button onClick={disconnect}>
+                                    <div className="flex items-center">
+                                        <FiPower className="mr-1"/> Logout
+                                    </div>
+                                </Button>
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
                     </Dropdown>
                 </div>
             </div>

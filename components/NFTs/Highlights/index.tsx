@@ -29,7 +29,7 @@ const Highlights = () => {
                                     <div className="relative grid grid-cols-1 auto-rows-auto cursor-pointer hover:opacity-90 duration-150">
                                         <div className="relative">
                                             <div className="absolute text-sm font-semibold rounded-md text-dracula bg-gray-100 px-2 py-0.5 left-0 m-2">Hot 🔥</div>
-                                            <img src={topVolume1D.project.img_url} className="w-full md:w-6/12 h-full rounded-xl mr-2"/>
+                                            <img src={topVolume1D.project.img_url} className="w-full rounded-xl mr-2"/>
                                         </div>
                                         <div className="my-2.5">
                                             <p className="font-extrabold text-2xl md:text-4xl">{topVolume1D.project.display_name}</p>

@@ -112,6 +112,22 @@ export const TokenPrice = (props: { mintAddress: any }) => {
   return data.market_data.current_price.usd;
 }
 
+export const JupiterTokenPrice = (props: { mint: any }) => {
+  // Set up SWR fetcher
+  const fetcher = (url) => fetch(url).then((res) => res.json());
+  const API_TO_JSON = `https://price.jup.ag/v1/price?id=${props.mint}`;
+
+  const { data, error } = useSWR(
+    API_TO_JSON,
+    fetcher
+  );
+
+  if (error) return <p>An error has occurred.</p>;
+  if (!data) return <Loading type="points" />;
+  
+  return data.data.price;
+}
+
 
 export const TokenChange = (props: { tokenAddress: any }) => {
   // Set up SWR fetcher

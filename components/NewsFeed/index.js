@@ -12,7 +12,6 @@ const CoinTelegraph = () => {
     API_TO_JSON + "https://cointelegraph.com/rss/tag/markets",
     fetcher
   );
-  console.log(data)
 
   if (error) return "An error has occurred.";
   if (!data) return <Loading type="points" />;

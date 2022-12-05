@@ -24,7 +24,7 @@ const NFTItemPage = () => {
     const nftuuid = token as string;
     const [nftMetaplexData, setNFTMetaplexData] = useState(null);
     const [nftURI, setNftURI] = useState(null);
-    const connection = new Connection("https://ssc-dao.genesysgo.net/", 'confirmed')
+    const connection = new Connection(process.env.NEXT_PUBLIC_QUICKNODE_URL, 'confirmed')
     const metaplex = new Metaplex(connection);
 
     const fetchNft = async () => {

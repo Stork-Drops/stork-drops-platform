@@ -1,4 +1,5 @@
 import { createContext, useContext } from 'react';
+import toast from 'react-hot-toast';
 
 export interface WalletModalContextState {
     visible: boolean;
@@ -20,12 +21,12 @@ Object.defineProperty(DEFAULT_CONTEXT, 'visible', {
 
 function constructMissingProviderErrorMessage(action: string, valueName: string) {
     return (
-        'You have tried to ' +
+        toast.error('You have tried to ' +
         ` ${action} "${valueName}"` +
         ' on a WalletModalContext without providing one.' +
         ' Make sure to render a WalletModalProvider' +
         ' as an ancestor of the component that uses ' +
-        'WalletModalContext'
+        'WalletModalContext')
     );
 }
 
